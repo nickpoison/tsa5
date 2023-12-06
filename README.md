@@ -1,15 +1,16 @@
-<img src="https://github.com/nickpoison/astsa/blob/master/fun_with_astsa/figs/tsa4.jpg" alt="tsa4"  height="200" > 
+<img src="https://github.com/nickpoison/astsa/blob/master/fun_with_astsa/figs/tsa4.jpg" alt="tsa5"  height="200" > 
 
  #### &#10024; Here is [A Road Map](https://nickpoison.github.io/) if you want a broad view of what is available.
 
  <br/>
 
-## tsa4
+ # COMING SOON
 
-- All the (updated) code used in the text  is in [textRcode.md](https://github.com/nickpoison/tsa4/blob/master/textRcode.md)
+## tsa5
+
+- All the  code used in the text  is in [textRcode.md](https://github.com/nickpoison/tsa4/blob/master/textRcode.md)
 
 
-- This is the new home of  [Time Series Analysis and Its Applications, Edition 4](http://www.stat.pitt.edu/stoffer/tsa4/) but the old entry page is still there.
 
 
 
@@ -23,7 +24,9 @@
 [**FUN WITH ASTSA**](https://github.com/nickpoison/astsa/blob/master/fun_with_astsa/fun_with_astsa.md)
 
 
-## python
+## python 
+
+_this is for edition 4_
 
 - The [code in the first 3 chapters of the text has been converted to Python here.](https://github.com/borisgarbuzov/tsa4-python/tree/master/src) 
 
