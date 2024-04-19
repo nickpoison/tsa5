@@ -47,30 +47,34 @@
 Example 1.1 
 
 ```r
-tsplot(jj, col=4, type="o", ylab="Quarterly Earnings per Share")
+par(mfrow=2:1)
+tsplot(jj, col=4, ylab="USD", type="o", main="Johnson & Johnson Quarterly Earning per Share")
+tsplot(jj, col=4, ylab="USD", type="o", log="y")
 ```
 
 Example 1.2  
 
 ```r
-tsplot(globtemp, col=4, type="o", ylab="Global Temperature Deviations")
-
-# or with the updated values
-tsplot(gtemp_land, col=4, type="o", ylab="Global Temperature Deviations")
+tsplot(cbind(gtemp_land, gtemp_ocean), spaghetti=TRUE, pch=c(20,18), type="o", col=astsa.col(c(4,2),.5), ylab="\u00B0C", main="Global Annual Mean Temperature Change")
+legend("topleft", legend=c("Land Surface","Sea Surface"), lty=1, pch=c(20,18), col=c(4,2), bg="white")
 ``` 
 
 Example 1.3  
 
 ```r
-tsplot(speech)  
+tsplot(speech, col=4)
+arrows(658, 3850, 766, 3850, code=3, angle=90, length=.05, col=6)
+text(712, 4100, "pitch period", cex=.75) 
 ``` 
 
 Example 1.4  
 
 ```r
-library(xts)         # install it if you don't have it
-djiar = diff(log(djia$Close))[-1]        
-plot(djiar, col=4, main="DJIA Returns") 
+library(xts)
+djia_return = diff(log(djia$Close))
+par(mfrow=2:1)
+plot(djia$Close, col=4, main="DJIA Close")
+plot(djia_return, col=4, main="DJIA Returns")
 ```
 
 Example 1.5  
@@ -78,200 +82,179 @@ Example 1.5
 ```r
 par(mfrow = c(2,1))  # set up the graphics
 tsplot(soi, col=4, ylab="", main="Southern Oscillation Index")
+text(1970,  .91, "COOL", col=5, font=4)
+text(1970, -.91, "WARM", col=6, font=4)
 tsplot(rec, col=4, ylab="", main="Recruitment") 
 ```
 
 Example 1.6
 
 ```r
-par(mfrow=c(2,1))  
-tsplot(fmri1[,2:5], col=1:4, ylab="BOLD", main="Cortex", spaghetti=TRUE)
-tsplot(fmri1[,6:9], col=1:4, ylab="BOLD", main="Thalamus & Cerebellum", spaghetti=TRUE)
-
-# each separately (not in text)
-tsplot(fmri1[,2:9], col=1:8, lwd=2, ncol=2, ylim=c(-.6,.6))
-
-# and another view (not in text)
-x     = ts(fmri1[,4:9], start=0, freq=32)         
-names = c("Cortex","Thalamus","Cerebellum")
-u     = ts(rep(c(rep(.6,16), rep(-.6,16)), 4), start=0, freq=32) # stimulus signal
-par(mfrow=c(3,1))
-for (i in 1:3){ 
-  j = 2*i - 1
-  tsplot(x[,j:(j+1)], ylab="BOLD", xlab="", main=names[i], col=5:6, ylim=c(-.6,.6), 
-         lwd=2, xaxt="n", spaghetti=TRUE)
-  axis(seq(0,256,64), side=1, at=0:4)
-  lines(u, type="s", col=gray(.3)) 
-}
-mtext("seconds", side=1, line=1.75, cex=.9)
+tsplot(cbind(Hare, Lynx), col=c(2,4), type="o", pch=c(0,2), ylab="Number", spaghetti=TRUE)
+mtext("(\u00D7 1000)", side=2, adj=1, line=1.5, cex=.8)
+legend("topright", col=c(2,4), lty=1, pch=c(0,2), legend=c("Hare", "Lynx"), bty="n")
 ```
 
 Example 1.7
 
 ```r
-par(mfrow=2:1)
-tsplot(EQ5,  col=4, main="Earthquake")
-tsplot(EXP6, col=4, main="Explosion")
-
-# or try (not in text)
-tsplot(cbind(EQ5,EXP6), col=4)
+par(mfrow=c(3,1))
+x = ts(fmri1[,4:9], start=0, freq=32)
+# data
+u = ts(rep(c(rep(.6,16), rep(-.6,16)), 4), start=0, freq=32) # stimulus signal
+names = c("Cortex","Thalamus","Cerebellum")
+for (i in 1:3){
+ j = 2*i-1
+ tsplot(x[,j:(j+1)], ylab="BOLD", xlab="", main=names[i], col=5:6, ylim=c(-.6,.6), lwd=2, xaxt="n", spaghetti=TRUE)
+ axis(seq(0,256,64), side=1, at=0:4)
+ lines(u, type="s", col=gray(.3))
+}
+mtext("seconds", side=1, line=1.75, cex=.9)
 ```
- 
-Example 1.9
+
+Example 1.8
 
 ```r
-w = rnorm(500,0,1)                  # 500 N(0,1) variates
-v = filter(w, sides=2, rep(1/3,3))  # moving average
-par(mfrow=c(2,1))
-tsplot(w, col=4, main="white noise")
-tsplot(v, col=4, ylim=c(-3,3), main="moving average")
+tsplot(cbind(EQ5,EXP6), ylab=c("Earthquake", "Explosion"), col=4)
 ```
 
+ 
 Example 1.10
 
 ```r
-w = rnorm(550,0,1)  # 50 extra to avoid startup problems
-x = filter(w, filter=c(1,-.9), method="recursive")[-(1:50)]
-tsplot(x, col=4, main="autoregression")
+w = rnorm(250,0,1)                  # 250 N(0,1) variates
+v = filter(w, sides=2, rep(1/3,3))  # moving average
+par(mfrow=c(2,1))
+tsplot(w, main="white noise", col=4, gg=TRUE)
+tsplot(v, ylim=c(-3,3), main="moving average", col=4, gg=TRUE)
 ```
 
 Example 1.11
 
 ```r
-set.seed(154) # so you can reproduce the results
-w = rnorm(200); x = cumsum(w) # two commands in one line
-wd = w +.2;    xd = cumsum(wd)
-tsplot(xd, ylim=c(-5,55), main="random walk", ylab='')
-lines(x, col=4) 
-clip(0,200,0,50)
-abline(h=0, col=4, lty=2)
-abline(a=0, b=.2, lty=2)
+w = rnorm(300,0,1)  # 50 extra to avoid startup problems
+x = filter(w, filter=c(1.5,-.75), method="recursive")[-(1:50)]
+tsplot(x, col=4, main="autoregression", gg=TRUE)
 ```
 
 Example 1.12
 
 ```r
-cs = 2*cos(2*pi*(1:500)/50 + .6*pi)
-w = rnorm(500,0,1)
-par(mfrow=c(3,1))
-tsplot(cs, ylab="", main = expression(x[t]==2*cos(2*pi*t/50+.6*pi)))
-tsplot(cs + w, ylab="", main = expression(x[t]==2*cos(2*pi*t/50+.6*pi)+N(0,1)))
-tsplot(cs + 5*w, ylab="", main = expression(x[t]==2*cos(2*pi*t/50+.6*pi)+N(0,25)))
+set.seed(154)
+# so you can reproduce the results
+w  = rnorm(200);  x = cumsum(w)  # two commands in one line
+wd = w +.2;      xd = cumsum(wd)
+tsplot(xd, ylim=c(-5,55), main="random walk", ylab="", col=4, gg=TRUE)
+lines(x, col=6);  clip(0, 200, 0, 50)
+abline(h=0, a=0, b=.2, col=8, lty=5)
 ```
 
-Example 1.24
+Example 1.13
 
 ```r
-set.seed(2)
-x = rnorm(100)
-y = lag(x, -5) + rnorm(100)
-ccf2(y, x, ylab='CCovF', type='covariance')
-text( 9, 1.1, 'x leads')
-text(-8, 1.1, 'y leads')
+cs = 2*cos(2*pi*(1:500 + 15)/50);  w = rnorm(500,0,1)
+par(mfrow=c(3,1))
+tsplot(cs, ylab="", main=bquote(2*cos(2*pi*t/50+.6*pi)), col=4, gg=TRUE)
+tsplot(cs+w, ylab="", main=bquote(2*cos(2*pi*t/50+.6*pi) + N(0,1)), col=4, gg=TRUE)
+tsplot(cs+5*w, ylab="", main=bquote(2*cos(2*pi*t/50+.6*pi) + N(0,5ˆ2)), col=4, gg=TRUE)
 ```
 
 Example 1.25
 
 ```r
-(r = round( acf1(soi, 6, plot=FALSE), 2)) # sample acf values
-par(mfrow=c(1,2))
-tsplot(lag(soi,-1), soi, col=4, type='p', xlab='lag(soi,-1)')
- legend("topleft", legend=r[1], bg="white", adj=.45, cex = 0.85)
-tsplot(lag(soi,-6), soi, col=4, type='p', xlab='lag(soi,-6)')
- legend("topleft", legend=r[6], bg="white", adj=.25, cex = 0.8)
+x = rnorm(100)
+y = lag(x, -5) + rnorm(100)
+ccf2(y, x, lwd=2, col=4, type="covariance", gg=TRUE)
+text( 10, 1.1, "x leads")
+text(-10, 1.1, "y leads")
+```
+
+Marginal normals that are not bivariate normal
+
+```r
+x = rnorm(1000)
+z = rnorm(1000)
+y = ifelse(x*z > 0, z, -z)
+scatter.hist(x, y, hist.col=5, pt.col=6)
 ```
 
 Example 1.26
 
 ```r
-set.seed(666)
-x1 = sample(c(-1,1), 11, replace=TRUE)  # simulated sequence of coin tosses
-x2 = sample(c(-1,1), 101, replace=TRUE)
-y1 = 5 + filter(x1, sides=1, filter=c(1,-.7))[-1]
-y2 = 5 + filter(x2, sides=1, filter=c(1,-.7))[-1]
-tsplot(y1, type='s')   # plot 1st series
- points(y1, pch=19)
-c(mean(y1), mean(y2))  # the sample means
-acf(y1, lag.max=4, plot=FALSE) 
-acf(y2, lag.max=4, plot=FALSE) 
-
-#########################################
-# here's the version from the other text -
-# same idea but the y values are 2-4-6-8
-# like the children's cheer
-
-set.seed(101011)
-x1 = sample(c(-2,2), 11, replace=TRUE)   # simulated coin tosses
-x2 = sample(c(-2,2), 101, replace=TRUE)
-y1 = 5 + filter(x1, sides=1, filter=c(1,-.5))[-1]
-y2 = 5 + filter(x2, sides=1, filter=c(1,-.5))[-1]
-tsplot(y1, type="s", col=4, xaxt="n", yaxt="n")  # y2 not shown
- axis(1, 1:10); axis(2, seq(2,8,2), las=1)
- points(y1, pch=21, cex=1.1, bg=6)
-acf(y1, lag.max=4, plot=FALSE) 
-acf(y2, lag.max=4, plot=FALSE) 
+(r = format(acf1(soi, 6, plot=FALSE), digits=2)) # first 6 sample acf values
+#  [1] 0.60  0.37  0.21  0.05  -0.11  -0.19
+par(mfrow=c(1,2))
+tsplot(lag(soi,-1), soi, col=5, type="p", xlab="lag(soi,-1)")
+ legend("topleft", legend=bquote(hat(rho)(1) == .(r[1])), bty="n", adj=.2)
+tsplot(lag(soi,-6), soi, col=5, type="p", xlab="lag(soi,-6)")
+ legend("topleft", legend=bquote(hat(rho)(6) == .(r[6])), bty="n", adj=.2)
 ```
+
+
+Property 1.2 demonstration
+
+```r
+x = replicate(1000, acf1(rnorm(100), plot=FALSE))
+round(c(mean(x), sd(x)), 3)
+# [1]  -0.010  0.094
+qqnorm(x)  # to check normality (not shown)
+```
+
 
 Example 1.27
 
 ```r
-acf1(speech, 250)
+set.seed(101011)
+x1 = sample(c(-2,2),  11, replace=TRUE) # simulated coin tosses
+x2 = sample(c(-2,2), 101, replace=TRUE)
+y1 = 5 + filter(x1, sides=1, filter=c(1,-.5))[-1]
+y2 = 5 + filter(x2, sides=1, filter=c(1,-.5))[-1]
+tsplot(y1, type="s", col=4, yaxt="n", xaxt="n", gg=TRUE)
+axis(1, 1:10); axis(2, seq(2,8,2), las=1)
+points(y1, pch=21, bg=6)
+round( acf1(y1, 4, plot=FALSE), 2)  # 1/√10 =.32
+ # [1] -0.22 -0.62 0.22 0.42
+round( acf1(y2, 4, plot=FALSE), 2)  # 1/√100 =.1
+ # [1] -0.44 0.04 0.06 -0.08
 ```
 
 Example 1.28
 
 ```r
-par(mfrow=c(3,1))
-acf1(soi, main="Southern Oscillation Index")
-acf1(rec, main="Recruitment")
-ccf2(soi, rec, main="SOI vs Recruitment")
+acf1(speech, 250, col=4)
 ```
 
 Example 1.29
 
 ```r
-set.seed(1492)
-num = 120 
-t   = 1:num
-X   = ts(2*cos(2*pi*t/12) + rnorm(num), freq=12)
-Y   = ts(2*cos(2*pi*(t+5)/12) + rnorm(num), freq=12)
-Yw  = resid( lm(Y~ cos(2*pi*t/12) + sin(2*pi*t/12), na.action=NULL) )
-par(mfrow=c(3,2) )
-tsplot(X)
-tsplot(Y)
-acf1(X, 48, ylab='ACF(X)')
-acf1(Y, 48, ylab='ACF(Y)')
-ccf2(X, Y, 24)
-ccf2(X, Yw, 24, ylim=c(-.6,.6))
-################################################
+par(mfrow=c(3,1))
+acf1(soi, 48, main="Southern Oscillation Index")
+acf1(rec, 48, main="Recruitment")
+ccf2(soi, rec, 48, main="SOI vs Recruitment")
+```
 
-#  here's another example that's simpler
-#  the series are trend stationary with 
-#  just a hint of trend - but same result
+Example 1.30
 
+```r
 set.seed(90210)
 num = 250  
 t   = 1:num
 X   = .01*t + rnorm(num,0,2)
 Y   = .01*t + rnorm(num)
 par(mfrow=c(3,1))
-tsplot(cbind(X,Y), spag=TRUE, col=astsa.col(c(4,2),.7), lwd=2, ylab='data')  
-ccf2(X, Y,  ylim=c(-.3,.3), col=4, lwd=2)
-Yw = detrend(Y)  # whiten Y by removing trend
-ccf2(X, Yw, ylim=c(-.3,.3), col=4, lwd=2)
-```
-
-Example 1.30
-
-```r
-par(mar=rep(1,4))
-persp(1:64, 1:36, soiltemp, phi=30, theta=30, scale=FALSE, expand=4, 
-       ticktype="detailed", xlab="rows", ylab="cols", zlab="temperature")
-dev.new()          
-tsplot(rowMeans(soiltemp), xlab="row", ylab="Average Temperature")
+tsplot(cbind(X,Y), col=c(4,6), ylab="data", spaghetti=TRUE, lwd=2, gg=TRUE)
+ccf2(X, Y, ylim=c(-.4,.4), col=4, lwd=2, gg=TRUE)
+ccf2(X, detrend(Y), ylim=c(-.4,.4), col=4, lwd=2, gg=TRUE)
 ```
 
 Example 1.31
+
+```r
+persp(1:64, 1:36, soiltemp, phi=25, theta=25, scale=FALSE, expand=4, ticktype="detailed", xlab="rows", ylab="cols", zlab="temperature")
+tsplot(rowMeans(soiltemp), xlab="row", ylab="Average Temperature")
+```
+
+Example 1.32
 
 ```r
 fs = abs(fft(soiltemp-mean(soiltemp)))^2/(64*36) # see Ch 4 for info on FFT
@@ -282,8 +265,16 @@ rs2 = cbind(rs[1:41,21:2], rs[1:41,1:21])   #  these lines are just to center
 rs3 = rbind(rs2[41:2,], rs2)                #  the 0 lag  
 
 par(mar = c(1,2.5,0,0)+.1)
-persp(-40:40, -20:20, rs3, phi=30, theta=30, expand=30, scale="FALSE",  
-       ticktype="detailed", xlab="row lags", ylab="column lags", zlab="ACF")
+persp(-40:40, -20:20, rs3, phi=30, theta=30, expand=30, scale="FALSE", ticktype="detailed", xlab="row lags", ylab="column lags", zlab="ACF", col="lightblue")
+```
+
+Bad LCG
+
+```r
+x = c(1)  # set the seed to 1
+for (n in 2:24){ x[n] = (5*x[n-1] + 2) %% (2ˆ4) }
+x         # print x
+
 ```
 
 [<sub>top</sub>](#table-of-contents)
@@ -298,96 +289,90 @@ persp(-40:40, -20:20, rs3, phi=30, theta=30, expand=30, scale="FALSE",
 Example 2.1
 
 ```r
-# astsa now has a trend script, so Figure 2.1 can be done in one line
-trend(chicken, lwd=2)    # includes a 95% CI
-
-# in the text
-summary(fit <- lm(chicken~time(chicken))) # regress price on time
-tsplot(chicken, ylab="cents per pound", col=4, lwd=2)
-abline(fit)      # add the fitted regression line to the plot            
+summary( lm(chicken˜time(chicken), na.action=NULL) )
+trend(chicken, lwd=2)  # produces a graphic
 ```
 
 Example 2.2
 
 ```r
-##-- separate
-par(mfrow=c(3,1))
-tsplot(cmort, main="Cardiovascular Mortality", col=6, type="o", pch=19, ylab="")
-tsplot(tempr, main="Temperature", col=4, type="o", pch=19, ylab="")
-tsplot(part, main="Particulates", col=2, type="o", pch=19, ylab="")
-
-##-- together 
+par(mfrow = c(3,1))
+tsplot(cmort, ylab="Rate per 10,000", type="o", pch=19, col=6, nxm=2, main="Cardiovascular Mortality")
+tsplot(tempr, ylab="\u00B0F", type="o", pch=19, col=4, nxm=2, main="Temperature")
+tsplot(part, ylab="PPM", type="o", pch=19, col=2, nxm=2, main="Particulates")
 dev.new()
-tsplot(cbind(cmort, tempr, part), spag=TRUE, ylab="", col=c(6,4,2))
-legend("topright", legend=c("Mortality", "Temperature", "Pollution"), lty=1, lwd=2, col=c(6,4,2), bg="white")
-
-##-- scatterplot matrix
-dev.new()  
-panel.cor <- function(x, y, ...){
-usr <- par("usr")
-par(usr = c(0, 1, 0, 1))
-r <- round(cor(x, y), 2)
-text(0.5, 0.5, r, cex = 1.75)
-}
-pairs(cbind(Mortality=cmort, Temperature=tempr, Particulates=part), col=4, lower.panel=panel.cor)
-
-#  Regression
-temp  = tempr-mean(tempr)  # center temperature    
-temp2 = temp^2             # square it  
-trend = time(cmort)        # time
-
-fit = lm(cmort~ trend + temp + temp2 + part, na.action=NULL)
-            
-summary(fit)       # regression results
-summary(aov(fit))  # ANOVA table   (compare to next line)
-summary(aov(lm(cmort~cbind(trend, temp, temp2, part)))) # Table 2.1
-
-num = length(cmort)                                     # sample size
-AIC(fit)/num - log(2*pi)                                # AIC 
-BIC(fit)/num - log(2*pi)                                # BIC   
-(AICc = log(sum(resid(fit)^2)/num) + (num+5)/(num-5-2)) # AICc
+pairs(cbind(Mortality=cmort, Temperature=tempr, Particulates=part), col=4, lower.panel = astsa:::.panelcor)
+temp = tempr - mean(tempr)  # center temperature
+temp2 = tempˆ2
+trend = time(cmort)
+fit = lm(cmort˜ trend + temp + temp2 + part, na.action=NULL)
+summary(fit)  # regression results
+summary(aov(fit))  # ANOVA table (compare to next line)
+summary(aov(lm(cmort˜cbind(trend, temp, temp2, part)))) # Table 2.1
+num = length(cmort)  # sample size
+AIC(fit)/num - log(2*pi)  # AIC as in (2.15)
+BIC(fit)/num - log(2*pi)  # BIC as in (2.17)
+(AICc = log(sum(resid(fit)ˆ2)/num) + (num+5)/(num-5-2)) # AICc
 ```
 
-Examples 2.3
+Example 2.3
 
 ```r
-fish = ts.intersect(rec, soiL6=lag(soi,-6), dframe=TRUE)   
-summary(fit <- lm(rec~soiL6, data=fish, na.action=NULL))
-## not shown in text but resids are not white
-par(mfrow=2:1)
-tsplot(resid(fit))
-acf1(resid(fit))
+# uses variables from previous example
+summary(fit2 <- lm(cmort˜ trend + temp + temp2 + part + co, data=lap, na.action=NULL))
+# compare models
+c( AIC(fit),  BIC(fit))/num   # model without co
+c( AIC(fit2), BIC(fit2))/num  # model with co
 ```
 
 
 
-Examples 2.4 and 2.5
+Example 2.4  
 
 ```r
-# astsa now has a detrend script, so Figure 2.4 can be done as
-par(mfrow=2:1)
-tsplot( detrend(chicken), main="detrended" )
-tsplot( diff(chicken), main="first difference" )
+prdtr = ts.intersect(L=Lynx, L1=lag(Lynx,-1), H1=lag(Hare,-1), dframe=TRUE)
+summary( fit <- lm(L˜ L1 + L1:H1, data=prdtr, na.action=NULL) )
 
-# and Figure 2.5 as
-dev.new()
-par(mfrow=c(3,1))     # plot ACFs
-acf1(chicken, 48, main="chicken")
-acf1(detrend(chicken), 48, main="detrended")
-acf1(diff(chicken), 48, main="first difference")
+# residuals
+par(mfrow=1:2)
+tsplot(resid(fit), col=4, main="")
+acf1(resid(fit), col=4, main="")
+mtext("Lynx Residuals", outer=TRUE, line=-1.4, font=2)
+
+# using dynlm
+library(dynlm)
+summary( fit2 <- dynlm(Lynx˜ L(Lynx,1) + L(Lynx,1):L(Hare,1)) )
 ``` 
+
+
 
 
 Example 2.6
 
 ```r
-par(mfrow=c(2,1))
-tsplot(diff(globtemp), type="o")
- mean(diff(globtemp))     # drift estimate = .008
-acf1(diff(gtemp), 48, main="")
+par(mfrow=2:1)
+tsplot(detrend(chicken), col=4, main="detrended" )
+tsplot(diff(chicken), col=4, main="first difference")
+dev.new()
+par(mfrow = c(3,1))
+acf1(chicken, col=6, lwd=2)
+acf1(detrend(chicken), col=3, lwd=2)
+acf1(diff(chicken), col=4, lwd=2)
 ```
 
 Example 2.7
+
+```r
+par(mfrow = 2:1)
+tsplot(diff(gtemp_land), col=4, xlab="Year")
+acf1(diff(gtemp_land), col=4)
+mean(diff(window(gtemp_land, end=1980)))   # drift until 1980
+mean(diff(window(gtemp_land, start=1980))) # drift since 1980
+```
+
+
+
+Example 2.8  
 
 ```r
 layout(matrix(1:4,2), widths=c(2.5,1))
@@ -395,64 +380,78 @@ tsplot(varve, main="", ylab="", col=4)
  mtext("varve", side=3, line=.5, cex=1.2, font=2, adj=0)
 tsplot(log(varve), main="", ylab="", col=4)
  mtext("log(varve)", side=3, line=.5, cex=1.2, font=2, adj=0)
-qqnorm(varve, main="", col=4)
- qqline(varve, col=2, lwd=2)
-qqnorm(log(varve), main="", col=4)
- qqline(log(varve), col=2, lwd=2)
+qqnorm(varve, main=NA, col=4); qqline(varve, col=2, lwd=2)
+qqnorm(log(varve), main=NA, col=4); qqline(log(varve), col=2, lwd=2) 
 ```
 
-Example 2.8  
-
-```r
-lag1.plot(soi, 12, col=astsa.col(4, .3), cex=1.5, pch=20)
-dev.new()
-lag2.plot(soi, rec, 8, col=astsa.col(4, .3), cex=1.5, pch=20)
-```
 
 Example 2.9
 
 ```r
-dummy = ifelse(soi<0, 0, 1)
-fish  = ts.intersect(rec, soiL6=lag(soi,-6), dL6=lag(dummy,-6), dframe=TRUE)
-summary(fit <- lm(rec~ soiL6*dL6, data=fish, na.action=NULL))
-tsplot(fish$soiL6, fish$rec, type='p', col=4, ylab='rec', xlab='soiL6')
-lines(lowess(fish$soiL6, fish$rec), col=4, lwd=2)
-points(fish$soiL6, fitted(fit), pch='+', col=6)
-
-dev.new()
-par(mfrow=2:1)
-tsplot(resid(fit)) # not shown ...
-acf1(resid(fit))   # ... but obviously not noise
+lag1.plot(soi, 12, col=4)      # Figure 2.10
+lag2.plot(soi, rec, 8, col=4)  # Figure 2.11
 ```
-
 
 Example 2.10
 
 ```r
-set.seed(1000)  # so you can reproduce these results
-x  = 2*cos(2*pi*1:500/50 + .6*pi) + rnorm(500,0,5)
-z1 = cos(2*pi*1:500/50)  
-z2 = sin(2*pi*1:500/50)
-summary(fit <- lm(x~0+z1+z2))  # zero to exclude the intercept
-par(mfrow=c(2,1))
-tsplot(x, col=4)
-tsplot(x, col=astsa.col(4,.7), ylab=expression(hat(x)))
-lines(fitted(fit), col=2, lwd=2)
+dummy = ifelse(soi<0, 0, 1)
+fish = ts.intersect(R=rec, SL6=lag(soi,-6), DL6=lag(dummy,-6), dframe=TRUE)
+summary(fit <- lm(R˜ SL6*DL6, data=fish, na.action=NULL))
+layout(matrix(1:2,2), heights = c(3,2))
+tsplot(fish[,"SL6"], fish[,"R"], type="p", col=8, xlab=bquote(S[˜t-6]), ylab=bquote(R[˜t]))
+lines(lowess(fish[,"SL6"], fish[,"R"]), col=4, lwd=2)
+points(fish[,"SL6"], fitted(fit), pch="+", col=2)
+tsplot(resid(fit), col=4)
 ```
 
+ 
 
 Example 2.11
 
 ```r
-wgts = c(.5, rep(1,11), .5)/12
-soif = filter(soi, sides=2, filter=wgts)
-tsplot(soi, col=4)
-lines(soif, lwd=2, col=6)
-par(fig = c(.75, 1, .75, 1), new = TRUE) # the insert
-nwgts = c(rep(0,20), wgts, rep(0,20))
-plot(nwgts, type="l", ylim = c(-.02,.1), xaxt='n', yaxt='n', ann=FALSE)
+set.seed(90210) 
+t  = 1:500
+x  = 2*cos(2*pi*(t+15)/50) + rnorm(500,0,5)
+z1 = cos(2*pi*t/50)  
+z2 = sin(2*pi*t/50)
+summary(fit <- lm(x~0+z1+z2))  # zero to exclude the intercept
+par(mfrow=c(2,1))
+tsplot(x, col=4, gg=TRUE)
+tsplot(x, ylab=bquote(hat(x)), col=4, gg=TRUE)
+lines(fitted(fit), col=2, lwd=2)
 ```
 
+
+Example 2.12
+
+```r
+set.seed(90210)
+t = 1:500
+x = 2*cos(2*pi*(t+15)/50) + rnorm(500,0,5)
+acf1(x, 200)
+summary(fit <- nls(x˜ A*cos(2*pi*omega*t + phi), start=list(A=10, omega=1/55, phi=0)))
+tsplot(x, ylab=bquote(hat(x)), col=4, gg=TRUE)
+lines(fitted(fit), col=2, lwd=2)
+```
+
+
+
+Example 2.13
+
+```r
+wgts = c(.5, rep(1,11), .5)/12
+ENSOf = filter(ENSO, sides=2, filter=wgts)
+tsplot(ENSO, col=8)
+lines(ENSOf, lwd=2, col=4)
+par(fig = c(.02, .25, .01, .4), new=TRUE, bty="n")
+nwgts = c(rep(0,6), wgts, rep(0,6))
+plot(nwgts, type="l", xaxt="n", yaxt="n", ann=FALSE)
+```
+
+
+
+##############################  here
 
 Example 2.12 
 
