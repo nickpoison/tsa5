@@ -1,5 +1,5 @@
 
-## R Code Used in the Examples - tsa5
+## R Code Used in the <br/> Examples - tsa5
 
 <img align="left" src="https://github.com/nickpoison/astsa/blob/master/fun_with_astsa/figs/tsa5.jpg" alt="&nbsp; tsa5 &nbsp;"  height="200" /><br/>Coming soon:  Code in [Time Series Analysis and Its Applications, 5th Edition](https://github.com/nickpoison/tsa5) 
 
@@ -44,22 +44,25 @@
 ## Chapter 1
 
 
-Example 1.1 
+  Example 1.1 
 
 ```r
 par(mfrow=2:1)
-tsplot(jj, col=4, ylab="USD", type="o", main="Johnson & Johnson Quarterly Earning per Share")
+tsplot(jj, col=4, ylab="USD", type="o", main="Johnson & Johnson Quarterly 
+  Earning per Share")
 tsplot(jj, col=4, ylab="USD", type="o", log="y")
 ```
 
-Example 1.2  
+<br/> Example 1.2  
 
 ```r
-tsplot(cbind(gtemp_land, gtemp_ocean), spaghetti=TRUE, pch=c(20,18), type="o", col=astsa.col(c(4,2),.5), ylab="\u00B0C", main="Global Annual Mean Temperature Change")
-legend("topleft", legend=c("Land Surface","Sea Surface"), lty=1, pch=c(20,18), col=c(4,2), bg="white")
+tsplot(cbind(gtemp_land, gtemp_ocean), spaghetti=TRUE, pch=c(20,18), type="o", 
+  col=astsa.col(c(4,2),.5), ylab="\u00B0C", main="Global Annual Mean Temperature Change")
+legend("topleft", legend=c("Land Surface","Sea Surface"), lty=1, pch=c(20,18), col=c(4,2), 
+  bg="white")
 ``` 
 
-Example 1.3  
+<br/> Example 1.3  
 
 ```r
 tsplot(speech, col=4)
@@ -67,7 +70,7 @@ arrows(658, 3850, 766, 3850, code=3, angle=90, length=.05, col=6)
 text(712, 4100, "pitch period", cex=.75) 
 ``` 
 
-Example 1.4  
+<br/> Example 1.4  
 
 ```r
 library(xts)
@@ -77,25 +80,25 @@ plot(djia$Close, col=4, main="DJIA Close")
 plot(djia_return, col=4, main="DJIA Returns")
 ```
 
-Example 1.5  
+<br/> Example 1.5  
 
 ```r
 par(mfrow = c(2,1))  # set up the graphics
 tsplot(soi, col=4, ylab="", main="Southern Oscillation Index")
 text(1970,  .91, "COOL", col=5, font=4)
-text(1970, -.91, "WARM", col=6, font=4)
+teExt(1970, -.91, "WARM", col=6, font=4)
 tsplot(rec, col=4, ylab="", main="Recruitment") 
 ```
 
-Example 1.6
+<br/> Example 1.6
 
 ```r
 tsplot(cbind(Hare, Lynx), col=c(2,4), type="o", pch=c(0,2), ylab="Number", spaghetti=TRUE)
-mtext("(\u00D7 1000)", side=2, adj=1, line=1.5, cex=.8)
+mtext("(\u00D7 1000)", side=2, adj=1, line=1.5, c<br/> Ex=.8)
 legend("topright", col=c(2,4), lty=1, pch=c(0,2), legend=c("Hare", "Lynx"), bty="n")
 ```
 
-Example 1.7
+<br/> Example 1.7
 
 ```r
 par(mfrow=c(3,1))
@@ -105,21 +108,22 @@ u = ts(rep(c(rep(.6,16), rep(-.6,16)), 4), start=0, freq=32) # stimulus signal
 names = c("Cortex","Thalamus","Cerebellum")
 for (i in 1:3){
  j = 2*i-1
- tsplot(x[,j:(j+1)], ylab="BOLD", xlab="", main=names[i], col=5:6, ylim=c(-.6,.6), lwd=2, xaxt="n", spaghetti=TRUE)
+ tsplot(x[,j:(j+1)], ylab="BOLD", xlab="", main=names[i], col=5:6, ylim=c(-.6,.6), lwd=2, 
+   xaxt="n", spaghetti=TRUE)
  axis(seq(0,256,64), side=1, at=0:4)
  lines(u, type="s", col=gray(.3))
 }
-mtext("seconds", side=1, line=1.75, cex=.9)
+mtext("seconds", side=1, line=1.75, c<br/> Ex=.9)
 ```
 
-Example 1.8
+<br/> Example 1.8
 
 ```r
 tsplot(cbind(EQ5,EXP6), ylab=c("Earthquake", "Explosion"), col=4)
 ```
 
  
-Example 1.10
+<br/> Example 1.10
 
 ```r
 w = rnorm(250,0,1)                  # 250 N(0,1) variates
@@ -129,15 +133,15 @@ tsplot(w, main="white noise", col=4, gg=TRUE)
 tsplot(v, ylim=c(-3,3), main="moving average", col=4, gg=TRUE)
 ```
 
-Example 1.11
+<br/> Example 1.11
 
 ```r
-w = rnorm(300,0,1)  # 50 extra to avoid startup problems
+w = rnorm(300,0,1)  # 50 <br/> Extra to avoid startup problems
 x = filter(w, filter=c(1.5,-.75), method="recursive")[-(1:50)]
 tsplot(x, col=4, main="autoregression", gg=TRUE)
 ```
 
-Example 1.12
+<br/> Example 1.12
 
 ```r
 set.seed(154)
@@ -149,7 +153,7 @@ lines(x, col=6);  clip(0, 200, 0, 50)
 abline(h=0, a=0, b=.2, col=8, lty=5)
 ```
 
-Example 1.13
+<br/> Example 1.13
 
 ```r
 cs = 2*cos(2*pi*(1:500 + 15)/50);  w = rnorm(500,0,1)
@@ -159,7 +163,7 @@ tsplot(cs+w, ylab="", main=bquote(2*cos(2*pi*t/50+.6*pi) + N(0,1)), col=4, gg=TR
 tsplot(cs+5*w, ylab="", main=bquote(2*cos(2*pi*t/50+.6*pi) + N(0,5ˆ2)), col=4, gg=TRUE)
 ```
 
-Example 1.25
+<br/> Example 1.25
 
 ```r
 x = rnorm(100)
@@ -169,7 +173,7 @@ text( 10, 1.1, "x leads")
 text(-10, 1.1, "y leads")
 ```
 
-Marginal normals that are not bivariate normal
+<br/> Marginal normals that are not bivariate normal
 
 ```r
 x = rnorm(1000)
@@ -178,7 +182,7 @@ y = ifelse(x*z > 0, z, -z)
 scatter.hist(x, y, hist.col=5, pt.col=6)
 ```
 
-Example 1.26
+<br/> Example 1.26
 
 ```r
 (r = format(acf1(soi, 6, plot=FALSE), digits=2)) # first 6 sample acf values
@@ -191,17 +195,16 @@ tsplot(lag(soi,-6), soi, col=5, type="p", xlab="lag(soi,-6)")
 ```
 
 
-Property 1.2 demonstration
+<br/> Property 1.2 demonstration
 
 ```r
 x = replicate(1000, acf1(rnorm(100), plot=FALSE))
 round(c(mean(x), sd(x)), 3)
-# [1]  -0.010  0.094
 qqnorm(x)  # to check normality (not shown)
 ```
 
 
-Example 1.27
+<br/> Example 1.27
 
 ```r
 set.seed(101011)
@@ -213,27 +216,25 @@ tsplot(y1, type="s", col=4, yaxt="n", xaxt="n", gg=TRUE)
 axis(1, 1:10); axis(2, seq(2,8,2), las=1)
 points(y1, pch=21, bg=6)
 round( acf1(y1, 4, plot=FALSE), 2)  # 1/√10 =.32
- # [1] -0.22 -0.62 0.22 0.42
 round( acf1(y2, 4, plot=FALSE), 2)  # 1/√100 =.1
- # [1] -0.44 0.04 0.06 -0.08
 ```
 
-Example 1.28
+<br/> Example 1.28
 
 ```r
 acf1(speech, 250, col=4)
 ```
 
-Example 1.29
+<br/> Example 1.29
 
 ```r
 par(mfrow=c(3,1))
-acf1(soi, 48, main="Southern Oscillation Index")
+acf1(soi, 48, main="Southern Oscillation Ind<br/> Ex")
 acf1(rec, 48, main="Recruitment")
 ccf2(soi, rec, 48, main="SOI vs Recruitment")
 ```
 
-Example 1.30
+<br/> Example 1.30
 
 ```r
 set.seed(90210)
@@ -247,14 +248,14 @@ ccf2(X, Y, ylim=c(-.4,.4), col=4, lwd=2, gg=TRUE)
 ccf2(X, detrend(Y), ylim=c(-.4,.4), col=4, lwd=2, gg=TRUE)
 ```
 
-Example 1.31
+<br/> Example 1.31
 
 ```r
-persp(1:64, 1:36, soiltemp, phi=25, theta=25, scale=FALSE, expand=4, ticktype="detailed", xlab="rows", ylab="cols", zlab="temperature")
+persp(1:64, 1:36, soiltemp, phi=25, theta=25, scale=FALSE, <br/> Expand=4, ticktype="detailed", xlab="rows", ylab="cols", zlab="temperature")
 tsplot(rowMeans(soiltemp), xlab="row", ylab="Average Temperature")
 ```
 
-Example 1.32
+<br/> Example 1.32
 
 ```r
 fs = abs(fft(soiltemp-mean(soiltemp)))^2/(64*36) # see Ch 4 for info on FFT
@@ -265,10 +266,11 @@ rs2 = cbind(rs[1:41,21:2], rs[1:41,1:21])   #  these lines are just to center
 rs3 = rbind(rs2[41:2,], rs2)                #  the 0 lag  
 
 par(mar = c(1,2.5,0,0)+.1)
-persp(-40:40, -20:20, rs3, phi=30, theta=30, expand=30, scale="FALSE", ticktype="detailed", xlab="row lags", ylab="column lags", zlab="ACF", col="lightblue")
+persp(-40:40, -20:20, rs3, phi=30, theta=30, <br/> Expand=30, scale="FALSE", 
+  ticktype="detailed", xlab="row lags", ylab="column lags", zlab="ACF", col="lightblue")
 ```
 
-Bad LCG
+<br/> Bad LCG
 
 ```r
 x = c(1)  # set the seed to 1
@@ -286,28 +288,30 @@ x         # print x
 ## Chapter 2
 
 
-Example 2.1
+<br/> Example 2.1
 
 ```r
 summary( lm(chicken˜time(chicken), na.action=NULL) )
 trend(chicken, lwd=2)  # produces a graphic
 ```
 
-Example 2.2
+<br/> Example 2.2
 
 ```r
 par(mfrow = c(3,1))
-tsplot(cmort, ylab="Rate per 10,000", type="o", pch=19, col=6, nxm=2, main="Cardiovascular Mortality")
+tsplot(cmort, ylab="Rate per 10,000", type="o", pch=19, col=6, nxm=2, 
+  main="Cardiovascular Mortality")
 tsplot(tempr, ylab="\u00B0F", type="o", pch=19, col=4, nxm=2, main="Temperature")
 tsplot(part, ylab="PPM", type="o", pch=19, col=2, nxm=2, main="Particulates")
 dev.new()
-pairs(cbind(Mortality=cmort, Temperature=tempr, Particulates=part), col=4, lower.panel = astsa:::.panelcor)
+pairs(cbind(Mortality=cmort, Temperature=tempr, Particulates=part), col=4, 
+  lower.panel = astsa:::.panelcor)
 temp = tempr - mean(tempr)  # center temperature
 temp2 = tempˆ2
 trend = time(cmort)
 fit = lm(cmort˜ trend + temp + temp2 + part, na.action=NULL)
 summary(fit)  # regression results
-summary(aov(fit))  # ANOVA table (compare to next line)
+summary(aov(fit))  # ANOVA table (compare to n<br/> Ext line)
 summary(aov(lm(cmort˜cbind(trend, temp, temp2, part)))) # Table 2.1
 num = length(cmort)  # sample size
 AIC(fit)/num - log(2*pi)  # AIC as in (2.15)
@@ -315,10 +319,10 @@ BIC(fit)/num - log(2*pi)  # BIC as in (2.17)
 (AICc = log(sum(resid(fit)ˆ2)/num) + (num+5)/(num-5-2)) # AICc
 ```
 
-Example 2.3
+<br/> Example 2.3
 
 ```r
-# uses variables from previous example
+# uses variables from previous <br/> Example
 summary(fit2 <- lm(cmort˜ trend + temp + temp2 + part + co, data=lap, na.action=NULL))
 # compare models
 c( AIC(fit),  BIC(fit))/num   # model without co
@@ -327,7 +331,7 @@ c( AIC(fit2), BIC(fit2))/num  # model with co
 
 
 
-Example 2.4  
+<br/> Example 2.4  
 
 ```r
 prdtr = ts.intersect(L=Lynx, L1=lag(Lynx,-1), H1=lag(Hare,-1), dframe=TRUE)
@@ -337,7 +341,7 @@ summary( fit <- lm(L˜ L1 + L1:H1, data=prdtr, na.action=NULL) )
 par(mfrow=1:2)
 tsplot(resid(fit), col=4, main="")
 acf1(resid(fit), col=4, main="")
-mtext("Lynx Residuals", outer=TRUE, line=-1.4, font=2)
+mt<br/> Ext("Lynx Residuals", outer=TRUE, line=-1.4, font=2)
 
 # using dynlm
 library(dynlm)
@@ -347,7 +351,7 @@ summary( fit2 <- dynlm(Lynx˜ L(Lynx,1) + L(Lynx,1):L(Hare,1)) )
 
 
 
-Example 2.6
+<br/> Example 2.6
 
 ```r
 par(mfrow=2:1)
@@ -360,7 +364,7 @@ acf1(detrend(chicken), col=3, lwd=2)
 acf1(diff(chicken), col=4, lwd=2)
 ```
 
-Example 2.7
+<br/> Example 2.7
 
 ```r
 par(mfrow = 2:1)
@@ -372,27 +376,27 @@ mean(diff(window(gtemp_land, start=1980))) # drift since 1980
 
 
 
-Example 2.8  
+<br/> Example 2.8  
 
 ```r
 layout(matrix(1:4,2), widths=c(2.5,1))
 tsplot(varve, main="", ylab="", col=4)
  mtext("varve", side=3, line=.5, cex=1.2, font=2, adj=0)
 tsplot(log(varve), main="", ylab="", col=4)
- mtext("log(varve)", side=3, line=.5, cex=1.2, font=2, adj=0)
+ mt<br/> Ext("log(varve)", side=3, line=.5, cex=1.2, font=2, adj=0)
 qqnorm(varve, main=NA, col=4); qqline(varve, col=2, lwd=2)
 qqnorm(log(varve), main=NA, col=4); qqline(log(varve), col=2, lwd=2) 
 ```
 
 
-Example 2.9
+<br/> Example 2.9
 
 ```r
 lag1.plot(soi, 12, col=4)      # Figure 2.10
 lag2.plot(soi, rec, 8, col=4)  # Figure 2.11
 ```
 
-Example 2.10
+<br/> Example 2.10
 
 ```r
 dummy = ifelse(soi<0, 0, 1)
@@ -407,7 +411,7 @@ tsplot(resid(fit), col=4)
 
  
 
-Example 2.11
+<br/> Example 2.11
 
 ```r
 set.seed(90210) 
@@ -423,7 +427,7 @@ lines(fitted(fit), col=2, lwd=2)
 ```
 
 
-Example 2.12
+<br/> Example 2.12
 
 ```r
 set.seed(90210)
@@ -437,7 +441,7 @@ lines(fitted(fit), col=2, lwd=2)
 
 
 
-Example 2.13
+<br/> Example 2.13
 
 ```r
 wgts = c(.5, rep(1,11), .5)/12
@@ -453,7 +457,7 @@ plot(nwgts, type="l", xaxt="n", yaxt="n", ann=FALSE)
 
 ##############################  here
 
-Example 2.12 
+<br/> Example 2.12 
 
 ```r
 tsplot(soi, col=4)
@@ -463,7 +467,7 @@ curve(dnorm, -3, 3,  xaxt='n', yaxt='n', ann=FALSE)
 ```
 
 
-Example 2.13
+<br/> Example 2.13
  
 ```r
 # Figure 2.14 using the trend script
@@ -473,7 +477,7 @@ lines(lowess(soi, f=.05), lwd=2, col=6) # El Niño cycle
 
 
 
-Example 2.14
+<br/> Example 2.14
 
 ```r
 tsplot(soi)
@@ -481,7 +485,7 @@ lines(smooth.spline(time(soi), soi, spar=.5), lwd=2, col=4)
 lines(smooth.spline(time(soi), soi, spar= 1), lty=2, lwd=2, col=2)
 ```
 
-Example 2.15
+<br/> Example 2.15
 
 ```r
 tsplot(tempr, cmort, type="p", xlab="Temperature", ylab="Mortality", pch=20, col=4)
@@ -496,31 +500,31 @@ lines(lowess(tempr, cmort), col=6, lwd=2)
 
 ## Chapter 3
 
-> The way AIC, AICc, and BIC are calculated in `sarima` changed a few versions ago. The values in the text will be different than the current values, but the results of any data analysis in the text are the same.
+> The way AIC, AICc, and BIC are calculated in `sarima` changed a few versions ago. The values in the t<br/> Ext will be different than the current values, but the results of any data analysis in the t<br/> Ext are the same.
 
 <br/>
 
 
 
 
-Example 3.2
+<br/> Example 3.2
 
 ```r
 par(mfrow=c(2,1))                         
-# in the expressions below, ~ is a space and == is equal
-tsplot(sarima.sim(ar= .9, n=100), col=4, ylab="", main=(expression(AR(1)~~~phi==+.9))) 
-tsplot(sarima.sim(ar=-.9, n=100), col=4, ylab="", main=(expression(AR(1)~~~phi==-.9))) 
+# in the <br/> Expressions below, ~ is a space and == is equal
+tsplot(sarima.sim(ar= .9, n=100), col=4, ylab="", main=(<br/> Expression(AR(1)~~~phi==+.9))) 
+tsplot(sarima.sim(ar=-.9, n=100), col=4, ylab="", main=(<br/> Expression(AR(1)~~~phi==-.9))) 
 ```
 
-Example 3.5
+<br/> Example 3.5
 
 ```r
 par(mfrow=c(2,1))                                   
-tsplot(sarima.sim(ma= .9, n=100), col=4, ylab="", main=(expression(MA(1)~~~theta==+.9)))    
-tsplot(sarima.sim(ma=-.9, n=100), col=4, ylab="", main=(expression(MA(1)~~~theta==-.9)))    
+tsplot(sarima.sim(ma= .9, n=100), col=4, ylab="", main=(<br/> Expression(MA(1)~~~theta==+.9)))    
+tsplot(sarima.sim(ma=-.9, n=100), col=4, ylab="", main=(<br/> Expression(MA(1)~~~theta==-.9)))    
 ```
 
-Example 3.7
+<br/> Example 3.7
 
 ```r
 set.seed(8675309)         # Jenny, I got your number
@@ -528,32 +532,32 @@ x = rnorm(150, mean=5)    # Jenerate iid N(5,1)s
 arima(x, order=c(1,0,1))  # Jenstimation
 ```
 
-Example 3.8
+<br/> Example 3.8
 
 ```r
 ARMAtoMA(ar = .9, ma = .5, 10)   # first 10 psi-weights
 ARMAtoAR(ar = .9, ma = .5, 10)   # first 10 pi-weights
 ```
 
-Example 3.9
+<br/> Example 3.9
 ```r
 # this is how Figure 3.3 was generated
 seg1   =  seq( 0, 2,  by=0.1)
 seg2   =  seq(-2, 2,  by=0.1)
-name1  =  expression(phi[1])
-name2  =  expression(phi[2])
+name1  =  <br/> Expression(phi[1])
+name2  =  <br/> Expression(phi[2])
 tsplot(seg1, (1-seg1), ylim=c(-1,1), xlim=c(-2,2), ylab=name2, xlab=name1,
         main='Causal Region of an AR(2)')
  lines(-seg1, (1-seg1), ylim=c(-1,1), xlim=c(-2,2)) 
  abline(h=0, v=0, lty=2, col=8)
  lines(seg2, -(seg2^2 /4), ylim=c(-1,1))
  lines( x=c(-2,2), y=c(-1,-1), ylim=c(-1,1))
- text(0, .35, 'real roots')
- text(0, -.5, 'complex roots')
+ t<br/> Ext(0, .35, 'real roots')
+ t<br/> Ext(0, -.5, 'compl<br/> Ex roots')
 ```
 
 
-Example 3.11
+<br/> Example 3.11
 
 ```r
 z = c(1,-1.5,.75)    # coefficients of the polynomial
@@ -570,18 +574,18 @@ ACF = ARMAacf(ar=c(1.5,-.75), ma=0, 50)[-1]
 tsplot(ACF, type="h", xlab="lag")
 abline(h=0, col=8)
 
-# alternately - not in text
+# alternately - not in t<br/> Ext
 ACF = ARMAacf(ar=c(1.5,-.75), ma=0, 50)
 tsplot(0:50, ACF, type="h", xlab="lag")
 abline(h=0, col=8)
 
 
-# psi-weights - not in text
+# psi-weights - not in t<br/> Ext
 psi = ts(ARMAtoMA(ar=c(1.5,-.75), ma=0, 50), start=0, freq=12)
-tsplot(psi, type='o', cex=1.1, ylab=expression(psi-weights), xaxt='n', xlab='Index')
+tsplot(psi, type='o', c<br/> Ex=1.1, ylab=<br/> Expression(psi-weights), xaxt='n', xlab='Ind<br/> Ex')
 axis(1, at=0:4, labels=c('0','12','24','36','48'))
 
-# you can play the same game with the ACF - not in text
+# you can play the same game with the ACF - not in t<br/> Ext
 ACF = ts(ARMAacf(ar=c(1.5,-.75), ma=0, 50), start=0, frequency=12)
 tsplot(ACF, type='h', xaxt='n', xlab='LAG')
 abline(h=0, col=8)
@@ -589,15 +593,15 @@ axis(1, at=0:4, labels=c('0','12','24','36','48'))
 
 ```
 
-Example 3.12
+<br/> Example 3.12
 
 ```r
 psi = ARMAtoMA(ar=.9, ma=.5, 50)       #  for a list        
-tsplot(psi, type='h', ylab=expression(psi-weights), xlab='Index')    # for a graph
+tsplot(psi, type='h', ylab=<br/> Expression(psi-weights), xlab='Ind<br/> Ex')    # for a graph
 ```
 
 
-Example 3.16
+<br/> Example 3.16
 
 ```r
 ar2.acf  = ARMAacf(ar=c(1.5,-.75), ma=0, 24)[-1]
@@ -607,7 +611,7 @@ tsplot(ar2.acf,  type="h", xlab="lag", lwd=3, nxm=5, col=c(rep(4,11), 6))
 tsplot(ar2.pacf, type="h", xlab="lag", lwd=3, nxm=5, col=4)
 ```
 
-Example 3.18   
+<br/> Example 3.18   
 
 ```r
 acf2(rec, 48)     # will produce values and a graphic 
@@ -616,7 +620,7 @@ regr$asy.se.coef  # standard errors
 ```
 
 
-Example 3.25  
+<br/> Example 3.25  
 
 ```r
 regr = ar.ols(rec, order=2, demean=FALSE, intercept=TRUE)
@@ -627,7 +631,7 @@ lines(fore$pred+fore$se, lty="dashed", col=4)
 lines(fore$pred-fore$se, lty="dashed", col=4)
 ```
 
-Example 3.26
+<br/> Example 3.26
 
 ```r
 set.seed(666)
@@ -637,7 +641,7 @@ pxr   = predict(arima(xr, order=c(1,0,1)), 10) # predict the reversed data
 pxrp  = rev(pxr$pred) # reorder the predictors (for plotting)
 pxrse = rev(pxr$se) # reorder the SEs
 nx    = ts(c(pxrp, x), start=-9) # attach the backcasts to the data
-tsplot(nx, ylab=expression(X[~t]), main='Backcasting', ylim=c(-7,4))
+tsplot(nx, ylab=<br/> Expression(X[~t]), main='Backcasting', ylim=c(-7,4))
  U  = nx[1:10] + pxrse
  L  = nx[1:10] - pxrse
  xx = c(-9:0, 0:-9) 
@@ -647,7 +651,7 @@ lines(-9:0, nx[1:10], col=2, type='o')
 ```
 
 
-Example 3.28
+<br/> Example 3.28
 
 ```r
 rec.yw = ar.yw(rec, order=2)
@@ -665,7 +669,7 @@ lines(U, col=4, lty=2)
 lines(L, col=4, lty=2)
 ```
 
-Example 3.29
+<br/> Example 3.29
 
 ```r
 set.seed(1)
@@ -673,7 +677,7 @@ ma1 = sarima.sim(ma=.9, n=50)
 acf1(ma1, 1, plot=FALSE)  # [1] .536 (lag 1 sample ACF)
 ```
 
-Example 3.31
+<br/> Example 3.31
 
 ```r
 rec.mle = ar.mle(rec, order=2)
@@ -685,7 +689,7 @@ rec.mle$var.pred
 
 
 
-Example 3.33
+<br/> Example 3.33
 
 ```r
 x = diff(log(varve))       # data
@@ -717,32 +721,32 @@ for (p in 1:length(th)){
  }
 cSS[p] = sum(w^2)
 }
-tsplot(th, cSS, ylab=expression(S[c](theta)), xlab=expression(theta))
+tsplot(th, cSS, ylab=<br/> Expression(S[c](theta)), xlab=<br/> Expression(theta))
 abline(v=para[1:12], lty=2, col=4) # add previous results to plot
 points(para[1:12], Sc[1:12], pch=16, col=4)
 ```
 
 
 
-Example 3.36
+<br/> Example 3.36
 
 ```r
 # generate data
 set.seed(101010)   
-e   = rexp(150, rate=.5) 
+e   = r<br/> Exp(150, rate=.5) 
 u   = runif(150,-1,1) 
 de  = e*sign(u)
-dex = 50 + sarima.sim(n=100, ar=.95, innov=de, burnin=50) 
-tsplot(dex, ylab=expression(X[~t]))
+d<br/> Ex = 50 + sarima.sim(n=100, ar=.95, innov=de, burnin=50) 
+tsplot(d<br/> Ex, ylab=<br/> Expression(X[~t]))
 
 # Bootstrap
 set.seed(666)                 # not that 666
-fit     = ar.yw(dex, order=1) # assumes the data were retained
+fit     = ar.yw(d<br/> Ex, order=1) # assumes the data were retained
 m       = fit$x.mean          # estimate of mean
 phi     = fit$ar              # estimate of phi
 nboot   = 250                 # number of bootstrap replicates
 resids  = fit$resid[-1]       # the 99 innovations
-x.star  = dex                 # initialize x*
+x.star  = d<br/> Ex                 # initialize x*
 phi.star.yw = c()             # initialize phi* 
 
 for (i in 1:nboot) {
@@ -755,23 +759,23 @@ for (i in 1:nboot) {
 set.seed(111)
 phi.yw = rep(NA, 1000)
 for (i in 1:1000){
- e = rexp(150, rate=.5); u = runif(150,-1,1); de = e*sign(u)
+ e = r<br/> Exp(150, rate=.5); u = runif(150,-1,1); de = e*sign(u)
  x = 50 + arima.sim(n=100,list(ar=.95), innov=de, n.start=50)
  phi.yw[i] = ar.yw(x, order=1)$ar 
 }
 
 # Picture
 hist(phi.star.yw, 15, main="", prob=TRUE, xlim=c(.65,1.05), ylim=c(0,14), 
-      col=astsa.col(4,.3), xlab=expression(hat(phi)))
+      col=astsa.col(4,.3), xlab=<br/> Expression(hat(phi)))
 lines(density(phi.yw, bw=.02), lwd=2)  
 curve(dnorm(x, mean=.96, sd=.03), .75,1.1, lty=2, lwd=2, add=TRUE)
 legend(.65, 14, bty='n', lty=c(1,0,2), lwd=c(2,0,2), col=1, pch=c(NA,22,NA), 
-      pt.bg=c(NA,astsa.col(4,.3),NA), pt.cex=2.5, 
+      pt.bg=c(NA,astsa.col(4,.3),NA), pt.c<br/> Ex=2.5, 
       legend=c('true distribution', 'bootstrap distribution', 'normal approximation'))
 ```
 
 
-Example 3.38
+<br/> Example 3.38
 
 ```r
 set.seed(666)    
@@ -780,7 +784,7 @@ x = sarima.sim(ma = -0.8, d=1, n = 100)
 plot(x.ima)
 ```
 
-Example 3.39, 3.40, and 3.43
+<br/> Example 3.39, 3.40, and 3.43
 
 ```r
 tsplot(gnp, col=4)
@@ -799,7 +803,7 @@ sarima(gnpgr, 0, 0, 2)      # MA(2)
 ARMAtoMA(ar=.35, ma=0, 10)  # prints psi-weights
 ```
 
-Example 3.41
+<br/> Example 3.41
 
 ```r
 sarima(log(varve), 0,1,1, no.constant=TRUE, gg=TRUE, col=4)   # ARIMA(0,1,1)
@@ -808,7 +812,7 @@ dev.new()
 sarima(log(varve), 1,1,1, no.constant=TRUE, gg=TRUE, col=4)   # ARIMA(1,1,1)
 ```
 
-Example 3.44
+<br/> Example 3.44
 
 ```r
 trend  = time(cmort) 
@@ -819,11 +823,11 @@ acf2(resid(fit), 52) # implies AR2
 sarima(cmort, 2,0,0, xreg=cbind(trend,temp,temp2,part) )
 ```
 
-Example 3.45
+<br/> Example 3.45
 
 ```r
 # Note: this could benefit from a seasonal model fit, but it hasn't
-#  been talked about yet - you could come back to this after the next section
+#  been talked about yet - you could come back to this after the n<br/> Ext section
 dummy = ifelse(soi<0, 0, 1)
 fish = ts.intersect(rec, soiL6=lag(soi,-6), dL6=lag(dummy,-6), dframe=TRUE)
 summary(fit <- lm(rec ~soiL6*dL6, data=fish, na.action=NULL))
@@ -835,7 +839,7 @@ sarima(fish$rec, 2,0,0, xreg = cbind(fish$soiL6, fish$dL6, intract))
 
 
 
-Example 3.46
+<br/> Example 3.46
 
 ```r
 set.seed(666)
@@ -843,7 +847,7 @@ SAR = sarima.sim(sar=.9, S=12, n=37) + 50
 layout(matrix(c(1,2, 1,3), nc=2), heights=c(1.5,1))
 tsplot(SAR, type="c", xlab="Year")
  abline(v=1:3, col=4, lty=2)
- points(SAR, pch=Months, cex=1.35, font=4, col=1:6)
+ points(SAR, pch=Months, c<br/> Ex=1.35, font=4, col=1:6)
 
 phi  = c(rep(0,11),.9)
 ACF  = ARMAacf(ar=phi, ma=0, 100)[-1] # [-1] removes 0 lag
@@ -856,7 +860,7 @@ tsplot(LAG, PACF, type="h", xlab="LAG", ylim=c(-.04,1))
 ```
 
 
-Example 3.47
+<br/> Example 3.47
 
 ```r
 par(mfrow=1:2)
@@ -871,7 +875,7 @@ tsplot(LAG, PACF, type="h", xlab="LAG", ylim=c(-.4,.8), col=4, lwd=2)
 ```
 
 
-Example 3.49
+<br/> Example 3.49
 
 ```r
 x     = AirPassengers
@@ -900,7 +904,7 @@ sarima.for(lx, 12, 0,1,1, 0,1,1,12)  # forecasts
 ## Chapter 4
 
 
-Example 4.1
+<br/> Example 4.1
 ```r
 x1 = 2*cos(2*pi*1:100*6/100)  + 3*sin(2*pi*1:100*6/100)
 x2 = 4*cos(2*pi*1:100*10/100) + 5*sin(2*pi*1:100*10/100)
@@ -908,15 +912,15 @@ x3 = 6*cos(2*pi*1:100*40/100) + 7*sin(2*pi*1:100*40/100)
 x = x1 + x2 + x3 
 
 par(mfrow=c(2,2))
-tsplot(x1, ylim=c(-10,10), main = expression(omega==6/100~~~A^2==13))
-tsplot(x2, ylim=c(-10,10), main = expression(omega==10/100~~~A^2==41))
-tsplot(x3, ylim=c(-10,10), main = expression(omega==40/100~~~A^2==85))
+tsplot(x1, ylim=c(-10,10), main = <br/> Expression(omega==6/100~~~A^2==13))
+tsplot(x2, ylim=c(-10,10), main = <br/> Expression(omega==10/100~~~A^2==41))
+tsplot(x3, ylim=c(-10,10), main = <br/> Expression(omega==40/100~~~A^2==85))
 tsplot(x, ylim=c(-16,16), main="sum")
 ```
 
-Example 4.2
+<br/> Example 4.2
 ```r
-# x from Example 4.1 is used here
+# x from <br/> Example 4.1 is used here
 dev.new()
 P = abs(2*fft(x)/100)^2
 Fr = 0:99/100                    
@@ -924,7 +928,7 @@ tsplot(Fr, P, type="o", xlab="frequency", ylab="periodogram")
 abline(v=.5, lty=2)
 ```
 
-Example 4.3
+<br/> Example 4.3
 ```r
 # modulation
 t = 1:200
@@ -940,8 +944,8 @@ tsplot(star, ylab="star magnitude", xlab="day")
 Per   = Mod(fft(star-mean(star)))^2/n
 Freq  = (1:n -1)/n
 tsplot(Freq[1:50], Per[1:50], type='h', lwd=3, ylab="Periodogram", xlab="Frequency")
-text(.05,  7000, "24 day cycle") 
-text(.027, 9000, "29 day cycle")
+t<br/> Ext(.05,  7000, "24 day cycle") 
+t<br/> Ext(.027, 9000, "29 day cycle")
 #- a list to help find the peaks
 round( cbind(1/Freq[1:30], Per[1:30]), 3)
 ```
@@ -949,7 +953,7 @@ round( cbind(1/Freq[1:30], Per[1:30]), 3)
 
 
 
-Examples 4.5, 4.6, 4.7
+<br/> Examples 4.5, 4.6, 4.7
 ```r
 # default is to not plot on log scale 
 # add log='y' otherwise  
@@ -960,7 +964,7 @@ arma.spec(ar=c(1,-.9), main="Autoregression", col=4)
 ```
 
 
-Example 4.10
+<br/> Example 4.10
 ```r
 x      = c(1,2,3,2,1)        
 c1     = cos(2*pi*1:5*1/5)
@@ -973,7 +977,7 @@ anova(lm(x~ omega1+omega2) )  # ANOVA Table
 Mod(fft(x))^2/5               # the periodogram (as a check)
 ```
 
-Example 4.13
+<br/> Example 4.13
 ```r
 par(mfrow=c(2,1))      
 soi.per = mvspec(soi)             
@@ -1003,7 +1007,7 @@ L = qchisq(.975,2)    # 7.37775
 # Repeat lines above using rec in place of soi
 ```
 
-Example 4.14
+<br/> Example 4.14
 ```r
 soi.ave = mvspec(soi, kernel('daniell',4))
 abline(v = c(.25,1,2,3), lty=2)
@@ -1019,13 +1023,13 @@ df*soi.ave$spec[10]/U  # 0.1113333
 df*soi.ave$spec[40]/L  # 0.0670396
 df*soi.ave$spec[40]/U  # 0.2677201
 
-# Repeat above commands with soi replaced by rec, for example:
+# Repeat above commands with soi replaced by rec, for <br/> Example:
 rec.ave = mvspec(rec, k)
 abline(v=c(.25,1,2,3), lty=2)
 # and so on.
 ```
 
-Example 4.15
+<br/> Example 4.15
 ```r
 t = seq(0, 1, by=1/200) 
 amps = c(1, .5, .4, .3, .2, .1)
@@ -1049,7 +1053,7 @@ mvspec(y, main="", ylab="periodogram", col=5, xlim=c(0,7))
 
 
 
-Example 4.16
+<br/> Example 4.16
 ```r
 kernel("modified.daniell", c(3,3))          # for a list
 plot(kernel("modified.daniell", c(3,3)))    # for a graph
@@ -1066,32 +1070,32 @@ soi.smo = mvspec(soi, spans=c(7,7), taper=.1, nxm=4)
 
 # hightlight El Nino cycle
 rect(1/7, -1e5, 1/3, 1e5, density=NA, col=gray(.5,.2))
-mtext("1/4", side=1, line=0, at=.25, cex=.75)     
+mt<br/> Ext("1/4", side=1, line=0, at=.25, c<br/> Ex=.75)     
 ```
 
 
 
-Example 4.17
+<br/> Example 4.17
 ```r
 s0 = mvspec(soi, spans=c(7,7), plot=FALSE)             # no taper
 s50 = mvspec(soi, spans=c(7,7), taper=.5, plot=FALSE)  # full taper
 tsplot(s50$freq, s50$spec, log="y", type="l", ylab="spectrum", xlab="frequency") 
 lines(s0$freq, s0$spec, lty=2) 
 abline(v=.25, lty=2, col=8)
-mtext('1/4',side=1, line=0, at=.25, cex=.9)
+mt<br/> Ext('1/4',side=1, line=0, at=.25, c<br/> Ex=.9)
 legend(5,.04, legend=c('full taper', 'no taper'), lty=1:2)
 
-text(1.42, 0.04, 'leakage', cex=.8)
+t<br/> Ext(1.42, 0.04, 'leakage', c<br/> Ex=.8)
 arrows(1.4, .035, .75, .009, length=0.05,angle=30)   
 arrows(1.4, .035, 1.21, .0075, length=0.05,angle=30)
-par(fig = c(.65, 1, .65, 1),  new = TRUE, cex=.5,  mgp=c(0,-.1,0), tcl=-.2)
+par(fig = c(.65, 1, .65, 1),  new = TRUE, c<br/> Ex=.5,  mgp=c(0,-.1,0), tcl=-.2)
 taper <- function(x) { .5*(1+cos(2*pi*x))  }
  x <- seq(from = -.5, to = .5, by = 0.001)
 plot(x, taper(x), type = "l",  lty = 1,  yaxt='n', ann=FALSE)
 ```
 
 
-Example 4.18
+<br/> Example 4.18
 ```r
 # AR spectrum - AIC picks order=15
 u <- spec.ic(soi,  detrend=TRUE, col=4, lwd=2, nxm=4)  
@@ -1101,7 +1105,7 @@ tsplot(0:30, u[[1]][,2:3], type='o', col=2:3, xlab='ORDER', nxm=5, lwd=2, gg=TRU
 ``` 
 
 
-Example 4.21
+<br/> Example 4.21
 ```r
 sr = mvspec(cbind(soi,rec), kernel("daniell",9), plot.type="coh")
 sr$df                     # df = 35.8625
@@ -1111,7 +1115,7 @@ abline(h = C)
 ```
 
 
-Example 4.22
+<br/> Example 4.22
 ```r
 par(mfrow=c(3,1))
 tsplot(soi, col=4)                         # plot data
@@ -1121,12 +1125,12 @@ tsplot(soif <- kernapply(soi, k), col=4)   # plot 12 month filter
 dev.new()
 mvspec(soif, spans=9, lwd=2, col=5, nxm=4, taper=.1) # spectral analysis (not shown)
 rect(1/7, -1e5, 1/3, 1e5, density=NA, col=gray(.5,.2))
-mtext("1/4", side=1, line=0, at=.25, cex=.75)
+mt<br/> Ext("1/4", side=1, line=0, at=.25, c<br/> Ex=.75)
 dev.new()
 ##-- frequency responses --##
 par(mfrow=c(2,1))
 w = seq(0, .5, by=.01)
-FRdiff = abs(1-exp(2i*pi*w))^2
+FRdiff = abs(1-<br/> Exp(2i*pi*w))^2
 tsplot(w, FRdiff, xlab='frequency')
 u = cos(2*pi*w)+cos(4*pi*w)+cos(6*pi*w)+cos(8*pi*w)+cos(10*pi*w)
 FRma = ((1 + cos(12*pi*w) + 2*u)/12)^2
@@ -1134,7 +1138,7 @@ tsplot(w, FRma, xlab='frequency')
 ```
 
 
-Example 4.24
+<br/> Example 4.24
 ```r
 LagReg(soi, rec, L=15, M=32, threshold=6)
  dev.new()
@@ -1146,19 +1150,19 @@ acf2(resid(u))       # suggests ar1
 sarima(fish[,1], 1, 0, 0, xreg=fish[,2:3], details=FALSE) 
 ```
 
-Example 4.25
+<br/> Example 4.25
 ```r
-SigExtract(soi, L=9, M=64, max.freq=.05) 
+Sig<br/> Extract(soi, L=9, M=64, max.freq=.05) 
 ```
 
-Example 4.26
+<br/> Example 4.26
 ```r
 per = abs(fft(soiltemp-mean(soiltemp))/sqrt(64*36))^2       
 per2 = cbind(per[1:32,18:2], per[1:32,1:18])   # this and line below is just rearranging
 per3 = rbind(per2[32:2,], per2)                # results to get 0 frequency in the middle
 
 par(mar=c(1,2.5,0,0)+.1)
-persp(-31:31/64, -17:17/36, per3, phi=30, theta=30, expand=.6, ticktype="detailed", xlab="cycles/row", 
+persp(-31:31/64, -17:17/36, per3, phi=30, theta=30, <br/> Expand=.6, ticktype="detailed", xlab="cycles/row", 
        ylab="cycles/column", zlab="Periodogram Ordinate")
 ```
 
@@ -1169,12 +1173,12 @@ persp(-31:31/64, -17:17/36, per3, phi=30, theta=30, expand=.6, ticktype="detaile
 ## Chapter 5
 
 
-Example 5.1
+<br/> Example 5.1
 
 ```r
-# NOTE: The example in the text uses the package 'fracdiff', 
+# NOTE: The <br/> Example in the t<br/> Ext uses the package 'fracdiff', 
 #       which is a dinosaur and gave questionable results - 
-#       this uses 'arfima' but it didn't make it into the text.
+#       this uses 'arfima' but it didn't make it into the t<br/> Ext.
 library(arfima)
 summary(varve.fd <- arfima(log(varve)))  # d.hat = 0.3728, se(d,hat) = 0.0273
 # residual stuff
@@ -1187,15 +1191,15 @@ acf1(innov[[1]])
 dev.new()
 p = rep(1,31)
 for (k in 1:30){ p[k+1] = (k-coef(varve.fd)[1])*p[k]/(k+1) }
-tsplot(p[-1], ylab=expression(pi[j](d)), xlab="Index (j)", type="h", lwd=4, col=2:7, nxm=5)
+tsplot(p[-1], ylab=<br/> Expression(pi[j](d)), xlab="Ind<br/> Ex (j)", type="h", lwd=4, col=2:7, nxm=5)
 ```
 
 
-Example 5.2
+<br/> Example 5.2
 ```r
 series = log(varve)  # specify series to be analyzed
 d0 = .1              # initial value of d
-n.per = nextn(length(series))
+n.per = n<br/> Extn(length(series))
 m = (n.per)/2  - 1
 per = abs(fft(series-mean(series))[-1])^2  # remove 0 freq
 per = per/n.per      # R doesn't scale fft by sqrt(n)
@@ -1232,7 +1236,7 @@ ar.mle(log(varve))                   # to get AR(8) estimates
 ```
 
 
-Example 5.3
+<br/> Example 5.3
 ```r
 library(tseries)
 adf.test(log(varve), k=0)  # DF test
@@ -1240,7 +1244,7 @@ adf.test(log(varve))       # ADF test
 pp.test(log(varve))        # PP test
 ```
 
-Example 5.4
+<br/> Example 5.4
 ```r
 gnpgr = diff(log(gnp))          # get the returns
 u     = sarima(gnpgr, 1, 0, 0)  # fit an AR(1)
@@ -1252,11 +1256,11 @@ summary(garchFit(~arma(1,0)+garch(1,0), gnpgr))
 
 
 
-Example 5.5 and 5.6 
+<br/> Example 5.5 and 5.6 
 ```r
 library(xts)   # needed to handle djia
 djiar = diff(log(djia$Close))[-1]
-acf2(djiar)    # exhibits some autocorrelation (not shown)
+acf2(djiar)    # <br/> Exhibits some autocorrelation (not shown)
 acf2(djiar^2)  # oozes autocorrelation (not shown)
 library(fGarch)
 # GARCH fit
@@ -1267,11 +1271,11 @@ summary(djia.ap <- garchFit(~arma(1,0)+aparch(1,1), data=djiar, cond.dist='std')
 plot(djia.ap)
 ```
 
-Example 5.7
+<br/> Example 5.7
 ```r
 tsplot(flu, type="c")
 Months = c("J","F","M","A","M","J","J","A","S","O","N","D")
-points(flu, pch=Months, cex=.8, font=2)
+points(flu, pch=Months, c<br/> Ex=.8, font=2)
 # Start analysis
 dflu = diff(flu)
 dev.new()
@@ -1301,7 +1305,7 @@ yy = c(prd-2*prde, rev(prd+2*prde))
 polygon(xx, yy, border=8, col=gray(.6, alpha=.25) )
 abline(h=.05, col=4, lty=6)
 
-# Using tsDyn (not in text)
+# Using tsDyn (not in t<br/> Ext)
 library(tsDyn)        
 # vignette("tsDyn")   # for package details (it's quirky, so you'll need this)
 dflu = diff(flu)
@@ -1310,7 +1314,7 @@ BIC(u); AIC(u)                     # if you want to try other models ... m=3 wor
 plot(u)                            # graphics -  ?plot.setar for information
 ```
 
-Example 5.8 and 5.9 
+<br/> Example 5.8 and 5.9 
 ```r
 soi.d   = resid(lm(soi~time(soi), na.action=NULL)) # detrended SOI
 acf2(soi.d)
@@ -1332,7 +1336,7 @@ tsplot(pred, col=astsa.col(8,.3), lwd=7, ylab='rec & prediction')
 lines(rec)
 ```
 
-Example 5.10 and 5.11 
+<br/> Example 5.10 and 5.11 
 ```r
 library(vars)
 x = cbind(cmort, tempr, part)
@@ -1348,7 +1352,7 @@ dev.new()
 fanchart(fit.pr)  # plot prediction + error
 ```
 
-Example 5.12 
+<br/> Example 5.12 
 ```r
 library(marima)
 model   = define.model(kvar=3, ar=c(1,2), ma=c(1))
@@ -1387,19 +1391,19 @@ fit$resid.cov # estimate of noise cov matrix
 
 
 
-Example 6.1
+<br/> Example 6.1
 ```r
-tsplot(blood, type='o', col=c(6,4,2), lwd=2, pch=19, cex=1) 
+tsplot(blood, type='o', col=c(6,4,2), lwd=2, pch=19, c<br/> Ex=1) 
 ```
 
-Example 6.2
+<br/> Example 6.2
 ```r
 tsplot(cbind(gtemp_land, gtemp_ocean), spaghetti=TRUE, lwd=2, pch=20, type="o", 
         col=astsa.col(c(4,2),.5), ylab="Temperature Deviations", main="Global Warming")
 legend("topleft", legend=c("Land Surface", "Sea Surface"), lty=1, pch=20, col=c(4,2), bg="white")
 ```
 
-Example 6.5
+<br/> Example 6.5
 ```r
 # generate data 
 set.seed(1)  
@@ -1416,17 +1420,17 @@ ks = Ksmooth(y, A=1, mu0, sigma0, phi, sQ, sR)
 # pictures 
 par(mfrow=c(3,1))
 
-tsplot(mu[-1], type='p', col=4, pch=19, ylab=expression(mu[~t]), main="Prediction", ylim=c(-5,10)) 
+tsplot(mu[-1], type='p', col=4, pch=19, ylab=<br/> Expression(mu[~t]), main="Prediction", ylim=c(-5,10)) 
   lines(ks$Xp, col=6)
   lines(ks$Xp+2*sqrt(ks$Pp), lty=6, col=6)
   lines(ks$Xp-2*sqrt(ks$Pp), lty=6, col=6)
 
-tsplot(mu[-1], type='p', col=4, pch=19, ylab=expression(mu[~t]), main="Filter", ylim=c(-5,10)) 
+tsplot(mu[-1], type='p', col=4, pch=19, ylab=<br/> Expression(mu[~t]), main="Filter", ylim=c(-5,10)) 
   lines(ks$Xf, col=6)
   lines(ks$Xf+2*sqrt(ks$Pf), lty=6, col=6)
   lines(ks$Xf-2*sqrt(ks$Pf), lty=6, col=6)
 
-tsplot(mu[-1], type='p', col=4, pch=19, ylab=expression(mu[~t]), main="Smoother", ylim=c(-5,10)) 
+tsplot(mu[-1], type='p', col=4, pch=19, ylab=<br/> Expression(mu[~t]), main="Smoother", ylim=c(-5,10)) 
   lines(ks$Xs, col=6)
   lines(ks$Xs+2*sqrt(ks$Ps), lty=6, col=6)
   lines(ks$Xs-2*sqrt(ks$Ps), lty=6, col=6)
@@ -1435,7 +1439,7 @@ mu[1]; ks$X0n; sqrt(ks$P0n)   # initial value info
 ```
 
 
-Example 6.6 
+<br/> Example 6.6 
 ```r
 # Generate Data
 set.seed(999)
@@ -1469,9 +1473,9 @@ cbind(estimate=c(phi=est$par[1],sigw=est$par[2],sigv=est$par[3]), SE)
 
 
 
-Example 6.7
+<br/> Example 6.7
 ```r
-##- slight change from text, the data scaled -##
+##- slight change from t<br/> Ext, the data scaled -##
 ##- you can remove the scales to get to the original analysis -##
 
 ##- ALSO note that regression parameters not used are set to NULL (the default) instead of 0 now. 
@@ -1525,13 +1529,13 @@ polygon(xx, yy, border=NA, col=gray(.6, alpha=.25))
 ```
 
 
-Example 6.8
+<br/> Example 6.8
 
 
 ```r
 library(nlme)   # loads package nlme (comes with R)
 
-# Generate data (same as Example 6.6)
+# Generate data (same as <br/> Example 6.6)
 set.seed(999); num = 100; N = num+1
 x = sarima.sim(ar=.8, n=N)
 y = ts(x[-1] + rnorm(num,0,1))     
@@ -1565,7 +1569,7 @@ u
 ```
 
 
-Example 6.9
+<br/> Example 6.9
 
 
 ```r
@@ -1594,18 +1598,18 @@ p2  = 2*sqrt(ks$Ps[2,2,])
 p3  = 2*sqrt(ks$Ps[3,3,])
 
 par(mfrow=c(3,1))
-tsplot(WBC, type='p', pch=19, ylim=c(1,5), col=6, lwd=2, cex=1)
+tsplot(WBC, type='p', pch=19, ylim=c(1,5), col=6, lwd=2, c<br/> Ex=1)
 lines(y1s) 
   xx = c(time(WBC), rev(time(WBC)))  # same for all
   yy = c(y1s-p1, rev(y1s+p1))
 polygon(xx, yy, border=8, col=astsa.col(8, alpha = .1))  
 
-tsplot(PLT, type='p', ylim=c(3,6), pch=19, col=4, lwd=2, cex=1)
+tsplot(PLT, type='p', ylim=c(3,6), pch=19, col=4, lwd=2, c<br/> Ex=1)
 lines(y2s)
   yy = c(y2s-p2, rev(y2s+p2))
 polygon(xx, yy, border=8, col=astsa.col(8, alpha = .1))  
 
-tsplot(HCT, type='p', pch=19, ylim=c(20,40), col=2, lwd=2, cex=1)
+tsplot(HCT, type='p', pch=19, ylim=c(20,40), col=2, lwd=2, c<br/> Ex=1)
 lines(y3s)
   yy = c(y3s-p3, rev(y3s+p3))
 polygon(xx, yy, border=8, col=astsa.col(8, alpha = .1))  
@@ -1613,7 +1617,7 @@ polygon(xx, yy, border=8, col=astsa.col(8, alpha = .1))
 
 
 
-Example 6.10
+<br/> Example 6.10
 ```r
 num = length(jj)
 A   = cbind(1,1,0,0) 
@@ -1694,7 +1698,7 @@ abline(v=1981, lty=3)
 ```
 
 
-Example 6.12
+<br/> Example 6.12
 ```r
 # Preliminary analysis
 fit1   = sarima(cmort, 2,0,0, xreg=time(cmort))
@@ -1770,7 +1774,7 @@ sarima(u[,1], 0,0,0, xreg=u[,2:7])
 
 
 
-Example 6.13
+<br/> Example 6.13
 ```r
 ################################## 
 # NOTE:  If this takes a long time on your machine, 
@@ -1850,12 +1854,12 @@ for(i in 1:5){rmse[i]=sqrt(sum((para.star[,i]-est$par[i])^2)/nboot)
 # Plot phi and sigw  (scatter.hist in astsa v1.13)
 phi  = para.star[,1] 
 sigw = abs(para.star[,4]) 
-scatter.hist(sigw, phi, ylab=expression(phi), xlab=expression(sigma[~w]), 
+scatter.hist(sigw, phi, ylab=<br/> Expression(phi), xlab=<br/> Expression(sigma[~w]), 
              hist.col=astsa.col(5,.4), pt.col=5, pt.size=1.5)
 ```
 
 
-Example 6.14
+<br/> Example 6.14
 
 ```r
 set.seed(123)
@@ -1903,7 +1907,7 @@ legend("topleft", c("Observations","State"), pch=c(1,-1), lty=1, lwd=c(1,2), col
 legend("bottomright", c("Smoother", "GCV Spline"), lty=c(2,1), lwd=c(3,1), col=c(4,2))
 ```
 
-Example 6.16
+<br/> Example 6.16
 
 ```r
 library(depmixS4)
@@ -1923,9 +1927,9 @@ para.mle = as.vector(getpars(fm))[3:8]
 par(mfrow=c(3,1))
 # data and states
 tsplot(EQcount, main="", ylab='EQcount', type='h', col=gray(.7), ylim=c(0,50))
-text(EQcount, col=6*posterior(fm)[,1]-2, labels=posterior(fm)[,1])
+t<br/> Ext(EQcount, col=6*posterior(fm)[,1]-2, labels=posterior(fm)[,1])
 # prob of state 2
-tsplot(ts(posterior(fm)[,3], start=1900), ylab = expression(hat(pi)[~2]*'(t|n)'));  abline(h=.5, lty=2)
+tsplot(ts(posterior(fm)[,3], start=1900), ylab = <br/> Expression(hat(pi)[~2]*'(t|n)'));  abline(h=.5, lty=2)
 # histogram
 hist(EQcount, breaks=30, prob=TRUE, main="")
 xvals = seq(1,45)
@@ -1935,7 +1939,7 @@ lines(xvals, u1, col=4)
 lines(xvals, u2, col=2)
 ```
 
-Example 6.17
+<br/> Example 6.17
 ```r
 library(depmixS4)
 y = ts(sp500w, start=2003, freq=52)  # make data depmix friendly
@@ -1954,7 +1958,7 @@ layout(matrix(c(1,2, 1,3), 2), heights=c(1,.75))
 
 tsplot(y, main="", ylab='S&P500 Weekly Returns', col=gray(.7), ylim=c(-.11,.11))
  culer = 4-posterior(fm3)[,1];  culer[culer==3]=4  # switch labels 1 and 3
- text(y, col=culer, labels=4-posterior(fm3)[,1])
+ t<br/> Ext(y, col=culer, labels=4-posterior(fm3)[,1])
 
 acf1(y^2, 25) 
 
@@ -1968,7 +1972,7 @@ lines(x, pi.hat[4-i]*dnorm(x, mean=mu, sd=sig), col=culer[i], lwd=2)
  }
 ```
 
-Example 6.18
+<br/> Example 6.18
 ```r
 library(MSwM)
 set.seed(90210)
@@ -1981,7 +1985,7 @@ plotProb(mod, which=3)
 
 
 
-Example 6.22
+<br/> Example 6.22
 ```r
 y   = flu  
 num = length(y)
@@ -2012,8 +2016,8 @@ Linn = function(para){
     k1   = Pp%*%t(M1)/sig1; k2 = Pp%*%t(M2)/sig2
     e1   = y[i]-M1%*%xp; e2 = y[i]-M2%*%xp
     pip1 = pif1*pi11 + pif2*pi21; pip2 = pif1*pi12 + pif2*pi22
-    den1 = (1/sqrt(sig1))*exp(-.5*e1^2/sig1)
-    den2 = (1/sqrt(sig2))*exp(-.5*e2^2/sig2)
+    den1 = (1/sqrt(sig1))*<br/> Exp(-.5*e1^2/sig1)
+    den2 = (1/sqrt(sig2))*<br/> Exp(-.5*e2^2/sig2)
     denm = pip1*den1 + pip2*den2
     pif1 = pip1*den1/denm; pif2 = pip2*den2/denm
     pif1 = as.numeric(pif1); pif2 = as.numeric(pif2)
@@ -2042,14 +2046,14 @@ Time = window(time(flu), start=1968.4)
 k = 6:num     
 par(mfrow=c(3,1))     
 tsplot(FLU, col=8, ylab='flu')
- text(FLU, col= predepi[k]+1, labels=predepi[k]+1, cex=1.1) 
+ t<br/> Ext(FLU, col= predepi[k]+1, labels=predepi[k]+1, c<br/> Ex=1.1) 
  legend('topright', '(a)', bty='n')
 
 filters = ts(t(xfilter[c(1,3,4),,]), start=tsp(flu)[1], frequency=tsp(flu)[3])
 tsplot(window(filters, start=1968.4),  spag=TRUE, col=2:4, ylab='filter')
  legend('topright', '(b)', bty='n')
 
-tsplot(FLU, type='p', pch=19, ylab='flu', cex=1.2)
+tsplot(FLU, type='p', pch=19, ylab='flu', c<br/> Ex=1.2)
  prde1 = 2*sqrt(innov.sig[1]); prde2 = 2*sqrt(innov.sig[2])
  prde = ifelse(predepi[k]<.5, prde1, prde2)
    xx = c(Time, rev(Time))
@@ -2061,7 +2065,7 @@ tsplot(FLU, type='p', pch=19, ylab='flu', cex=1.2)
 
 
 <a name="6.23"></a>
-Example 6.23
+<br/> Example 6.23
 ```r
 y   = log(nyse^2) 
 num = length(y)
@@ -2091,9 +2095,9 @@ sv = SVfilter(num,y,phi0,phi1,sQ,alpha,sR0,mu1,sR1)
 
 # densities plot (f is chi-sq, fm is fitted mixture)
 x = seq(-15,6,by=.01) 
-f = exp(-.5*(exp(x)-x))/(sqrt(2*pi))
-f0 = exp(-.5*(x^2)/sR0^2)/(sR0*sqrt(2*pi))
-f1 = exp(-.5*(x-mu1)^2/sR1^2)/(sR1*sqrt(2*pi))
+f = <br/> Exp(-.5*(<br/> Exp(x)-x))/(sqrt(2*pi))
+f0 = <br/> Exp(-.5*(x^2)/sR0^2)/(sR0*sqrt(2*pi))
+f1 = <br/> Exp(-.5*(x-mu1)^2/sR1^2)/(sR1*sqrt(2*pi))
 fm = (f0+f1)/2
 tsplot(x, f, xlab='x')
 lines(x, fm, lty=2, lwd=2)
@@ -2107,7 +2111,7 @@ lines(Time, sv$xp[Time]/10, lwd=2, col=6)
 
 
 
-Example 6.24
+<br/> Example 6.24
 ```r
 n.boot = 500        # number of bootstrap replicates
 tol = sqrt(.Machine$double.eps)  # convergence limit 
@@ -2156,8 +2160,8 @@ for (jb in 1:n.boot){  cat("iteration:", jb, "\n")
  K0   = sv$Pp/sig0 
  K1   = sv$Pp/sig1
  inn0 = y-sv$xp-alpha; inn1 = y-sv$xp-mu1-alpha
- den1 = (1/sqrt(sig1))*exp(-.5*inn1^2/sig1)
- den0 = (1/sqrt(sig0))*exp(-.5*inn0^2/sig0)
+ den1 = (1/sqrt(sig1))*<br/> Exp(-.5*inn1^2/sig1)
+ den0 = (1/sqrt(sig0))*<br/> Exp(-.5*inn0^2/sig0)
  fpi1 = den1/(den0+den1)
  
  # (start resampling at t=4)
@@ -2199,7 +2203,7 @@ abline(v=u[1,1])
 ```
 
 
-Example 6.26 
+<br/> Example 6.26 
 
 ```r
 # generate some data from the model - 2 parameters
@@ -2262,7 +2266,7 @@ polygon(xx, yy, border=NA, col=astsa.col(4,.1))
 
 
 
-Example 6.27
+<br/> Example 6.27
 
 ```r
 y = jj    # the data
@@ -2328,10 +2332,10 @@ q025  = function(x){quantile(x,0.025)}
 q975  = function(x){quantile(x,0.975)}
 
 ##  plot parameters (display at end)
-names= c(expression(phi), expression(sigma[w1]), expression(sigma[w2]), expression(sigma[v]))
+names= c(<br/> Expression(phi), <br/> Expression(sigma[w1]), <br/> Expression(sigma[w2]), <br/> Expression(sigma[v]))
 par(mfrow=c(4,1), mar=c(2,1,2,1)+1)
 for (i in 1:4){
-hist(parms[,i], col=astsa.col(5,.4), main=names[i], xlab='', cex.main=2)
+hist(parms[,i], col=astsa.col(5,.4), main=names[i], xlab='', c<br/> Ex.main=2)
  u1 = apply(parms,2,q025); u2 = apply(parms,2,mean); u3 = apply(parms,2,q975);
 abline(v=c(u1[i],u2[i],u3[i]), lwd=2, col=c(3,6,3))
 }
@@ -2375,27 +2379,27 @@ x = matrix(0, 128, 6)
 for (i in 1:6) x[,i] = rowMeans(fmri[[i]])
 colnames(x)=c("Brush", "Heat", "Shock", "Brush", "Heat", "Shock")
 tsplot(x, ncol=2, byrow=FALSE, main='')
-mtext('Awake', outer=T, adj=.25)
-mtext('Sedated', outer=T, adj=.75)
+mt<br/> Ext('Awake', outer=T, adj=.25)
+mt<br/> Ext('Sedated', outer=T, adj=.75)
 ```
 
 ```r
-attach(eqexp)  # to use the names
+attach(eq<br/> Exp)  # to use the names
 
 P = 1:1024; S = P+1024
-x = cbind(EQ5[P], EQ6[P], EX5[P], EX6[P], NZ[P], EQ5[S], EQ6[S], 
-          EX5[S], EX6[S], NZ[S])
-x.name = c("EQ5","EQ6","EX5","EX6","NZ")
+x = cbind(EQ5[P], EQ6[P], <br/> Ex5[P], <br/> Ex6[P], NZ[P], EQ5[S], EQ6[S], 
+          <br/> Ex5[S], <br/> Ex6[S], NZ[S])
+x.name = c("EQ5","EQ6","<br/> Ex5","<br/> Ex6","NZ")
 colnames(x) = c(x.name, x.name)
 tsplot(x, ncol=2, byrow=FALSE, main='')
-mtext('P waves', outer=T, adj=.25)
-mtext('S waves', outer=T, adj=.75)
+mt<br/> Ext('P waves', outer=T, adj=.25)
+mt<br/> Ext('S waves', outer=T, adj=.75)
 
-detach(eqexp)  # Redemption 
+detach(eq<br/> Exp)  # Redemption 
 ```
 
 
-Example 7.1
+<br/> Example 7.1
 ```r
 tsplot(climhyd, ncol=2, col=2:7, lwd=2)    # figure 7.3
 Y = climhyd         # Y to hold transformed series
@@ -2419,25 +2423,25 @@ Yspec$bandwidth           # = 0.05
 Fq = qf(1-alpha, 2, L-2); cn = Fq/(L-1+Fq)
 plt.name = c("(a)","(b)","(c)","(d)","(e)","(f)")
 dev.new()
-par(mfrow=c(2,3), cex.lab=1.2) 
+par(mfrow=c(2,3), c<br/> Ex.lab=1.2) 
 # The coherencies are listed as 1,2,...,15=choose(6,2) 
 for (i in 11:15){
  tsplot(Fr,Yspec$coh[,i], ylab="Sq Coherence", xlab="Frequency", ylim=c(0,1),
       main=paste("Inflow with", names(climhyd[i-10]), sep=' '))
- abline(h = cn); text(.45,.98, plt.name[i-10], cex=1.2)  
+ abline(h = cn); t<br/> Ext(.45,.98, plt.name[i-10], c<br/> Ex=1.2)  
 } 
 
  # Multiple Coherency 
 coh.15 = stoch.reg(Y, cols.full = c(1,5), cols.red = NULL, alpha, L, M, plot.which = "coh", 
                      main="Inflow with Temp & Precip")  
-text(.45,.98, plt.name[6], cex=1.2) 
+t<br/> Ext(.45,.98, plt.name[6], c<br/> Ex=1.2) 
 
 # Partial F (note F-stat is called eF in the code)
 numer.df = 2*nq
 denom.df = Yspec$df-2*nq
 
 dev.new()
-par(mfrow=c(3,1), mar=c(3,3,2,1)+.5, mgp = c(1.5,0.4,0), cex.lab=1.2)  
+par(mfrow=c(3,1), mar=c(3,3,2,1)+.5, mgp = c(1.5,0.4,0), c<br/> Ex.lab=1.2)  
 out.15 = stoch.reg(Y, cols.full = c(1,5), cols.red = 5, alpha, L, M, plot.which = "F.stat")
  eF = out.15$eF 
  pvals = pf(eF, numer.df, denom.df, lower.tail = FALSE)
@@ -2453,13 +2457,13 @@ tsplot(S, coh.15$Betahat[,1], type = "h", xlab = "", ylab =names(climhyd[1]),
 abline(h=0)
 title(main = "Impulse Response Functions")
 
-tsplot(S, coh.15$Betahat[,2], type = "h", xlab = "Index", ylab = names(climhyd[5]), 
+tsplot(S, coh.15$Betahat[,2], type = "h", xlab = "Ind<br/> Ex", ylab = names(climhyd[5]), 
         ylim = c(-.015, .055), lwd=2)
 abline(h=0)
 ```
 
 
-Example 7.2
+<br/> Example 7.2
 ```r
 attach(beamd)
 
@@ -2480,7 +2484,7 @@ detach(beamd)
 
 
 
-Example 7.4
+<br/> Example 7.4
 ```r
 attach(beamd)
 
@@ -2488,7 +2492,7 @@ L = 9
 fdr = .001 
 N = 3
 Y = cbind(beamd, beam=rowMeans(beamd))
-n = nextn(nrow(Y))
+n = n<br/> Extn(nrow(Y))
 
 Y.fft = mvfft(as.ts(Y))/sqrt(n)
 Df = Y.fft[,1:3]   # fft of the data
@@ -2521,7 +2525,7 @@ detach(beamd)
 ```
 
 
-Example 7.5
+<br/> Example 7.5
 ```r
 attach(beamd)
 
@@ -2530,7 +2534,7 @@ M  = 100
 M2 = M/2
 N  = 3   
 Y  = cbind(beamd, beam <- rowMeans(beamd))
-n  = nextn(nrow(Y))
+n  = n<br/> Extn(nrow(Y))
 n.freq = n/2
  
 Y[,1:3] = Y[,1:3]-Y[,4]  # center each series  
@@ -2553,7 +2557,7 @@ fb[fb<0] = 0
 H0 = N*fb/(fv+N*fb)     
 H0[ceiling(.04*n):n] = 0    # zero out H0 beyond frequency .04
 
-# Extend components to make it a valid transform
+# <br/> Extend components to make it a valid transform
 H0 = c(H0[1:n.freq], rev(H0[2:(n.freq+1)]))  
 h0 = Re(fft(H0, inverse = TRUE))            # Impulse Response 
 h0 = c(rev(h0[2:(M2+1)]), h0[1:(M2+1)])     # center it
@@ -2567,18 +2571,18 @@ Fr = (nFr-1)/n  # frequencies
 
 layout(matrix(c(1, 2, 4, 1, 3, 4), nc=2))
 tsplot(10*Fr, fb[nFr], type="l", ylab="Power", xlab="Frequency (Hz)")
- lines(10*Fr, fv[nFr], lty=2); text(.24, 5, "(a)", cex=1.2)
+ lines(10*Fr, fv[nFr], lty=2); t<br/> Ext(.24, 5, "(a)", c<br/> Ex=1.2)
 tsplot(10*Fr, H0[nFr], type="l", ylab="Frequency Response", xlab="Frequency(Hz)")
- text(.23, .84, "(b)", cex=1.2)
-tsplot(-M2:M2, k1, type="l", ylab="Impulse Response", xlab="Index", lwd=1.5)
- text(45, .022, "(c)", cex=1.2)
+ t<br/> Ext(.23, .84, "(b)", c<br/> Ex=1.2)
+tsplot(-M2:M2, k1, type="l", ylab="Impulse Response", xlab="Ind<br/> Ex", lwd=1.5)
+ t<br/> Ext(45, .022, "(c)", c<br/> Ex=1.2)
 tsplot(cbind(f.beam,beam), spag=TRUE, lty=1:2, ylab="beam")
- text(2040, 2, "(d)", cex=1.2)
+ t<br/> Ext(2040, 2, "(d)", c<br/> Ex=1.2)
 
 detach(beamd) 
 ```
 
-Example 7.6
+<br/> Example 7.6
 ```r
 n          = 128               # length of series
 n.freq     = 1 + n/2           # number of frequencies
@@ -2608,7 +2612,7 @@ HatF = Z%*%solve(ZZ, t(Z))
 HatR = Z[,1]%*%t(Z[,1])/ZZ[1,1]
 
 par(mfrow=c(3,3))
-loc.name = c("Cortex 1","Cortex 2","Cortex 3","Cortex 4","Caudate","Thalamus 1",
+loc.name = c("Cort<br/> Ex 1","Cort<br/> Ex 2","Cort<br/> Ex 3","Cort<br/> Ex 4","Caudate","Thalamus 1",
               "Thalamus 2", "Cerebellum 1","Cerebellum 2")
 
 for(Loc in 1:9) {   
@@ -2637,7 +2641,7 @@ abline(h=qf(.999, num.df, den.df),lty=2)
 }
 ```
 
-Example 7.7
+<br/> Example 7.7
 ```r
 n      = 128
 n.freq = 1 + n/2  
@@ -2671,7 +2675,7 @@ Hat.con = Z[,-4]%*%solve(ZZ[-4,-4], t(Z[,-4]))
 Hat.int = Z[,-(5:6)]%*%solve(ZZ[-(5:6),-(5:6)], t(Z[,-(5:6)]))                                                           
 
 par(mfrow=c(5,3), oma=c(0,2,0,0))
-loc.name = c("Cortex 1","Cortex 2","Cortex 3","Cortex 4","Caudate", "Thalamus 1",
+loc.name = c("Cort<br/> Ex 1","Cort<br/> Ex 2","Cort<br/> Ex 3","Cort<br/> Ex 4","Caudate", "Thalamus 1",
               "Thalamus 2", "Cerebellum 1","Cerebellum 2")
 for(Loc in c(1:4,9)) {   # only Loc 1 to 4 and 9 used                
   i = 6*(Loc-1)                                                                 
@@ -2700,20 +2704,20 @@ for(Loc in c(1:4,9)) {   # only Loc 1 to 4 and 9 used
 
 tsplot(Fr[nFr],eF.stm[nFr],xlab="Frequency", ylab="F Statistic", ylim=c(0,12))
    abline(h=qf(.999, df.stm, den.df),lty=2)       
-  if(Loc==1) mtext("Stimulus", side=3, line=.3, cex=.8)
-  mtext(loc.name[Loc], side=2, line=3, cex=.8)
+  if(Loc==1) mt<br/> Ext("Stimulus", side=3, line=.3, c<br/> Ex=.8)
+  mt<br/> Ext(loc.name[Loc], side=2, line=3, c<br/> Ex=.8)
  tsplot(Fr[nFr],eF.con[nFr], xlab="Frequency", ylab="F Statistic", ylim=c(0,12))
   abline(h=qf(.999, df.con, den.df),lty=2)
-  if(Loc==1)  mtext("Consciousness", side=3, line=.3, cex=.8)   
+  if(Loc==1)  mt<br/> Ext("Consciousness", side=3, line=.3, c<br/> Ex=.8)   
  tsplot(Fr[nFr],eF.int[nFr], xlab="Frequency",ylab="F Statistic", ylim=c(0,12))
   abline(h=qf(.999, df.int, den.df),lty=2)
-  if(Loc==1) mtext("Interaction", side=3, line= .3, cex=.8)   
+  if(Loc==1) mt<br/> Ext("Interaction", side=3, line= .3, c<br/> Ex=.8)   
 } 
 ```
 
 
 
-Example 7.8
+<br/> Example 7.8
 ```r
 n      = 128
 n.freq = 1 + n/2  
@@ -2744,7 +2748,7 @@ eF = matrix(0,n,3)
 
 par(mfrow=c(5,3), oma=c(0,2,0,0)) 
 
-loc.name = c("Cortex 1","Cortex 2","Cortex 3","Cortex 4","Caudate","Thalamus 1","Thalamus 2",
+loc.name = c("Cort<br/> Ex 1","Cort<br/> Ex 2","Cort<br/> Ex 3","Cort<br/> Ex 4","Caudate","Thalamus 1","Thalamus 2",
              "Cerebellum 1","Cerebellum 2")
 cond.name = c("Brush", "Heat", "Shock")             
 
@@ -2769,19 +2773,19 @@ for(Loc in c(1:4,9)) {
  eF[,cond]= (den.df/num.df)*(sSSER/sSSEF)   }                                    
  tsplot(Fr[nFr], eF[nFr,1], xlab="Frequency", ylab="F Statistic", ylim=c(0,5), main='')
   abline(h=qf(.999, num.df, den.df),lty=2)       
-  if(Loc==1) mtext("Brush", side=3, line=.3, cex=1)
-  mtext(loc.name[Loc], side=2, line=3, cex=.9)
+  if(Loc==1) mt<br/> Ext("Brush", side=3, line=.3, c<br/> Ex=1)
+  mt<br/> Ext(loc.name[Loc], side=2, line=3, c<br/> Ex=.9)
  tsplot(Fr[nFr], eF[nFr,2], xlab="Frequency", ylab="F Statistic", ylim=c(0,5), main='')
   abline(h=qf(.999, num.df, den.df),lty=2)
-  if(Loc==1)  mtext("Heat", side=3, line=.3, cex=1)   
+  if(Loc==1)  mt<br/> Ext("Heat", side=3, line=.3, c<br/> Ex=1)   
  tsplot(Fr[nFr], eF[nFr,3], xlab="Frequency", ylab="F Statistic", ylim=c(0,5), main='')
   abline(h = qf(.999, num.df, den.df) ,lty=2)
-  if(Loc==1) mtext("Shock", side=3, line=.3, cex=1)  
+  if(Loc==1) mt<br/> Ext("Shock", side=3, line=.3, c<br/> Ex=1)  
 }  
 ```
 
 
-Example 7.9
+<br/> Example 7.9
 ```r
 P = 1:1024 
 S = P+1024
@@ -2791,22 +2795,22 @@ p.dim = 2
 m = 10
 L = 2*m+1
 
-eq.P   = as.ts(eqexp[P,1:8])
-eq.S   = as.ts(eqexp[S,1:8]) 
+eq.P   = as.ts(eq<br/> Exp[P,1:8])
+eq.S   = as.ts(eq<br/> Exp[S,1:8]) 
 eq.m   = cbind(rowMeans(eq.P), rowMeans(eq.S))
-ex.P   = as.ts(eqexp[P,9:16])
-ex.S   = as.ts(eqexp[S,9:16]) 
-ex.m   = cbind(rowMeans(ex.P), rowMeans(ex.S)) 
-m.diff = mvfft(eq.m - ex.m)/sqrt(n)
+<br/> Ex.P   = as.ts(eq<br/> Exp[P,9:16])
+<br/> Ex.S   = as.ts(eq<br/> Exp[S,9:16]) 
+<br/> Ex.m   = cbind(rowMeans(<br/> Ex.P), rowMeans(<br/> Ex.S)) 
+m.diff = mvfft(eq.m - <br/> Ex.m)/sqrt(n)
 
 eq.Pf = mvfft(eq.P-eq.m[,1])/sqrt(n)
 eq.Sf = mvfft(eq.S-eq.m[,2])/sqrt(n)
-ex.Pf = mvfft(ex.P-ex.m[,1])/sqrt(n)
-ex.Sf = mvfft(ex.S-ex.m[,2])/sqrt(n) 
+<br/> Ex.Pf = mvfft(<br/> Ex.P-<br/> Ex.m[,1])/sqrt(n)
+<br/> Ex.Sf = mvfft(<br/> Ex.S-<br/> Ex.m[,2])/sqrt(n) 
 
-fv11 = rowSums(eq.Pf*Conj(eq.Pf)) + rowSums(ex.Pf*Conj(ex.Pf))/(2*(N-1))
-fv12 = rowSums(eq.Pf*Conj(eq.Sf)) + rowSums(ex.Pf*Conj(ex.Sf))/(2*(N-1))
-fv22 = rowSums(eq.Sf*Conj(eq.Sf)) + rowSums(ex.Sf*Conj(ex.Sf))/(2*(N-1))
+fv11 = rowSums(eq.Pf*Conj(eq.Pf)) + rowSums(<br/> Ex.Pf*Conj(<br/> Ex.Pf))/(2*(N-1))
+fv12 = rowSums(eq.Pf*Conj(eq.Sf)) + rowSums(<br/> Ex.Pf*Conj(<br/> Ex.Sf))/(2*(N-1))
+fv22 = rowSums(eq.Sf*Conj(eq.Sf)) + rowSums(<br/> Ex.Sf*Conj(<br/> Ex.Sf))/(2*(N-1))
 fv21 = Conj(fv12)
 
 # Equal Means  
@@ -2827,28 +2831,28 @@ abline(h=qf(.999, 2*p.dim, 2*(2*N-p.dim-1)))
 kd    = kernel("daniell",m);  
 u     = Re(rowSums(eq.Pf*Conj(eq.Pf))/(N-1))
 feq.P = kernapply(u, kd, circular=TRUE)
-u     = Re(rowSums(ex.Pf*Conj(ex.Pf))/(N-1))
-fex.P =	kernapply(u, kd, circular=TRUE)
+u     = Re(rowSums(<br/> Ex.Pf*Conj(<br/> Ex.Pf))/(N-1))
+f<br/> Ex.P =	kernapply(u, kd, circular=TRUE)
 
-tsplot(freq, feq.P[1:512]/fex.P[1:512], xlab="Frequency (Hz)", ylab="F Statistic", 
+tsplot(freq, feq.P[1:512]/f<br/> Ex.P[1:512], xlab="Frequency (Hz)", ylab="F Statistic", 
       main="Equal P-Spectra")
 abline(h = qf(.999, 2*L*(N-1),  2*L*(N-1))) 
 
 # Equal S   
 u     = Re(rowSums(eq.Sf*Conj(eq.Sf))/(N-1))
 feq.S = kernapply(u, kd, circular=TRUE)
-u     = Re(rowSums(ex.Sf*Conj(ex.Sf))/(N-1))
-fex.S =	kernapply(u, kd, circular=TRUE)
+u     = Re(rowSums(<br/> Ex.Sf*Conj(<br/> Ex.Sf))/(N-1))
+f<br/> Ex.S =	kernapply(u, kd, circular=TRUE)
 
-tsplot(freq, feq.S[1:512]/fex.S[1:512], xlab="Frequency (Hz)", ylab="F Statistic", 
+tsplot(freq, feq.S[1:512]/f<br/> Ex.S[1:512], xlab="Frequency (Hz)", ylab="F Statistic", 
       main="Equal S-Spectra")
 abline(h=qf(.999, 2*L*(N-1),  2*L*(N-1))) 
 
 # Equal Spectra  
 u      = rowSums(eq.Pf*Conj(eq.Sf))/(N-1)
 feq.PS = kernapply(u, kd, circular=TRUE)
-u      = rowSums(ex.Pf*Conj(ex.Sf)/(N-1))
-fex.PS = kernapply(u, kd, circular=TRUE)
+u      = rowSums(<br/> Ex.Pf*Conj(<br/> Ex.Sf)/(N-1))
+f<br/> Ex.PS = kernapply(u, kd, circular=TRUE)
 fv11   = kernapply(fv11, kd, circular=TRUE)
 fv22   = kernapply(fv22, kd, circular=TRUE)
 fv12  = kernapply(fv12, kd, circular=TRUE)
@@ -2859,12 +2863,12 @@ TS = rep(NA,512)
 
 for (k  in 1:512){
  det.feq.k = Re(feq.P[k]*feq.S[k] - feq.PS[k]*Conj(feq.PS[k]))
- det.fex.k = Re(fex.P[k]*fex.S[k] - fex.PS[k]*Conj(fex.PS[k]))
+ det.f<br/> Ex.k = Re(f<br/> Ex.P[k]*f<br/> Ex.S[k] - f<br/> Ex.PS[k]*Conj(f<br/> Ex.PS[k]))
  det.fv.k  = Re(fv11[k]*fv22[k] - fv12[k]*Conj(fv12[k]))
  
  log.n1 = log(M)*(M*p.dim)
  log.d1 = log(Mi)*(2*Mi*p.dim)
- log.n2 = log(Mi)*2 +log(det.feq.k)*Mi + log(det.fex.k)*Mi  
+ log.n2 = log(Mi)*2 +log(det.feq.k)*Mi + log(det.f<br/> Ex.k)*Mi  
  log.d2 = (log(M)+log(det.fv.k))*M
  r = 1 - ((p.dim+1)*(p.dim-1)/6*p.dim*(2-1))*(2/Mi - 1/M)
  TS[k] = -2*r*(log.n1+log.n2-log.d1-log.d2)   
@@ -2877,87 +2881,87 @@ abline(h = qchisq(.9999, p.dim^2))   # about 23.5, so not on the plot
 
 
 
-Example 7.10
+<br/> Example 7.10
 ```r
 P     = 1:1024
 S     = P+1024
-mag.P = log10(apply(eqexp[P,],2,max) - apply(eqexp[P,],2,min))
-mag.S = log10(apply(eqexp[S,],2,max) - apply(eqexp[S,],2,min))
+mag.P = log10(apply(eq<br/> Exp[P,],2,max) - apply(eq<br/> Exp[P,],2,min))
+mag.S = log10(apply(eq<br/> Exp[S,],2,max) - apply(eq<br/> Exp[S,],2,min))
 eq.P  = mag.P[1:8]
 eq.S  = mag.S[1:8]
-ex.P  = mag.P[9:16]
-ex.S =  mag.S[9:16]
+<br/> Ex.P  = mag.P[9:16]
+<br/> Ex.S =  mag.S[9:16]
 NZ.P  = mag.P[17]
 NZ.S  = mag.S[17] 
 
 # Compute linear discriminant function 
 cov.eq     = var(cbind(eq.P, eq.S))
-cov.ex     = var(cbind(ex.P, ex.S))
-cov.pooled = (cov.ex + cov.eq)/2
+cov.<br/> Ex     = var(cbind(<br/> Ex.P, <br/> Ex.S))
+cov.pooled = (cov.<br/> Ex + cov.eq)/2
 
 means.eq   =  colMeans(cbind(eq.P,eq.S)); 
-means.ex   =  colMeans(cbind(ex.P,ex.S))
+means.<br/> Ex   =  colMeans(cbind(<br/> Ex.P,<br/> Ex.S))
 slopes.eq  = solve(cov.pooled, means.eq)
 inter.eq   = -sum(slopes.eq*means.eq)/2
-slopes.ex  = solve(cov.pooled, means.ex)
-inter.ex   = -sum(slopes.ex*means.ex)/2
-d.slopes   = slopes.eq - slopes.ex
-d.inter    = inter.eq - inter.ex
+slopes.<br/> Ex  = solve(cov.pooled, means.<br/> Ex)
+inter.<br/> Ex   = -sum(slopes.<br/> Ex*means.<br/> Ex)/2
+d.slopes   = slopes.eq - slopes.<br/> Ex
+d.inter    = inter.eq - inter.<br/> Ex
 
 # Classify new observation 
 new.data = cbind(NZ.P, NZ.S)
 
 d = sum(d.slopes*new.data) + d.inter
-post.eq = exp(d)/(1+exp(d))
+post.eq = <br/> Exp(d)/(1+<br/> Exp(d))
 
 # Print (disc function, posteriors) and plot results  
 cat(d.slopes[1], "mag.P +" , d.slopes[2], "mag.S +" , d.inter,"\n")  
-cat("P(EQ|data) =", post.eq,  "  P(EX|data) =", 1-post.eq, "\n" )    
+cat("P(EQ|data) =", post.eq,  "  P(<br/> Ex|data) =", 1-post.eq, "\n" )    
 
 tsplot(eq.P, eq.S, type='p', xlim=c(0,1.5), ylim=c(.75,1.25), 
-        xlab="log mag(P)", ylab ="log mag(S)", pch = 8, cex=1.1, lwd=2, 
+        xlab="log mag(P)", ylab ="log mag(S)", pch = 8, c<br/> Ex=1.1, lwd=2, 
         main="Classification Based on Magnitude Features", col=4)
- points(ex.P, ex.S, pch = 6, cex=1.1, lwd=2, col=6)
- points(new.data, pch = 3, cex=1.1, lwd=2, col=3)
+ points(<br/> Ex.P, <br/> Ex.S, pch = 6, c<br/> Ex=1.1, lwd=2, col=6)
+ points(new.data, pch = 3, c<br/> Ex=1.1, lwd=2, col=3)
  abline(a = -d.inter/d.slopes[2], b = -d.slopes[1]/d.slopes[2])
- text(eq.P-.07,eq.S+.005, label=names(eqexp[1:8]), cex=.8)
- text(ex.P+.07,ex.S+.003, label=names(eqexp[9:16]), cex=.8)
- text(NZ.P+.05,NZ.S+.003, label=names(eqexp[17]), cex=.8)
- legend("topright",c("EQ","EX","NZ"),pch=c(8,6,3),pt.lwd=2,cex=1.1, col=c(4,6,3))
+ t<br/> Ext(eq.P-.07,eq.S+.005, label=names(eq<br/> Exp[1:8]), c<br/> Ex=.8)
+ t<br/> Ext(<br/> Ex.P+.07,<br/> Ex.S+.003, label=names(eq<br/> Exp[9:16]), c<br/> Ex=.8)
+ t<br/> Ext(NZ.P+.05,NZ.S+.003, label=names(eq<br/> Exp[17]), c<br/> Ex=.8)
+ legend("topright",c("EQ","<br/> Ex","NZ"),pch=c(8,6,3),pt.lwd=2,c<br/> Ex=1.1, col=c(4,6,3))
 
 # Cross-validation 
-all.data = rbind(cbind(eq.P,eq.S), cbind(ex.P,ex.S))
-post.eq <- rep(NA, 8) -> post.ex 
+all.data = rbind(cbind(eq.P,eq.S), cbind(<br/> Ex.P,<br/> Ex.S))
+post.eq <- rep(NA, 8) -> post.<br/> Ex 
 
 for(j in 1:16) {
- if (j <= 8) {samp.eq = all.data[-c(j, 9:16),];  samp.ex = all.data[9:16,]}
- if (j > 8)  {samp.eq = all.data[1:8,];    samp.ex = all.data[-c(j, 1:8),]}
+ if (j <= 8) {samp.eq = all.data[-c(j, 9:16),];  samp.<br/> Ex = all.data[9:16,]}
+ if (j > 8)  {samp.eq = all.data[1:8,];    samp.<br/> Ex = all.data[-c(j, 1:8),]}
  
- df.eq      = nrow(samp.eq)-1;  df.ex = nrow(samp.ex)-1
- mean.eq    = colMeans(samp.eq);  mean.ex = colMeans(samp.ex)
- cov.eq     = var(samp.eq);  cov.ex = var(samp.ex)
- cov.pooled = (df.eq*cov.eq + df.ex*cov.ex)/(df.eq + df.ex)
+ df.eq      = nrow(samp.eq)-1;  df.<br/> Ex = nrow(samp.<br/> Ex)-1
+ mean.eq    = colMeans(samp.eq);  mean.<br/> Ex = colMeans(samp.<br/> Ex)
+ cov.eq     = var(samp.eq);  cov.<br/> Ex = var(samp.<br/> Ex)
+ cov.pooled = (df.eq*cov.eq + df.<br/> Ex*cov.<br/> Ex)/(df.eq + df.<br/> Ex)
  slopes.eq  = solve(cov.pooled, mean.eq)
  inter.eq   = -sum(slopes.eq*mean.eq)/2
- slopes.ex  = solve(cov.pooled, mean.ex)
- inter.ex   = -sum(slopes.ex*mean.ex)/2
- d.slopes   = slopes.eq - slopes.ex
- d.inter    = inter.eq - inter.ex
+ slopes.<br/> Ex  = solve(cov.pooled, mean.<br/> Ex)
+ inter.<br/> Ex   = -sum(slopes.<br/> Ex*mean.<br/> Ex)/2
+ d.slopes   = slopes.eq - slopes.<br/> Ex
+ d.inter    = inter.eq - inter.<br/> Ex
  
  d = sum(d.slopes*all.data[j,]) + d.inter
- if (j <= 8) post.eq[j] = exp(d)/(1+exp(d))
- if (j > 8) post.ex[j-8] = 1/(1+exp(d))  
+ if (j <= 8) post.eq[j] = <br/> Exp(d)/(1+<br/> Exp(d))
+ if (j > 8) post.<br/> Ex[j-8] = 1/(1+<br/> Exp(d))  
 }
 
-Posterior = cbind(1:8, post.eq, 1:8, post.ex)
-colnames(Posterior) = c("EQ","P(EQ|data)","EX","P(EX|data)")
+Posterior = cbind(1:8, post.eq, 1:8, post.<br/> Ex)
+colnames(Posterior) = c("EQ","P(EQ|data)","<br/> Ex","P(<br/> Ex|data)")
 # results from cross-validation 
 round(Posterior, 3)   
 ```
 
 
 
-Example 7.11
+<br/> Example 7.11
 
 ```r
 P = 1:1024
@@ -2965,85 +2969,85 @@ S = P+1024
 p.dim = 2
 n =1024
 
-eq = as.ts(eqexp[,1:8])
-ex = as.ts(eqexp[,9:16])
-nz = as.ts(eqexp[,17])
-f.eq <- array(dim=c(8,2,2,512)) -> f.ex 
+eq = as.ts(eq<br/> Exp[,1:8])
+<br/> Ex = as.ts(eq<br/> Exp[,9:16])
+nz = as.ts(eq<br/> Exp[,17])
+f.eq <- array(dim=c(8,2,2,512)) -> f.<br/> Ex 
 f.NZ = array(dim=c(2,2,512))
 
-# determinant for 2x2 complex matrix 
+# determinant for 2x2 compl<br/> Ex matrix 
 det.c = function(mat){return(Re(mat[1,1]*mat[2,2]-mat[1,2]*mat[2,1]))}
 L = c(15,13,5)  # for smoothing 
 for (i in 1:8){     # compute spectral matrices
  f.eq[i,,,] = mvspec(cbind(eq[P,i],eq[S,i]), spans=L, taper=.5, plot=FALSE)$fxx
- f.ex[i,,,] = mvspec(cbind(ex[P,i],ex[S,i]), spans=L, taper=.5, plot=FALSE)$fxx
+ f.<br/> Ex[i,,,] = mvspec(cbind(<br/> Ex[P,i],<br/> Ex[S,i]), spans=L, taper=.5, plot=FALSE)$fxx
 }
 u = mvspec(cbind(nz[P],nz[S]), spans=L, taper=.5) 
 f.NZ = u$fxx	 
 bndwidth = u$bandwidth*40  # about .75 Hz
 fhat.eq = apply(f.eq, 2:4, mean)  # average spectra
-fhat.ex = apply(f.ex, 2:4, mean)
+fhat.<br/> Ex = apply(f.<br/> Ex, 2:4, mean)
 
 # plot the average spectra
 par(mfrow=c(2,2))
 Fr = 40*(1:512)/n
 tsplot(Fr, Re(fhat.eq[1,1,]), main="", xlab="Frequency (Hz)", ylab="")
 tsplot(Fr, Re(fhat.eq[2,2,]), main="", xlab="Frequency (Hz)", ylab="")
-tsplot(Fr, Re(fhat.ex[1,1,]), xlab="Frequency (Hz)", ylab="")
-tsplot(Fr, Re(fhat.ex[2,2,]), xlab="Frequency (Hz)", ylab="")
-mtext("Average P-spectra", side=3, line=-1.5, adj=.2, outer=TRUE)
-mtext("Earthquakes", side=2, line=-1, adj=.8,  outer=TRUE)
-mtext("Average S-spectra", side=3, line=-1.5, adj=.82, outer=TRUE)
-mtext("Explosions", side=2, line=-1, adj=.2, outer=TRUE)
+tsplot(Fr, Re(fhat.<br/> Ex[1,1,]), xlab="Frequency (Hz)", ylab="")
+tsplot(Fr, Re(fhat.<br/> Ex[2,2,]), xlab="Frequency (Hz)", ylab="")
+mt<br/> Ext("Average P-spectra", side=3, line=-1.5, adj=.2, outer=TRUE)
+mt<br/> Ext("Earthquakes", side=2, line=-1, adj=.8,  outer=TRUE)
+mt<br/> Ext("Average S-spectra", side=3, line=-1.5, adj=.82, outer=TRUE)
+mt<br/> Ext("<br/> Explosions", side=2, line=-1, adj=.2, outer=TRUE)
 par(fig = c(.75, .995, .75, .98), new = TRUE)
 ker = kernel("modified.daniell", L)$coef; ker = c(rev(ker),ker[-1])
-plot((-33:33)/40,ker,type="l",ylab="",xlab="",cex.axis=.7,yaxp=c(0,.04,2))
+plot((-33:33)/40,ker,type="l",ylab="",xlab="",c<br/> Ex.axis=.7,yaxp=c(0,.04,2))
 
 # choose alpha
 Balpha = rep(0,19) 
 for (i in 1:19){  alf=i/20
 for (k in 1:256) {  	
-Balpha[i]= Balpha[i] + Re(log(det.c(alf*fhat.ex[,,k] + (1-alf)*fhat.eq[,,k])/ det.c(fhat.eq[,,k]))- 
-                           alf*log(det.c(fhat.ex[,,k])/det.c(fhat.eq[,,k])))} }
+Balpha[i]= Balpha[i] + Re(log(det.c(alf*fhat.<br/> Ex[,,k] + (1-alf)*fhat.eq[,,k])/ det.c(fhat.eq[,,k]))- 
+                           alf*log(det.c(fhat.<br/> Ex[,,k])/det.c(fhat.eq[,,k])))} }
 alf = which.max(Balpha)/20   # = .4  
 
 # calculate information criteria          
-rep(0,17) -> KLDiff -> BDiff -> KLeq -> KLex -> Beq -> Bex
+rep(0,17) -> KLDiff -> BDiff -> KLeq -> KL<br/> Ex -> Beq -> B<br/> Ex
 for (i in 1:17){
  if (i <= 8) f0 = f.eq[i,,,]
- if (i > 8 & i <= 16) f0 = f.ex[i-8,,,]
+ if (i > 8 & i <= 16) f0 = f.<br/> Ex[i-8,,,]
  if (i == 17) f0 = f.NZ
  for (k in 1:256) {    # only use freqs out to .25
   tr = Re(sum(diag(solve(fhat.eq[,,k],f0[,,k]))))
   KLeq[i] = KLeq[i] + tr + log(det.c(fhat.eq[,,k])) - log(det.c(f0[,,k]))
   Beq[i] =  Beq[i] + Re(log(det.c(alf*f0[,,k]+(1-alf)*fhat.eq[,,k])/det.c(fhat.eq[,,k])) - 
                          alf*log(det.c(f0[,,k])/det.c(fhat.eq[,,k])))
-  tr = Re(sum(diag(solve(fhat.ex[,,k],f0[,,k]))))
-  KLex[i] = KLex[i] + tr +  log(det.c(fhat.ex[,,k])) - log(det.c(f0[,,k]))
-  Bex[i] = Bex[i] + Re(log(det.c(alf*f0[,,k]+(1-alf)*fhat.ex[,,k])/det.c(fhat.ex[,,k])) - 
-                       alf*log(det.c(f0[,,k])/det.c(fhat.ex[,,k]))) 
+  tr = Re(sum(diag(solve(fhat.<br/> Ex[,,k],f0[,,k]))))
+  KL<br/> Ex[i] = KL<br/> Ex[i] + tr +  log(det.c(fhat.<br/> Ex[,,k])) - log(det.c(f0[,,k]))
+  B<br/> Ex[i] = B<br/> Ex[i] + Re(log(det.c(alf*f0[,,k]+(1-alf)*fhat.<br/> Ex[,,k])/det.c(fhat.<br/> Ex[,,k])) - 
+                       alf*log(det.c(f0[,,k])/det.c(fhat.<br/> Ex[,,k]))) 
   }
-KLDiff[i] = (KLeq[i] - KLex[i])/n 
-BDiff[i] =  (Beq[i] - Bex[i])/(2*n) 
+KLDiff[i] = (KLeq[i] - KL<br/> Ex[i])/n 
+BDiff[i] =  (Beq[i] - B<br/> Ex[i])/(2*n) 
 }
 
 x.b = max(KLDiff)+.1; x.a = min(KLDiff)-.1
 y.b = max(BDiff)+.01; y.a = min(BDiff)-.01
 
 dev.new()                                 
-tsplot(KLDiff[9:16], BDiff[9:16], type="p", xlim=c(x.a,x.b), ylim=c(y.a,y.b), cex=1.1, lwd=2, 
+tsplot(KLDiff[9:16], BDiff[9:16], type="p", xlim=c(x.a,x.b), ylim=c(y.a,y.b), c<br/> Ex=1.1, lwd=2, 
       xlab="Kullback-Leibler Difference",ylab="Chernoff Difference", col=6,
       main="Classification Based on Chernoff and K-L Distances", pch=6)
-points(KLDiff[1:8], BDiff[1:8], pch=8, cex=1.1, lwd=2, col=4)
-points(KLDiff[17], BDiff[17],  pch=3, cex=1.1, lwd=2, col=3)
-legend("topleft", legend=c("EQ", "EX", "NZ"), pch=c(8,6,3), pt.lwd=2, col=c(4,6,3))
+points(KLDiff[1:8], BDiff[1:8], pch=8, c<br/> Ex=1.1, lwd=2, col=4)
+points(KLDiff[17], BDiff[17],  pch=3, c<br/> Ex=1.1, lwd=2, col=3)
+legend("topleft", legend=c("EQ", "<br/> Ex", "NZ"), pch=c(8,6,3), pt.lwd=2, col=c(4,6,3))
 abline(h=0, v=0, lty=2, col=8)
-text(KLDiff[-c(1,2,3,7,14)]-.075, BDiff[-c(1,2,3,7,14)], label=names(eqexp[-c(1,2,3,7,14)]), cex=.7)
-text(KLDiff[c(1,2,3,7,14)]+.075, BDiff[c(1,2,3,7,14)], label=names(eqexp[c(1,2,3,7,14)]), cex=.7)
+t<br/> Ext(KLDiff[-c(1,2,3,7,14)]-.075, BDiff[-c(1,2,3,7,14)], label=names(eq<br/> Exp[-c(1,2,3,7,14)]), c<br/> Ex=.7)
+t<br/> Ext(KLDiff[c(1,2,3,7,14)]+.075, BDiff[c(1,2,3,7,14)], label=names(eq<br/> Exp[c(1,2,3,7,14)]), c<br/> Ex=.7)
 ```
 
 
-Example 7.12
+<br/> Example 7.12
 
 ```r
 library(cluster)
@@ -3052,15 +3056,15 @@ S = P+1024
 p.dim = 2
 n =1024
 
-eq = as.ts(eqexp[,1:8])
-ex = as.ts(eqexp[,9:16])
-nz = as.ts(eqexp[,17])
+eq = as.ts(eq<br/> Exp[,1:8])
+<br/> Ex = as.ts(eq<br/> Exp[,9:16])
+nz = as.ts(eq<br/> Exp[,17])
 
 f = array(dim=c(17,2,2,512))  
 L = c(15,15)   # for smoothing 
 for (i in 1:8){     # compute spectral matrices
  f[i,,,] = mvspec(cbind(eq[P,i],eq[S,i]), spans=L, taper=.5, plot=FALSE)$fxx
- f[i+8,,,] = mvspec(cbind(ex[P,i],ex[S,i]), spans=L, taper=.5, plot=FALSE)$fxx 
+ f[i+8,,,] = mvspec(cbind(<br/> Ex[P,i],<br/> Ex[S,i]), spans=L, taper=.5, plot=FALSE)$fxx 
 }
 f[17,,,] = mvspec(cbind(nz[P],nz[S]), spans=L, taper=.5, plot=FALSE)$fxx	
 
@@ -3077,21 +3081,21 @@ for (i in 1:16){
 }
  
 JD = (JD + t(JD))/n
-colnames(JD) = c(colnames(eq), colnames(ex), "NZ") 
+colnames(JD) = c(colnames(eq), colnames(<br/> Ex), "NZ") 
 rownames(JD) = colnames(JD)
 cluster.2 = pam(JD, k = 2, diss = TRUE)  
 
 summary(cluster.2)  # print results
-par(mar=c(2,2,1,.5)+2, cex=3/4, cex.lab=4/3, cex.main=4/3)
+par(mar=c(2,2,1,.5)+2, c<br/> Ex=3/4, c<br/> Ex.lab=4/3, c<br/> Ex.main=4/3)
 clusplot(JD, cluster.2$cluster, col.clus=gray(.5), labels=3, lines=0, 
          col.p = c(rep(4,8), rep(6,8), 3),  
-         main="Clustering Results for Explosions and Earthquakes")
-text(-3.5,-1.5, "Group I", cex=1.1, font=2) 
-text(1.5,5,"Group II", cex=1.1, font=2)
+         main="Clustering Results for <br/> Explosions and Earthquakes")
+t<br/> Ext(-3.5,-1.5, "Group I", c<br/> Ex=1.1, font=2) 
+t<br/> Ext(1.5,5,"Group II", c<br/> Ex=1.1, font=2)
 ```
 
 
-Example 7.13
+<br/> Example 7.13
 
 ```r
 n = 128
@@ -3104,7 +3108,7 @@ for (i in 1:8){
  Grid(nx=NA, ny=NULL, minor=FALSE)
  abline(v=seq(0,60,by=4), col='lightgray', lty=1)
  lines(0:20, Per[1:21,i]) }
-mtext("Periodogram", side=2, line=-.3, outer=TRUE, adj=c(.2,.8))
+mt<br/> Ext("Periodogram", side=2, line=-.3, outer=TRUE, adj=c(.2,.8))
 
 fxx = mvspec(fmri1[,-1], kernel("daniell", c(1,1)), taper=.5, plot=FALSE)$fxx
 l.val = rep(NA,64)
@@ -3125,7 +3129,7 @@ lines(l.val)
 u = eigen(fxx[,,4], symmetric=TRUE)
 lam = u$values 
 evec = u$vectors
-lam[1]/sum(lam) # % of variance explained
+lam[1]/sum(lam) # % of variance <br/> Explained
 sig.e1 = matrix(0,8,8)
 for (l in 2:5){  # last 3 evs are 0
  sig.e1 = sig.e1 + lam[l]*evec[,l]%*%Conj(t(evec[,l]))/(lam[1]-lam[l])^2
@@ -3136,14 +3140,14 @@ cbind(colnames(fmri1)[-1], abs(evec[,1]), p.val) # print table values
 ```
 
 
-Example 7.14
+<br/> Example 7.14
 ```r
 bhat = sqrt(lam[1])*evec[,1]
 Dhat = Re(diag(fxx[,,4] - bhat%*%Conj(t(bhat))))
 res = Mod(fxx[,,4] - Dhat - bhat%*%Conj(t(bhat)))
 ```
 
-Example 7.15
+<br/> Example 7.15
 ```r
 gr = diff(log(ts(econ5, start=1948, frequency=4))) # growth rate
 tsplot(100*gr, col=2:6, lwd=2, ncol=2, main="Growth Rates (%)")
@@ -3176,7 +3180,7 @@ round(Mod(e.vec1), 2);  round(Mod(e.vec2), 3)
 ```
 
 
-Example 7.17  (there is now a script for the spectral envelope)
+<br/> Example 7.17  (there is now a script for the spectral envelope)
 
 ```r
 xdata = dna2vector(bnrf1ebv)
@@ -3186,7 +3190,7 @@ u     = specenv(xdata, spans=c(7,7))
 round(u,4)[1330:1336,]
 ```
 
-Example 7.18
+<br/> Example 7.18
 
 ```r
 x = astsa::nyse    
