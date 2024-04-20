@@ -251,7 +251,8 @@ ccf2(X, detrend(Y), ylim=c(-.4,.4), col=4, lwd=2, gg=TRUE)
 <br/> Example 1.31
 
 ```r
-persp(1:64, 1:36, soiltemp, phi=25, theta=25, scale=FALSE, <br/> Expand=4, ticktype="detailed", xlab="rows", ylab="cols", zlab="temperature")
+persp(1:64, 1:36, soiltemp, phi=25, theta=25, scale=FALSE, <br/> Expand=4, ticktype="detailed",
+  xlab="rows", ylab="cols", zlab="temperature")
 tsplot(rowMeans(soiltemp), xlab="row", ylab="Average Temperature")
 ```
 
