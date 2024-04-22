@@ -91,7 +91,7 @@ tsplot(rec, col=4, ylab="", main="Recruitment")
 
 ```r
 tsplot(cbind(Hare, Lynx), col=c(2,4), type="o", pch=c(0,2), ylab="Number", spaghetti=TRUE)
-mtext("(\u00D7 1000)", side=2, adj=1, line=1.5, c<br/> Ex=.8)
+mtext("(\u00D7 1000)", side=2, adj=1, line=1.5, cex=.8)
 legend("topright", col=c(2,4), lty=1, pch=c(0,2), legend=c("Hare", "Lynx"), bty="n")
 ```
 
@@ -991,7 +991,13 @@ arma.spec(ma=.9, main="Moving Average", col=5, gg=TRUE)
 arma.spec(ar=c(1,-.9), main="Autoregression", col=5, gg=TRUE)
 ```
 
+<br/> DFT 
 
+```r
+( dft = fft(1:4)/sqrt(4) )
+( idft = fft(dft, inverse=TRUE)/sqrt(4) )
+( Re(idft) )  # keep it real
+```
 
 
 <br/> Example 4.12
@@ -1005,169 +1011,277 @@ anova(lm(x~ omega1 + omega2))    # ANOVA Table
 Mod(fft(x))^2/5       # the periodogram (as a check)
 ```
 
-# ############################# here
-
-<br/> Example 4.14
-```r
-soi.ave = mvspec(soi, kernel('daniell',4))
-abline(v = c(.25,1,2,3), lty=2)
-soi.ave$bandwidth      # = 0.225
-df  = soi.ave$df       # df = 16.9875  
-U   = qchisq(.025, df) # U = 7.555916
-L   = qchisq(.975, df) # L = 30.17425
-soi.ave$spec[10]       # 0.0495202
-soi.ave$spec[40]       # 0.1190800
-# intervals
-df*soi.ave$spec[10]/L  # 0.0278789
-df*soi.ave$spec[10]/U  # 0.1113333
-df*soi.ave$spec[40]/L  # 0.0670396
-df*soi.ave$spec[40]/U  # 0.2677201
-
-# Repeat above commands with soi replaced by rec, for <br/> Example:
-rec.ave = mvspec(rec, k)
-abline(v=c(.25,1,2,3), lty=2)
-# and so on.
-```
-
-
 
 
 <br/> Example 4.15
-```r
-t = seq(0, 1, by=1/200) 
-amps = c(1, .5, .4, .3, .2, .1)
-x = matrix(0, 201, 6)
-for (j in 1:6) x[,j] = amps[j]*sin(2*pi*t*2*j)
-x = ts(cbind(x, rowSums(x)), start=0, deltat=1/200)               
-tsplot(x, lty=c(1:6, 1), lwd=c(rep(1,6), 2), ylab="Sinusoids", col=1:6, spaghetti=TRUE)
-names = c("Fundamental","2nd Harmonic","3rd Harmonic","4th Harmonic","5th Harmonic", 
-          "6th Harmonic","Formed Signal")
-legend("topright", names, lty=c(1:6, 1), lwd=c(rep(1,6), 2), col=1:6)
-rm(t)                    #Redemption
 
-##########################################################################
-# another view of the idea, sawtooth signal periodic but not sinusoidal  #
-##########################################################################
-y = ts(rev(1:100 %% 20), freq=20)         # sawtooth signal
-par(mfrow=2:1)
-tsplot(1:100, y, ylab="sawtooth signal", col=4)
-mvspec(y, main="", ylab="periodogram", col=5, xlim=c(0,7))  
+```r
+P = mvspec(ENSO, lowess=TRUE, col=5, main='ENSO: Raw Periodogram')
+ rect(1/7,-1, 1/2, 4, density=NA, col=gray(.6,.2))
+ abline(v=1/4, lty=5, col=8)
+ mtext('1/4',side=1, line=0, at=.25, cex=.75)
+# confidence interval:
+c(2*P$spec[18]/qchisq(.975, 2),  2*P$spec[18]/qchisq(.025, 2))
 ```
+
+<br/> smoothing the periodogram
+
+```r
+P = mvspec(rnorm(2^10), col=8, main=NA, ylab='periodogram', gg=TRUE)
+segments(0,1, .5,1, col=astsa.col(6,.7), lwd=5)  # actual spectrum
+lines(P$freq, filter(P$spec, filter=rep(.01,100), circular=TRUE), col=4, lwd=3)
+```
+
 
 
 
 <br/> Example 4.16
+
 ```r
-kernel("modified.daniell", c(3,3))          # for a list
-plot(kernel("modified.daniell", c(3,3)))    # for a graph
-
-k        = kernel("modified.daniell", c(3,3))
-soi.smo  = mvspec(soi, kernel=k, taper=.1)
-abline(v = c(.25,1), lty=2)
-## Repeat above lines with rec replacing soi 
-soi.smo$df           # df = 17.42618
-soi.smo$bandwidth    # B  = 0.2308103
-
-# An easier way to obtain soi.smo:
-soi.smo = mvspec(soi, spans=c(7,7), taper=.1, nxm=4)
-
-# hightlight El Nino cycle
-rect(1/7, -1e5, 1/3, 1e5, density=NA, col=gray(.5,.2))
-mt<br/> Ext("1/4", side=1, line=0, at=.25, c<br/> Ex=.75)     
+k = kernel("daniell", 4)  # k is a vector of nine 1/9s
+par(mfrow=2:1)
+ENSO.av  = mvspec(ENSO, lowess=TRUE, kernel=k, col=5, main='ENSO: Averaged Periodogram')
+ rect(1/7,-1, 1/2,4, density=NA, col=gray(.6,.2))
+ abline(v=1/4, lty=5, col=8)
+ mtext('1/4', side=1, line=0, at=.25, cex=.75)
+ENSO.avl = mvspec(ENSO, lowess=TRUE, kernel=k, col=5, main='ENSO: Averaged Periodogram (log scale)', log='y')
+ rect(1/7, .005, 1/2, 1, density=NA, col=gray(.6,.2))
+ abline(v=1/4, lty=5, col=8)
+ mtext('1/4', side=1, line=0, at=.25, cex=.75)
 ```
 
 
 
 <br/> Example 4.17
-```r
-s0 = mvspec(soi, spans=c(7,7), plot=FALSE)             # no taper
-s50 = mvspec(soi, spans=c(7,7), taper=.5, plot=FALSE)  # full taper
-tsplot(s50$freq, s50$spec, log="y", type="l", ylab="spectrum", xlab="frequency") 
-lines(s0$freq, s0$spec, lty=2) 
-abline(v=.25, lty=2, col=8)
-mt<br/> Ext('1/4',side=1, line=0, at=.25, c<br/> Ex=.9)
-legend(5,.04, legend=c('full taper', 'no taper'), lty=1:2)
 
-t<br/> Ext(1.42, 0.04, 'leakage', c<br/> Ex=.8)
-arrows(1.4, .035, .75, .009, length=0.05,angle=30)   
-arrows(1.4, .035, 1.21, .0075, length=0.05,angle=30)
-par(fig = c(.65, 1, .65, 1),  new = TRUE, c<br/> Ex=.5,  mgp=c(0,-.1,0), tcl=-.2)
-taper <- function(x) { .5*(1+cos(2*pi*x))  }
- x <- seq(from = -.5, to = .5, by = 0.001)
-plot(x, taper(x), type = "l",  lty = 1,  yaxt='n', ann=FALSE)
+```r
+y = ts(100:1 %% 20, freq=20)   # sawtooth signal
+par(mfrow=2:1)
+tsplot(1:100, y, ylab='sawtooth signal', col=4, gg=TRUE)
+mvspec(y, main=NA, ylab='periodogram', col=5, gg=TRUE)
 ```
+
+<br/> Modified Daniell kernel
+
+```r
+par(mfrow=1:2)
+tsplot(kernel("modified.daniell", c(3,3)), ylab=bquote(h[~k]), lwd=2, col=4, ylim=c(0,.16), xlab='k', type='h', main='mDaniell(3,3)', gg=TRUE)
+tsplot(kernel("modified.daniell", c(3,3,3)), ylab=bquote(h[~k]), lwd=2, col=4, ylim=c(0,.16), xlab='k', type='h', main='mDaniell(3,3,3)', gg=TRUE)
+```
+
 
 
 <br/> Example 4.18
+
 ```r
-# AR spectrum - AIC picks order=15
-u <- spec.ic(soi,  detrend=TRUE, col=4, lwd=2, nxm=4)  
-# plot AIC and BIC
-dev.new()
-tsplot(0:30, u[[1]][,2:3], type='o', col=2:3, xlab='ORDER', nxm=5, lwd=2, gg=TRUE)  
+par(mfrow=2:1)
+ENSO.sm = mvspec(ENSO, lowess=TRUE, spans=c(7,7), col=5, main='ENSO: Smoothed Periodogram')
+ rect(1/7, -1, 1/2, 4, density=NA, col=gray(.6,.2))
+ abline(v=1/4, lty=5, col=8)
+ mtext('1/4',side=1, line=0, at=.25, cex=.75)
+ENSO.sml = mvspec(ENSO, lowess=TRUE, spans=c(7,7), col=5, main='ENSO: Smoothed Periodogram (log scale)', log='y')
+ rect(1/7, .005, 1/2,4, density=NA, col=gray(.6,.2))
+ abline(v=1/4, lty=5, col=8)
+ mtext('1/4',side=1, line=0, at=.25, cex=.75)
+```
+
+
+
+
+<br/> Example 4.19
+
+```r
+mvspec(ENSO, lowess=TRUE, spans=c(7,7,7), taper=.5, xlim=c(0,3), col=5)      
+s0 = mvspec(ENSO, lowess=TRUE, spans=c(7,7,7), plot=FALSE)   # no taper
+lines(s0$freq, s0$spec, col=2, lty=5) 
+text(.22, .4, 'leakage', cex=.8)
+legend('bottomleft', legend=c('no taper', 'full taper'), lty=c(5,1), col=c(2,4), bty='n')
 ``` 
 
 
-<br/> Example 4.21
+<br/> Example 4.20
+
 ```r
-sr = mvspec(cbind(soi,rec), kernel("daniell",9), plot.type="coh")
-sr$df                     # df = 35.8625
-f = qf(.999, 2, sr$df-2)  # f = 8.529792
-C = f/(18+f)              # C = 0.3188779
-abline(h = C)
+par(xpd = NA, oma=c(0,0,0,5)) 
+x = rep(1,100) 
+tsplot(1:100/100, cbind(spec.taper(x, p=.1), spec.taper(x, p=.2), spec.taper(x, p=.5)), col=astsa.col(2:4,.5), lty=c(5,2,1), gg=TRUE, spaghetti=TRUE, xlab='t / n', lwd=2, ylab='taper')
+legend('topright', inset=c(-.2,0), bty='n', lty=c(5,2,1), col=2:4, legend=c('10%','20%', 'Full'), lwd=2)
 ```
+
+
+<br/> Example 4.21
+
+```r
+par(mfrow=2:1)
+mvspec(ts(scale(EQ5), freq=40), spans=c(21,21), xlim=c(0,10), taper=.1, col=5, main='Earthquake', xlab='frequency (Hz)')
+mvspec(ts(scale(EXP6), freq=40), spans=c(21,21), xlim=c(0,10), taper=.1, col=5, main='Explosion', xlab='frequency (Hz)')
+```
+
 
 
 <br/> Example 4.22
+
 ```r
-par(mfrow=c(3,1))
-tsplot(soi, col=4)                         # plot data
-tsplot(diff(soi), col=4)                   # plot first difference
-k = kernel("modified.daniell", 6)          # filter weights
-tsplot(soif <- kernapply(soi, k), col=4)   # plot 12 month filter
-dev.new()
-mvspec(soif, spans=9, lwd=2, col=5, nxm=4, taper=.1) # spectral analysis (not shown)
-rect(1/7, -1e5, 1/3, 1e5, density=NA, col=gray(.5,.2))
-mt<br/> Ext("1/4", side=1, line=0, at=.25, c<br/> Ex=.75)
-dev.new()
-##-- frequency responses --##
-par(mfrow=c(2,1))
-w = seq(0, .5, by=.01)
-FRdiff = abs(1-<br/> Exp(2i*pi*w))^2
-tsplot(w, FRdiff, xlab='frequency')
-u = cos(2*pi*w)+cos(4*pi*w)+cos(6*pi*w)+cos(8*pi*w)+cos(10*pi*w)
-FRma = ((1 + cos(12*pi*w) + 2*u)/12)^2
-tsplot(w, FRma, xlab='frequency')
+spec.ic(ENSO, lowess=TRUE, col=astsa.col(5, .7), ylim=c(0,.65), lwd=2)
+u = mvspec(ENSO, lowess=TRUE, spans=c(7,7), taper=.2, plot=FALSE)
+lines(u$freq, u$spec, col=6, lty=5)
+legend('topright', legend=c('Parameteric', 'Nonparametric'), lty=c(1,5), col=5:6, bg='white')
 ```
 
-
-<br/> Example 4.24
-```r
-LagReg(soi, rec, L=15, M=32, threshold=6)
- dev.new()
-LagReg(rec, soi, L=15, M=32, inverse=TRUE, threshold=.01)
- dev.new()
-fish = ts.intersect(R=rec, RL1=lag(rec,-1), SL5=lag(soi,-5))
-(u = lm(fish[,1]~fish[,2:3], na.action=NULL))
-acf2(resid(u))       # suggests ar1
-sarima(fish[,1], 1, 0, 0, xreg=fish[,2:3], details=FALSE) 
-```
 
 <br/> Example 4.25
+
 ```r
-Sig<br/> Extract(soi, L=9, M=64, max.freq=.05) 
+sr = mvspec(cbind(soi,rec), kernel=kernel("daniell",9), col=5, ci.col=8, ci.lty=2, plot.type='coh', main='SOI & Recruitment') 
+f = qf(.999, 2, sr$df-2)  
+abline(h = f/(18+f), col=8)
 ```
 
 <br/> Example 4.26
-```r
-per = abs(fft(soiltemp-mean(soiltemp))/sqrt(64*36))^2       
-per2 = cbind(per[1:32,18:2], per[1:32,1:18])   # this and line below is just rearranging
-per3 = rbind(per2[32:2,], per2)                # results to get 0 frequency in the middle
 
-par(mar=c(1,2.5,0,0)+.1)
-persp(-31:31/64, -17:17/36, per3, phi=30, theta=30, <br/> Expand=.6, ticktype="detailed", xlab="cycles/row", 
-       ylab="cycles/column", zlab="Periodogram Ordinate")
+```r
+par(mfrow=c(3,1))
+tsplot(ENSO, main='SOI', col=4, ylab='' )  
+tsplot(diff(ENSO), col=4, ylab='', main='First Difference') 
+ k = kernel("modified.daniell", 6)  
+tsplot(kernapply(ENSO, k), col=4, ylab='', main='Seasonal Moving Average')  
+##-- frequency responses --##
+w =  seq(0, .5, by=.001) 
+FRdiff = abs(1-exp(2i*pi*w))^2
+par(mfrow=2:1)
+tsplot(12*w, FRdiff, col=4, ylab='', xlab='frequency (\u00D7 12)', main='First Difference')
+u = rowSums(cos(outer(w, 2*pi*1:5)))
+FRma = ((1 + cos(12*pi*w) + 2*u)/12)^2
+tsplot(12*w, FRma, col=4, ylab='', xlab='frequency (\u00D7 12)',  main='Seasonal Moving Average')
 ```
+
+<br/> Example 4.28
+
+```r
+LagReg(soi, rec, L=15, M=32, threshold=6) 
+LagReg(rec, soi, L=15, M=32, inverse=TRUE, threshold=.01)
+
+fish = ts.intersect(R=rec, RL1=lag(rec,-1), SL5=lag(soi,-5), dframe=TRUE)
+(u = lm(R~ RL1 + SL5, data=fish, na.action=NULL))
+acf2(resid(u))  # suggests ar1  
+sarima(fish$R, 1, 0, 0, xreg=fish[,2:3]) 
+```
+
+
+<br/> Example 4.29
+
+```r
+f.ENSO = SigExtract(ENSO, L=c(21,21), M=64, max.freq=.05)
+par(mfrow=2:1)
+tsplot(ENSO, col=8)
+ lines(f.ENSO, col=4, lwd=2)
+mvspec(f.ENSO, lowess=TRUE, spans=c(21,21), taper=.5, col=5, na.action=na.omit)
+ rect(1/12,-1, 1/2,1, density=NA, col=gray(.6,.2))
+ abline(v=1/3, lty=5, col=8)
+ mtext('1/3',side=1, line=0, at=1/3, cex=.75)
+```
+
+<br/> Example 4.30
+
+```r
+per   = Mod(fft(soiltemp-mean(soiltemp))/sqrt(64*36))^2
+ per2 = cbind(per[1:32,18:2], per[1:32,1:18])  # these lines used ...
+ per3 = rbind(per2[32:2,], per2)               # ... for better display
+persp(-31:31/64, -17:17/36, per3, phi=30, theta=30, expand=.6, ticktype="detailed", xlab="cycles/row", ylab="cycles/column", zlab="Periodogram", col='lightblue')
+```
+
+
+<br/> Example 4.31
+
+```r
+set.seed(90210)
+x1 = sarima.sim(ar=c(1.4, -.8), sd=1.5, n=600) 
+x2 = sarima.sim(ar=c(1.7, -.8), n=400)
+x  = c(x1, x2)
+tsplot(x, col=4)
+abline(v=600.5, col=2, lwd=2)
+autoParm(x)
+
+ar(x[1:600], order=2)
+ar(x[601:1000], order=2)
+
+mvspec(x)  # all action  < .2 (not displayed)
+autoSpec(x, max.freq=.2)
+
+##-- graphics
+z1 = arma.spec(ar=c(1.4, -.8), var=1.5^2, plot=FALSE) 
+z2 = arma.spec(ar=c(1.7, -.8), plot=FALSE) 
+par(mfrow=2:1)
+spec.ic(x1, order=2, main='AutoParm', col=6, gg=TRUE, ylim=c(0,275), xlim=c(0,.25))
+ u = spec.ic(x2, order=2, plot=FALSE)
+ lines(u[[2]], col=5)
+ lines(z2$freq, z2$spec, col=8)
+ lines(z1$freq, z1$spec, col=8)
+ legend('topright', legend=c('True', 'Segment 1', 'Segment 2'), lty=1, col=c(8,6,5), bty="n")
+mvspec(x[598:1000], taper=.5, kernel=bart(3), col=5, main='AutoSpec', gg=TRUE, las=0, xlim=c(0,.25)) 
+ u = mvspec(x[1:597], taper=.5, kernel=bart(7), plot=FALSE)
+ lines(u$freq, u$spec, col=6, lwd=2)
+ lines(z2$freq, z2$spec, col=8)
+ lines(z1$freq, z1$spec, col=8)
+ legend('topright', legend=c('True', 'Segment 1', 'Segment 2'), lty=1, col=c(8,6,5), bty="n")
+```
+
+<br/> Example 4.32
+
+```r
+set.seed(90210)
+num = 1000
+t   = 1:num
+w   = 2*pi/25
+d   = 2*pi/150
+x1  = 2*cos(w*t)*cos(d*t) + rnorm(num)
+x2  = cos(w*t) + rnorm(num)
+x   = c(x1, x2)
+autoParm(x)
+spec.ic(x, order=13)   # the chosen estimate (not displayed) 
+
+mvspec(x)  # all action  < .1 (not displayed)
+autoSpec(x, max.freq=.1)
+
+#-- graphics  
+par(mfrow=c(2,2))
+spec.ic(x1, gg=TRUE, col=5, xlim=c(0,.1))     
+ segments(x0=.04-1/150, y0=-10, y1=10, col=2)
+ segments(x0=.04+1/150, y0=-10, y1=10, col=2)
+spec.ic(x2, gg=TRUE, col=5, xlim=c(0,.1))   
+ segments(x0=.04, y0=-10, y1 = 5, col=2)
+mvspec(x[1:1004], taper=.5, kernel=bart(1), col=5, main='AutoSpec - Segment 1', gg=TRUE, las=0, xlim=c(0,.1)) 
+ segments(x0=.04-1/150, y0=-10, y1=10, col=2)
+ segments(x0=.04+1/150, y0=-10, y1=10, col=2)
+mvspec(x[1005:2000], taper=.5, kernel=bart(1), col=5, main='AutoSpec - Segment 2', gg=TRUE, las=0, xlim=c(0,.1)) 
+ segments(x0=.04, y0=-10, y1=10, col=2)
+```
+
+<br/> Example 4.33
+
+```r
+autoParm(detrend(MEI, lowess=TRUE))  # no breaks found
+autoSpec(detrend(MEI, lowess=TRUE), max.freq=1/12) # one break, mid-1979
+time(MEI)[354]
+x1 = window(detrend(MEI, lowess=TRUE), end=1979.4)
+x2 = window(detrend(MEI, lowess=TRUE), start=1979.4)  # June 1979 
+
+#-- graphic
+par(mfrow=2:1)
+trend(MEI, lowess=TRUE)
+mvspec(x1/sd(x1), taper=.2, kernel=bart(2), col=5, lwd=2, main=NA, xlim=c(0,2))
+u = mvspec(x2/sd(x2), taper=.2, kernel=bart(2), col=6, plot=FALSE)
+lines(u$freq, u$spec, col=6, lwd=2 )
+rect(1/7,-1, 1/2,1.5, density=NA, border=NA, col=gray(.6,.2))
+abline(v=c(1/1.5,1/2, 1/7, 1/3), lty=5, col=8)
+legend('topright', legend=c('1950 - 1979  ', '1979 - 2018  '), lty=1, bg='transparent', bty='n', col=5:6, cex=.9)
+mtext('7',  side=1, line=-.2, at=1/7, cex=.75, font=2, col=3)
+mtext('3',  side=1, line=-.2, at=1/3, cex=.75, font=2, col=3)
+mtext('1.5',side=1, line=-.2, at=2/3, cex=.75, font=2, col=3)
+mtext('2',  side=1, line=-.2, at=.5,  cex=.75, font=2, col=3) 
+```
+
+
 
 [<sub>top</sub>](#table-of-contents)
 
@@ -1175,213 +1289,215 @@ persp(-31:31/64, -17:17/36, per3, phi=30, theta=30, <br/> Expand=.6, ticktype="d
 
 ## Chapter 5
 
+Classic long memory (of the way we were)
+
+```r
+acf1(log(varve), 100) 
+acf1(cumsum(rnorm(1000)), 100)  # compare to ACF of random walk (not shown)
+```
 
 <br/> Example 5.1
 
 ```r
-# NOTE: The <br/> Example in the t<br/> Ext uses the package 'fracdiff', 
-#       which is a dinosaur and gave questionable results - 
-#       this uses 'arfima' but it didn't make it into the t<br/> Ext.
 library(arfima)
-summary(varve.fd <- arfima(log(varve)))  # d.hat = 0.3728, se(d,hat) = 0.0273
-# residual stuff
-innov = resid(varve.fd)  
-par(mfrow=2:1)
-tsplot(innov[[1]])  
-acf1(innov[[1]])  
+summary(varve.fd <- arfima(log(varve)))
+innov = resid(varve.fd)[[1]]  
+sarima(innov, 0,0,0, no.constant=TRUE, col=4)  # residual analysis  
 
 # plot pi wgts
 dev.new()
 p = rep(1,31)
 for (k in 1:30){ p[k+1] = (k-coef(varve.fd)[1])*p[k]/(k+1) }
-tsplot(p[-1], ylab=<br/> Expression(pi[j](d)), xlab="Ind<br/> Ex (j)", type="h", lwd=4, col=2:7, nxm=5)
+tsplot(p[-1], ylab=bquote(pi[j](d)), xlab="Index (j)", type="h", lwd=4, col=2:7, nxm=5)
 ```
 
 
 <br/> Example 5.2
+
 ```r
-series = log(varve)  # specify series to be analyzed
-d0 = .1              # initial value of d
-n.per = n<br/> Extn(length(series))
-m = (n.per)/2  - 1
-per = abs(fft(series-mean(series))[-1])^2  # remove 0 freq
-per = per/n.per      # R doesn't scale fft by sqrt(n)
-g = 4*(sin(pi*((1:m)/n.per))^2)
-
-# Function to calculate -log.likelihood
-whit.like = function(d){  
- g.d=g^d
- sig2 = (sum(g.d*per[1:m])/m)
- log.like = m*log(sig2) - d*sum(log(g)) + m
- return(log.like)   
-}
-
-# Estimation (?optim for details - output not shown)
-(est = optim(d0, whit.like, gr=NULL, method="L-BFGS-B", 
-     hessian=TRUE, lower=-.5, upper=.5, control=list(trace=1,REPORT=1)))
-
-# Results  [d.hat = .380, se(dhat) = .028]  
-cat("d.hat =", est$par, "se(dhat) = ",1/sqrt(est$hessian),"\n")  
-g.dhat = g^est$par
-sig2 = sum(g.dhat*per[1:m])/m
-cat("sig2hat =",sig2,"\n")  # sig2hat = .229 
-
-# compart AR spectrum to long memory spectrum
-u = spec.ic(log(varve), log='y', lty=2, xlim=c(0,.25), ylim=c(.2,20), col=4)        
-g = 4*(sin(pi*((1:500)/2000))^2)
-fhat = sig2*g^{-est$par}             # long memory spectral estimate          
-lines(1:500/2000, fhat, col=6)
-ar.mle(log(varve))                   # to get AR(8) estimates 
-
-# 'fracdiff' has a GPH method, but I don't trust the pacakge
-# library(fracdiff)
-# fdGPH(log(varve), bandw=.9)   # m = n^bandw- it's supposed to be small- this is way too big 
+library(arfima)
+summary(varve1.fd <- arfima(log(varve), order=c(0,0,1)))
 ```
 
 
 <br/> Example 5.3
+
 ```r
-library(tseries)
-adf.test(log(varve), k=0)  # DF test
-adf.test(log(varve))       # ADF test
-pp.test(log(varve))        # PP test
+per   = mvspec(log(varve), fast=FALSE, demean=TRUE, plot=FALSE)$spec
+n.per = length(per)
+m     = floor((n.per)/2  - 1)
+d0    = .1
+g     = 4*(sin(pi*((1:m)/n.per))^2)
+whit.like = function(d){
+  g.d      = g^d
+  sig2     = (sum(g.d*per[1:m])/m)
+  log.like = m*log(sig2) + d*sum(log(g)) + m
+  return(log.like)
+}
+est = optim(d0, whit.like, gr=NULL, method="L-BFGS-B", hessian=TRUE, lower=0, upper=.5)
+c(dhat <- est$par, se.dhat <- 1/sqrt(est$hessian), sig2 <- sum(g^dhat*per[1:m])/m)
+
+u    = spec.ic(log(varve), plot=FALSE)  # produces AR(8)
+g    = 4*(sin(pi*((1:200)/2000))^2)
+fhat = sig2*g^{-dhat}                   # LM spectrum
+tsplot(1:200/2000, fhat, log='y', ylim=c(.3,50), ylab="spectrum", xlab="frequency", col=5)
+lines(u[[2]][1:100,1], u[[2]][1:100,2], lty=5, col=6)  # AR(8) spectrum
+
+dog = mvspec(log(varve), fast=FALSE, demean=TRUE, plot=FALSE) 
+n   = length(varve);  lper = log(dog$spec);  freq = dog$freq
+z   = -2*log(2*sin(pi*freq));  m = floor(n^.8)  
+summary(lm(lper[1:m]~ z[1:m]))
 ```
+
 
 <br/> Example 5.4
+
 ```r
-gnpgr = diff(log(gnp))          # get the returns
-u     = sarima(gnpgr, 1, 0, 0)  # fit an AR(1)
-acf2(resid(u$fit), 20)          # get (p)acf of the squared residuals
- 
-library(fGarch)
-summary(garchFit(~arma(1,0)+garch(1,0), gnpgr))
+library(tseries)
+adf.test(log(varve), k=0)               # DF test 
+adf.test(log(varve))                    # ADF test 
+pp.test(log(varve))                     # PP test 
 ```
 
 
 
-<br/> Example 5.5 and 5.6 
+<br/> Example 5.5  
+
 ```r
-library(xts)   # needed to handle djia
+tsplot(diff(log(GNP)), col=4)         # data
+acf2(diff(log(GNP)), col=4, main=NA)  # p/acf
+library(fGarch)                       # fit ARCH model
+summary(gnp.g <- garchFit(~arma(2,0)+garch(1,0), data=diff(log(GNP)), cond.dist='std'))
+plot(gnp.g)   # for various graphics 
+```
+
+
+
+<br/> Example 5.6  
+
+```r
+library(TSA); library(xts)          # download and install if necessary
+dENSO = detrend(ENSO, lowess=TRUE)
 djiar = diff(log(djia$Close))[-1]
-acf2(djiar)    # <br/> Exhibits some autocorrelation (not shown)
-acf2(djiar^2)  # oozes autocorrelation (not shown)
-library(fGarch)
-# GARCH fit
-summary(djia.g <- garchFit(~arma(1,0)+garch(1,1), data=djiar, cond.dist='std'))
-plot(djia.g)    # to see all plot options
-# APARCH fit
-summary(djia.ap <- garchFit(~arma(1,0)+aparch(1,1), data=djiar, cond.dist='std'))
-plot(djia.ap)
+
+Keenan.test(dENSO)
+Keenan.test(djiar)
+
+Tsay.test(dENSO)
+Tsay.test(djiar) 
+
+test.linear(dENSO, main='ENSO')  
+test.linear(djiar, main='DJIA Returns')  
 ```
+
+
 
 <br/> Example 5.7
+
 ```r
-tsplot(flu, type="c")
-Months = c("J","F","M","A","M","J","J","A","S","O","N","D")
-points(flu, pch=Months, c<br/> Ex=.8, font=2)
+library(xts)
+djiar = diff(log(djia$Close))[-1]
+acf2(djiar, col=3)     #  minimal autocorrelation  
+acf2(djiar^2, col=4)   #  oozes autocorrelation 
+library(fGarch)
+summary(djia.g <- garchFit(~arma(1,0)+garch(1,1), data=djiar, cond.dist='std'))
+plot(djia.g)    # to see all plot options
+```
+
+<br/> Example 5.8  
+
+```r
+library(xts)
+djiar = diff(log(djia$Close))[-1]
+library(fGarch)
+summary(djia.ap <- garchFit(~arma(1,0)+aparch(1,1), data=djiar, cond.dist='std'))
+plot(djia.ap)   # to see all plot options (none shown)
+```
+
+
+
+<br/> Example 5.9
+
+```r
+# Plot data with months as points
+tsplot(flu, type='c')
+points(flu, pch=Months, cex=1, col=2:5, font=2)
 # Start analysis
-dflu = diff(flu)
-dev.new()
-lag1.plot(dflu, corr=FALSE) # scatterplot with lowess fit
-thrsh = .05 # threshold
-Z = ts.intersect(dflu, lag(dflu,-1), lag(dflu,-2), lag(dflu,-3),
-lag(dflu,-4) )
-ind1 = ifelse(Z[,2] < thrsh, 1, NA) # indicator < thrsh
-ind2 = ifelse(Z[,2] < thrsh, NA, 1) # indicator >= thrsh
-X1 = Z[,1]*ind1
-X2 = Z[,1]*ind2
-summary(fit1 <- lm(X1~ Z[,2:5]) ) # case 1
-summary(fit2 <- lm(X2~ Z[,2:5]) ) # case 2
-D = cbind(rep(1, nrow(Z)), Z[,2:5]) # design matrix
-p1 = D %*% coef(fit1) # get predictions
-p2 = D %*% coef(fit2)
-prd = ifelse(Z[,2] < thrsh, p1, p2)
-dev.new()
-tsplot(dflu, ylim=c(-.5,.5), type='p', pch=3)
-lines(prd)
-prde1 = sqrt(sum(resid(fit1)^2)/df.residual(fit1) )
-prde2 = sqrt(sum(resid(fit2)^2)/df.residual(fit2) )
-prde = ifelse(Z[,2] < thrsh, prde1, prde2)
-tx = time(dflu)[-(1:4)]
-xx = c(tx, rev(tx))
-yy = c(prd-2*prde, rev(prd+2*prde))
-polygon(xx, yy, border=8, col=gray(.6, alpha=.25) )
-abline(h=.05, col=4, lty=6)
+dflu  = diff(flu)
+lag1.plot(dflu, corr=FALSE)   # scatterplot with lowess fit  
+thrsh = .05                   # threshold
+Z = ts.intersect(dflu, lag(dflu,-1), lag(dflu,-2), lag(dflu,-3), lag(dflu,-4))
+ind1  = ifelse(Z[,2] < thrsh, 1, NA)  # indicator < thrsh
+ind2  = ifelse(Z[,2] < thrsh, NA, 1)  # indicator >= thrsh
+X1    = Z[,1]*ind1
+X2    = Z[,1]*ind2
+summary(fit1 <- lm(X1~ Z[,2:5]) )         # case 1 
+summary(fit2 <- lm(X2~ Z[,2:5]) )         # case 2
+# Predictions
+D     = cbind(rep(1, nrow(Z)), Z[,2:5])   # design matrix
+p1    = D %*% coef(fit1)                 
+p2    = D %*% coef(fit2)
+prd   = ifelse(Z[,2] < thrsh, p1, p2)
+tsplot(dflu, type='p', ylim=c(-.5,.5), pch=3, col=6, nym=2)
+lines(prd, col=4, lwd=2)
+ prde1 = sqrt(sum(resid(fit1)^2)/df.residual(fit1)) 
+ prde2 = sqrt(sum(resid(fit2)^2)/df.residual(fit2))
+ prde = ifelse(Z[,2] < thrsh, prde1, prde2)
+    x = time(dflu)[-(1:4)]
+   xx = c(x, rev(x))
+   yy = c(prd - 2*prde, rev(prd + 2*prde))
+polygon(xx, yy, border=8, col=gray(.6,   alpha=.2))
+sarima(dflu-prd, 0,0,0)  # residual analysis (not shown)
 
-# Using tsDyn (not in t<br/> Ext)
-library(tsDyn)        
-# vignette("tsDyn")   # for package details (it's quirky, so you'll need this)
-dflu = diff(flu)
-(u = setar(dflu, m=4, thDelay=0))  # fit model and view results (thDelay=0 is lag 1 delay)
-BIC(u); AIC(u)                     # if you want to try other models ... m=3 works well too
-plot(u)                            # graphics -  ?plot.setar for information
+library(NTS)       # load package - install it first
+flutar = uTAR(diff(flu), p1=4, p2=4)   
+sarima(resid(flutar), 0,0,0)  # residual analysis (not shown)
 ```
 
-<br/> Example 5.8 and 5.9 
-```r
-soi.d   = resid(lm(soi~time(soi), na.action=NULL)) # detrended SOI
-acf2(soi.d)
-fit     = arima(soi.d, order=c(1,0,0))
-ar1     = as.numeric(coef(fit)[1]) # = 0.5875
-soi.pw  = resid(fit)
-rec.fil = filter(rec, filter=c(1, -ar1), sides=1)
-dev.new()
-ccf2(soi.pw, rec.fil) 
+<br/> Example 5.10 & 5.11
 
-fish  = ts.intersect(rec, RL1=lag(rec,-1), SL5=lag(soi.d,-5))
-(u    = lm(fish[,1]~fish[,2:3], na.action=NULL))
-dev.new()
-acf2(resid(u)) # suggests ar1
-(arx  = sarima(fish[,1], 1, 0, 0, xreg=fish[,2:3])) # final model
-pred  = rec + resid(arx$fit) # 1-step-ahead predictions
-dev.new()
-tsplot(pred, col=astsa.col(8,.3), lwd=7, ylab='rec & prediction')
-lines(rec)
-```
-
-<br/> Example 5.10 and 5.11 
 ```r
 library(vars)
 x = cbind(cmort, tempr, part)
-summary(VAR(x, p=1, type="both"))  # "both" fits constant + trend
+summary( VAR(x, p=1, type='both') )     # 'both' fits constant + trend
 
 VARselect(x, lag.max=10, type="both")
-summary(fit <- VAR(x, p=2, type="both"))
-acf(resid(fit), 52)
-serial.test(fit, lags.pt=12, type="PT.adjusted")
+fit <- VAR(x, p=2, type="both") 
+round(Bcoef(fit), 2)  # display all regression estimates
+summary(fit)  # partial output  
+acfm(resid(fit), 52)
+serial.test(fit, lags.pt=12, type="PT.adjusted") 
 
+( acfm(resid(fit), 0, plot=FALSE) )
 (fit.pr = predict(fit, n.ahead = 24, ci = 0.95))  # 4 weeks ahead
-dev.new()
-fanchart(fit.pr)  # plot prediction + error
+fanchart(fit.pr)  # plot prediction + error bounds
 ```
 
-<br/> Example 5.12 
+<br/> Example 5.12
+
 ```r
 library(marima)
-model   = define.model(kvar=3, ar=c(1,2), ma=c(1))
-arp     = model$ar.pattern 
-map     = model$ma.pattern
-cmort.d = resid(detr <- lm(cmort~ time(cmort), na.action=NULL))
-xdata   = matrix(cbind(cmort.d, tempr, part), ncol=3)  # strip ts attributes
-fit     = marima(xdata, ar.pattern=arp, ma.pattern=map, means=c(0,1,1), penalty=1)
-# resid analysis (not displayed)
-innov   = t(resid(fit))
-tsplot(innov) 
-acfm(innov)    # since astsa v1.13.2
-# acf(innov, na.action = na.pass)  # or use this
-
-# fitted values for cmort
-pred    = ts(t(fitted(fit))[,1], start=start(cmort), freq=frequency(cmort)) +
-detr$coef[1] + detr$coef[2]*time(cmort)
-plot(pred, ylab="Cardiovascular Mortality", lwd=2, col=4)
-points(cmort)
+model = define.model(kvar=3, ar=c(1,2), ma=c(1))
+arp = model$ar.pattern;  map = model$ma.pattern
+cmort.d = detrend(cmort)
+xdata = matrix(cbind(cmort.d, tempr, part), ncol=3)  # strip ts attributes
+fit = marima(xdata, ar.pattern=arp, ma.pattern=map, means=c(0,1,1), penalty=1)
+#  resid analysis (not displayed)
+innov = t(resid(fit));  plot.ts(innov);  acfm(innov, na.action=na.pass)
+#  fitted values for cmort  
+pred = ts(t(fitted(fit))[,1], start=start(cmort), freq=frequency(cmort)) + detr$coef[1] + detr$coef[2]*time(cmort) 
+tsplot(cmort, type='p', col=8, ylab="Cardiovascular Mortality")
+lines(pred, col=4)
 # print estimates and corresponding t^2-statistic
-short.form(fit$ar.estimates, leading=FALSE)
+short.form(fit$ar.estimates, leading=FALSE) 
 short.form(fit$ar.fvalues,   leading=FALSE)
+# short.form(fit$ar.pvalues, leading=FALSE)   # p-values 
 short.form(fit$ma.estimates, leading=FALSE)
-short.form(fit$ma.fvalues,   leading=FALSE)
-fit$resid.cov # estimate of noise cov matrix
+short.form(fit$ma.fvalues,   leading=FALSE) 
+# short.form(fit$ma.pvalues, leading=FALSE)   # p-values 
+fit$resid.cov    # estimate of noise cov matrix  
 ```
+
 
 [<sub>top</sub>](#table-of-contents)
 
@@ -1389,128 +1505,116 @@ fit$resid.cov # estimate of noise cov matrix
 
 ## Chapter 6
 
-> __Warning__ The code here uses the updated scripts in `astsa` _version 2.0._   Details of the updates are in the help files of `Kfilter`, `Ksmooth`, and `EM`.  Original code (prior to version 2.0) may be found here: [Original Chapter 6 Info and Code](https://github.com/nickpoison/tsa4/blob/master/chap6.md)
+ 
 
 
 
 
 <br/> Example 6.1
+
 ```r
-tsplot(blood, type='o', col=c(6,4,2), lwd=2, pch=19, c<br/> Ex=1) 
+tsplot(blood, type='o', col=c(4,6,3), pch=19, cex=1)
 ```
 
 <br/> Example 6.2
+
 ```r
-tsplot(cbind(gtemp_land, gtemp_ocean), spaghetti=TRUE, lwd=2, pch=20, type="o", 
-        col=astsa.col(c(4,2),.5), ylab="Temperature Deviations", main="Global Warming")
-legend("topleft", legend=c("Land Surface", "Sea Surface"), lty=1, pch=20, col=c(4,2), bg="white")
+tsplot(cbind(gtemp_land, gtemp_both), col=astsa.col(c(4,6),.7), lwd=2, ylab='Temperature Deviations', spaghetti=TRUE)
+legend("topleft", legend=c("Land Only","Land & Ocean"), col=c(4,6), lty=1, bty="n")
 ```
 
 <br/> Example 6.5
+
 ```r
-# generate data 
+# generate data
 set.seed(1)  
 num = 50
-w   = rnorm(num+1,0,1)
-v   = rnorm(num,0,1)
+w   = rnorm(num+1)
+v   = rnorm(num)
 mu  = cumsum(w)     # states:  mu[0], mu[1], . . ., mu[50] 
-y   = mu[-1] + v    # obs:  y[1], . . ., y[50]
+y   = mu[-1] + v    # obs:      y[1], . . ., y[50]
+# filter and smooth (Ksmooth does both)  
+ks = Ksmooth(y, A=1, mu0=0, Sigma0=1, Phi=1, sQ=1, sR=1)  
 
-# filter and smooth (Ksmooth does both)
-mu0 = 0;  sigma0 = 1;  phi = 1;  sQ = 1;  sR = 1   
-ks = Ksmooth(y, A=1, mu0, sigma0, phi, sQ, sR)   
-
-# pictures 
 par(mfrow=c(3,1))
-
-tsplot(mu[-1], type='p', col=4, pch=19, ylab=<br/> Expression(mu[~t]), main="Prediction", ylim=c(-5,10)) 
-  lines(ks$Xp, col=6)
-  lines(ks$Xp+2*sqrt(ks$Pp), lty=6, col=6)
-  lines(ks$Xp-2*sqrt(ks$Pp), lty=6, col=6)
-
-tsplot(mu[-1], type='p', col=4, pch=19, ylab=<br/> Expression(mu[~t]), main="Filter", ylim=c(-5,10)) 
-  lines(ks$Xf, col=6)
-  lines(ks$Xf+2*sqrt(ks$Pf), lty=6, col=6)
-  lines(ks$Xf-2*sqrt(ks$Pf), lty=6, col=6)
-
-tsplot(mu[-1], type='p', col=4, pch=19, ylab=<br/> Expression(mu[~t]), main="Smoother", ylim=c(-5,10)) 
-  lines(ks$Xs, col=6)
-  lines(ks$Xs+2*sqrt(ks$Ps), lty=6, col=6)
-  lines(ks$Xs-2*sqrt(ks$Ps), lty=6, col=6)
-
-mu[1]; ks$X0n; sqrt(ks$P0n)   # initial value info
+tsplot(mu[-1], type='p', col=4, pch=19, ylab=bquote(mu[~t]), main="Prediction", ylim=c(-3,8), gg=TRUE) 
+ lines(ks$Xp, col=5, lwd=2)
+ xx = c(1:50,50:1)
+ yy = c(ks$Xp-2*sqrt(ks$Pp), rev(ks$Xp+2*sqrt(ks$Pp)))
+ polygon(xx, yy, col=gray(.6,.2), border=NA)
+ lines(y, col=6, lty=5)
+tsplot(mu[-1], type='p', col=4, pch=19, ylab=bquote(mu[~t]), main="Filter", ylim=c(-3,8), gg=TRUE) 
+ lines(ks$Xf, col=5, lwd=2)
+ xx = c(1:50,50:1)
+ yy = c(ks$Xf-2*sqrt(ks$Pf), rev(ks$Xf+2*sqrt(ks$Pf)))
+ polygon(xx, yy, col=gray(.6,.2), border=NA)
+ lines(y, col=6, lty=5)
+tsplot(mu[-1], type='p', col=4, pch=19, ylab=bquote(mu[~t]), main="Smoother", ylim=c(-3,8), gg=TRUE) 
+ lines(ks$Xs, col=5, lwd=2)
+ xx = c(1:50,50:1)
+ yy = c(ks$Xs-2*sqrt(ks$Ps), rev(ks$Xs+2*sqrt(ks$Ps)))
+ polygon(xx, yy, col=gray(.6,.2), border=NA)
+ lines(y, col=6, lty=5)
 ```
 
 
 <br/> Example 6.6 
+
 ```r
 # Generate Data
-set.seed(999)
-num = 100
-N = num+1
-x = sarima.sim(n=N, ar=.8)
-y = ts(x[-1] + rnorm(num,0,1))     
+set.seed(90210);  num = 100
+x = sarima.sim(n = num+1, ar = .8)
+y = ts( x[-1] + rnorm(num) )
 
-# Initial Estimates 
-u = ts.intersect(y, lag(y,-1), lag(y,-2)) 
-varu = var(u)
-coru = cor(u) 
-phi = coru[1,3]/coru[1,2] 
-q = (1-phi^2)*varu[1,2]/phi 
-r = varu[1,1] - q/(1-phi^2) 
-(init.par = c(phi, sqrt(q), sqrt(r))) 
+# Initial Estimates
+u = ts.intersect(y, lag(y,-1), lag(y,-2))
+varu = var(u); coru = cor(u)
+phi = coru[1,3]/coru[1,2]
+q = (1-phi^2)*varu[1,2]/phi;  r = varu[1,1] - q/(1-phi^2)
+(init.par = c(phi, sqrt(q), sqrt(r)))  
 
-# Function to evaluate the likelihood 
-Linn=function(para){
-  phi = para[1]; sigw = para[2]; sigv = para[3] 
-  Sigma0 = (sigw^2)/(1-phi^2); Sigma0[Sigma0<0]=0 
-  kf = Kfilter(y,A=1,mu0=0,Sigma0,phi,sigw,sigv)
-  return(kf$like)   
-  }
+# Function to evaluate the likelihood
+Linn = function(para){
+  phi = para[1]; sigw = para[2]; sigv = para[3]
+  Sigma0 = (sigw^2)/(1-phi^2); Sigma0[Sigma0<0]=0
+  kf = Kfilter(y, A=1, mu0=0, Sigma0, phi, sigw, sigv)
+  return(kf$like)   }
 
-# Estimation
-(est = optim(init.par, Linn, gr=NULL, method="BFGS", hessian=TRUE, control=list(trace=1,REPORT=1)))      
+# Estimation 
+(est = optim(init.par, Linn, gr=NULL, method="BFGS", hessian=TRUE, control=list(trace=1, REPORT=1)))
 SE = sqrt(diag(solve(est$hessian)))
-cbind(estimate=c(phi=est$par[1],sigw=est$par[2],sigv=est$par[3]), SE)
+round(cbind(estimate=c(phi=est$par[1],sigw=est$par[2],sigv=est$par[3]),SE), 3)
 ```
 
 
 
 <br/> Example 6.7
+
 ```r
-##- slight change from t<br/> Ext, the data scaled -##
-##- you can remove the scales to get to the original analysis -##
-
-##- ALSO note that regression parameters not used are set to NULL (the default) instead of 0 now. 
-
-# Setup 
-y = cbind(globtemp/sd(globtemp), globtempl/sd(globtempl))
-num = nrow(y)
-input = rep(1,num)
-A = matrix(c(1,1), nrow=2)
+sl    = sd(window(gtemp_land, start=1991, end=2020))
+sb    = sd(window(gtemp_both, start=1991, end=2020))
+y     = cbind(gtemp_land/sl, gtemp_both/sb)
+input = rep(1, nrow(y))
+A     = matrix(c(1,1), nrow=2)
 mu0 = -.35; Sigma0 = 1;  Phi = 1
-
 # Function to Calculate Likelihood 
 Linn=function(para){
  sQ = para[1]      # sigma_w
-  sR1 = para[2]    # 11 element of  sR
-  sR2 = para[3]    # 22 element of sR
+  sR1  = para[2]   # 11 element of sR
+  sR2  = para[3]   # 22 element of sR
   sR21 = para[4]   # 21 element of sR
  sR = matrix(c(sR1,sR21,0,sR2), 2)  # put the matrix together
  drift = para[5]
- kf = Kfilter(y,A,mu0,Sigma0,Phi,sQ,sR,Ups=drift,Gam=NULL,input)  # NOTE Gamma is set to NULL now (instead of 0)
+ kf = Kfilter(y,A,mu0,Sigma0,Phi,sQ,sR,Ups=drift,Gam=NULL,input)  
  return(kf$like) 
  }
-
 # Estimation
-init.par = c(.1,.1,.1,0,.05)  # initial values of parameters
+init.par = c(.1, 1, 1, 0, .05)  # initial values of parameters
 (est = optim(init.par, Linn, NULL, method="BFGS", hessian=TRUE, control=list(trace=1,REPORT=1))) 
 SE = sqrt(diag(solve(est$hessian))) 
-
 # Summary of estimation  
 estimate = est$par; u = cbind(estimate, SE)
 rownames(u)=c("sigw","sR11", "sR22", "sR21", "drift"); u  
-
 # Smooth (first set parameters to their final estimates)
 sQ    = est$par[1]  
  sR1  = est$par[2]   
@@ -1519,12 +1623,11 @@ sQ    = est$par[1]
 sR    = matrix(c(sR1,sR21,0,sR2), 2)
 (R    = sR%*%t(sR))   #  to view the estimated R matrix
 drift = est$par[5]  
-ks    = Ksmooth(y,A,mu0,Sigma0,Phi,sQ,sR,Ups=drift,Gam=NULL,input)  # NOTE Gamma is set to NULL now (instead of 0)
-
+ks    = Ksmooth(y,A,mu0,Sigma0,Phi,sQ,sR,Ups=drift,Gam=NULL,input)  
 # Plot 
-tsplot(y, spag=TRUE, margins=.5, type='o', pch=2:3, col=4:3, lty=6, ylab='Temperature Deviations')
-xsm  = ts(as.vector(ks$Xs), start=1880)
-rmse = ts(sqrt(as.vector(ks$Ps)), start=1880)
+tsplot(y, spag=TRUE, type='o', pch=2:3, col=4:3, ylab='Temperature Deviations')
+xsm  = ts(as.vector(ks$Xs), start=1850)
+rmse = ts(sqrt(as.vector(ks$Ps)), start=1850)
 lines(xsm, lwd=2, col=6)
   xx = c(time(xsm), rev(time(xsm)))
   yy = c(xsm-2*rmse, rev(xsm+2*rmse))
@@ -1532,17 +1635,18 @@ polygon(xx, yy, border=NA, col=gray(.6, alpha=.25))
 ```
 
 
+
+
+
 <br/> Example 6.8
 
 
 ```r
 library(nlme)   # loads package nlme (comes with R)
-
-# Generate data (same as <br/> Example 6.6)
+# Generate data (same as Example 6.6)
 set.seed(999); num = 100; N = num+1
 x = sarima.sim(ar=.8, n=N)
-y = ts(x[-1] + rnorm(num,0,1))     
-
+y = ts(x[-1] + rnorm(num))     
 # Initial Estimates 
 u = ts.intersect(y,lag(y,-1),lag(y,-2)) 
 varu = var(u); coru = cor(u) 
@@ -1550,81 +1654,118 @@ phi = coru[1,3]/coru[1,2]
 q = (1-phi^2)*varu[1,2]/phi   
 r = varu[1,1] - q/(1-phi^2) 
 mu0 = 0; Sigma0 = 2.8
-( em = EM(y, 1, mu0, Sigma0, phi, q, r) )   
-
+# run EM - note: input the variances q and r
+( em = EM(y, A=1, mu0, Sigma0, phi, q, r) )   
 # Standard Errors  (this uses nlme)
 phi = em$Phi; sq = sqrt(em$Q); sr = sqrt(em$R)
 mu0 = em$mu0; Sigma0 = em$Sigma0
 para = c(phi, sq, sr)
- # evaluate likelihood at estimates 
+# evaluate likelihood at estimates 
 Linn=function(para){
   kf = Kfilter(y, A=1, mu0, Sigma0, para[1], para[2], para[3])
   return(kf$like) 
   }
 emhess = fdHess(para, function(para) Linn(para))
 SE = sqrt(diag(solve(emhess$Hessian)))  
-
 # Display summary of estimation 
 estimate = c(para, em$mu0, em$Sigma0); SE = c(SE,NA,NA)
 u = cbind(estimate, SE)
-rownames(u) = c("phi","sigw","sigv","mu0","Sigma0")
-u 
+rownames(u) = c("phi","sigw","sigv","mu0","Sigma0"); u
 ```
-
 
 <br/> Example 6.9
 
-
 ```r
-y    = blood
-num  = nrow(y)       
-A    = array(0, dim=c(3,3,num))   
-for(k in 1:num) if (!is.na(y[k,1])) A[,,k]= diag(1,3) 
+set.seed(1)
+num = 100
+phi1 = 1.5; phi2 =-.75   # the AR parameters
+# simulate the AR(2) states [var(w[t]) = 1 by default] 
+x = sarima.sim(ar = c(phi1, phi2), n=num)
 
-# Initial values 
-mu0    = matrix(0,3,1) 
-Sigma0 = diag(c(.1,.1,1) ,3)
-Phi    = diag(1,3)
-Q      = diag(c(.1,.1,1), 3)
-R     = diag(c(.1,.1,1), 3)  
-( em = EM(y, A, mu0, Sigma0, Phi, Q, R) ) 
+# the observations
+y = 50 + x + rnorm(num, 0, sqrt(.1)) # [var(v[t]) = .1]
+# initial conditions (stationary values)
+mux    = rbind(0, 0)
+Sigmax = matrix(c(8.6,7.4,7.4,8.6), 2, 2)
 
-# Graph smoother
-sQ = em$Q %^% .5
-sR = sqrt(em$R)
-ks  = Ksmooth(y, A, em$mu0, em$Sigma0, em$Phi, sQ , sR)
-y1s = ks$Xs[1,,] 
-y2s = ks$Xs[2,,] 
-y3s = ks$Xs[3,,]
-p1  = 2*sqrt(ks$Ps[1,1,]) 
-p2  = 2*sqrt(ks$Ps[2,2,]) 
-p3  = 2*sqrt(ks$Ps[3,3,])
+# for estimation, we use these not so great starting values
+Phi = diag(0, 2);  Phi[2,1] = 1; Phi[1,1] = .1; Phi[1,2] = .1
+Q   = diag(0, 2);  Q[1,1]   = .1
+R   = .1;          Gam = mean(y)
 
-par(mfrow=c(3,1))
-tsplot(WBC, type='p', pch=19, ylim=c(1,5), col=6, lwd=2, c<br/> Ex=1)
-lines(y1s) 
-  xx = c(time(WBC), rev(time(WBC)))  # same for all
-  yy = c(y1s-p1, rev(y1s+p1))
-polygon(xx, yy, border=8, col=astsa.col(8, alpha = .1))  
+# run EM one at a time, then re-constrain the parameters
+A = cbind(1, 0) 
+input = rep(1, num)
+for (i in 1:75){
+ em = EM(y, A, mu0=mux, Sigma0=Sigmax, Phi, Q, R, Ups=NULL, Gam, input, max.iter=1)
+ Phi = diag(0,2); Phi[2,1] = 1
+ Phi[1,1] = em$Phi[1,1]; Phi[1,2] = em$Phi[1,2]
+ Q = diag(0, 2); Q[1,1] = em$Q[1,1]; 
+ R = em$R; Gam = em$Gam
+}
 
-tsplot(PLT, type='p', ylim=c(3,6), pch=19, col=4, lwd=2, c<br/> Ex=1)
-lines(y2s)
-  yy = c(y2s-p2, rev(y2s+p2))
-polygon(xx, yy, border=8, col=astsa.col(8, alpha = .1))  
-
-tsplot(HCT, type='p', pch=19, ylim=c(20,40), col=2, lwd=2, c<br/> Ex=1)
-lines(y3s)
-  yy = c(y3s-p3, rev(y3s+p3))
-polygon(xx, yy, border=8, col=astsa.col(8, alpha = .1))  
+Phi[1,1:2]   # (actual 1.5 and -.75)
+Q[1,1]   # (actual 1)
+R        # (actual .1)
+Gam      # (actual 50)
 ```
+
+
 
 
 
 <br/> Example 6.10
-```r
-num = length(jj)
-A   = cbind(1,1,0,0) 
 
+```r
+y    = blood  # missing values are NA
+num  = nrow(y)
+A    = array(diag(1,3), dim=c(3,3,num))  # measurement matrices
+for (k in 1:num) if (is.na(y[k,1])) A[,,k] = diag(0,3) 
+# Initial values
+mu0    = matrix(0,3,1)
+Sigma0 = diag(c(.1,.1,1) ,3)
+Phi    = diag(1, 3)
+Q      = diag(c(.01,.01,1), 3) 
+R      = diag(c(.01,.01,1), 3) 
+# Run EM
+(em = EM(y, A, mu0, Sigma0, Phi, Q, R)) 
+
+# Run smoother at the estimates  
+sQ = em$Q %^% .5  # for matrices, can use square root
+sR = sqrt(em$R)
+ks = Ksmooth(y, A, em$mu0, em$Sigma0, em$Phi, sQ, sR)
+
+# Pull out the values
+y1s = ks$Xs[1,,]
+y2s = ks$Xs[2,,]
+y3s = ks$Xs[3,,]
+p1  = 2*sqrt(ks$Ps[1,1,])
+p2  = 2*sqrt(ks$Ps[2,2,])
+p3  = 2*sqrt(ks$Ps[3,3,])
+
+# plots
+par(mfrow=c(3,1))
+tsplot(WBC, type='p', pch=19, ylim=c(1,5), col=6, lwd=2, cex=1)
+ lines(y1s)
+  xx = c(time(WBC), rev(time(WBC)))  # same for all
+  yy = c(y1s-p1, rev(y1s+p1))
+ polygon(xx, yy, border=8, col=astsa.col(8, alpha = .1))
+tsplot(PLT, type='p', ylim=c(3,6), pch=19, col=4, lwd=2, cex=1)
+ lines(y2s)
+  yy = c(y2s-p2, rev(y2s+p2))
+ polygon(xx, yy, border=8, col=astsa.col(8, alpha = .1))
+tsplot(HCT, type='p', pch=19, ylim=c(20,40), col=2, lwd=2, cex=1)
+ lines(y3s)
+  yy = c(y3s-p3, rev(y3s+p3))
+ polygon(xx, yy, border=8, col=astsa.col(8, alpha = .1))
+```
+
+
+
+<br/> Example 6.11
+
+```r
+A = cbind(1,1,0,0)  # measurement matrix  
 # Function to Calculate Likelihood 
 Linn = function(para){
  Phi = diag(0,4) 
@@ -1640,15 +1781,13 @@ Linn = function(para){
 # Initial Parameters 
 mu0      = c(.7,0,0,0) 
 Sigma0   = diag(.04, 4)  
-init.par = c(1.03, .1, .1, .5)   # Phi[1,1], the 2 Qs and R
+init.par = c(1.03, .1, .1, .5)   # Phi[1,1], the 2 sQs and sR
 
 # Estimation
 est = optim(init.par, Linn, NULL, method="BFGS", hessian=TRUE, control=list(trace=1,REPORT=1))
 SE  = sqrt(diag(solve(est$hessian)))
-u   = cbind(estimate=est$par,SE)
+u   = cbind(estimate=est$par, SE)
 rownames(u)=c("Phi11","sigw1","sigw2","sigv"); u 
-
-# Smooth
 Phi      = diag(0,4) 
 Phi[1,1] = est$par[1]; Phi[2,]  = c(0,-1,-1,-1) 
 Phi[3,]  = c(0,1,0,0); Phi[4,]  = c(0,0,1,0)
@@ -1663,94 +1802,87 @@ Tsm   = ts(ks$Xs[1,,], start=1960, freq=4)
 Ssm   = ts(ks$Xs[2,,], start=1960, freq=4)
 p1    = 3*sqrt(ks$Ps[1,1,]); p2 = 3*sqrt(ks$Ps[2,2,])
 par(mfrow=c(2,1))
-tsplot(Tsm, main='Trend Component', ylab='Trend')
+tsplot(Tsm, main='Trend Component', ylab='', col=4)
   xx  = c(time(jj), rev(time(jj)))
   yy  = c(Tsm-p1, rev(Tsm+p1))
-polygon(xx, yy, border=NA, col=gray(.5, alpha = .3))
-tsplot(jj, main='Data & Trend+Season', ylab='J&J QE/Share', ylim=c(-.5,17))
+ polygon(xx, yy, border=NA, col=gray(.5, alpha = .3))
+tsplot(jj, main='Data & Trend+Season', ylab='', col=4, ylim=c(-.5,17))
   xx  = c(time(jj), rev(time(jj)) )
   yy  = c((Tsm+Ssm)-(p1+p2), rev((Tsm+Ssm)+(p1+p2)) )
-polygon(xx, yy, border=NA, col=gray(.5, alpha = .3))
+ polygon(xx, yy, border=NA, col=gray(.5, alpha = .3)) 
 
-# Forecast
-dev.new()
+# Forecasts 
 n.ahead = 12
-y       = ts(append(jj, rep(0,n.ahead)), start=1960, freq=4)
-rmspe   = rep(0,n.ahead) 
-x00     = ks$Xf[,,num]
-P00     = ks$Pf[,,num]
-Q       = sQ%*%t(sQ) 
-R       = sR%*%t(sR)
+num   = length(jj)
+Xp    = ks$Xf[,,num]
+Pp    = as.matrix(ks$Pf[,,num])
+y     = c(jj[num])
+rmspe = c(0)
 for (m in 1:n.ahead){
-       xp = Phi%*%x00
-       Pp = Phi%*%P00%*%t(Phi)+Q
-      sig = A%*%Pp%*%t(A)+R
-        K = Pp%*%t(A)%*%(1/sig)
-      x00 = xp 
-      P00 = Pp-K%*%A%*%Pp
- y[num+m] = A%*%xp
- rmspe[m] = sqrt(sig) 
-}
-tsplot(y, type='o', main='', ylab='J&J QE/Share', ylim=c(5,30), xlim = c(1975,1984))
-upp  = ts(y[(num+1):(num+n.ahead)]+2*rmspe, start=1981, freq=4)
-low  = ts(y[(num+1):(num+n.ahead)]-2*rmspe, start=1981, freq=4)
- xx  = c(time(low), rev(time(upp)))
- yy  = c(low, rev(upp))
-polygon(xx, yy, border=8, col=gray(.5, alpha = .3))
-abline(v=1981, lty=3)
+  kf       = Kfilter(y[m], A, mu0=Xp, Sigma0=Pp, Phi, sQ, sR)
+  Xp       = kf$Xp[,,1]
+  Pp       = as.matrix(kf$Pp[,,1])
+  sig      = A%*%Pp%*%t(A) + sR^2
+  y[m]     = A%*%Xp
+  rmspe[m] = sqrt(sig)
+ }  
+y = ts(append(jj, y), start=1960, freq=4)
+
+# plot
+tsplot(window(y, start=1975), type='o', main='', ylab='J&J QE/Share', col=4, ylim=c(5,26))
+ lines(window(y, start=1981), type='o', col=6)
+ upp = window(y, start=1981)+3*rmspe
+ low = window(y, start=1981)-3*rmspe
+  xx  = c(time(low), rev(time(upp)))
+  yy  = c(low, rev(upp))
+ polygon(xx, yy, border=NA, col=gray(.6, alpha = .2))
 ```
 
 
-<br/> Example 6.12
+
+<br/> Example 6.13
+
 ```r
 # Preliminary analysis
 fit1   = sarima(cmort, 2,0,0, xreg=time(cmort))
+
 acf(cbind(dmort <- resid(fit1$fit), tempr, part))
 lag2.plot(tempr, dmort, 8)
 lag2.plot(part, dmort, 8)
 
-# quick and dirty fit (detrend then fit ARMAX)
-trend   = time(cmort) - mean(time(cmort))  
-dcmort  = resid(fit2 <- lm(cmort~trend, na.action=NULL))  # detrended mort
-u       = ts.intersect(dM=dcmort, dM1=lag(dcmort,-1), dM2=lag(dcmort,-2), T1=lag(tempr,-1), P=part, P4=lag(part,-4))
-sarima(u[,1], 0,0,0, xreg=u[,2:6])  # ARMAX fit with residual analysis 
+# easy prelim method: detrend cmort then do the regression
+dcmort = detrend(cmort)
+ded = ts.intersect(dM=dcmort, dM1=lag(dcmort,-1), dM2=lag(dcmort,-2),  T1=lag(tempr,-1), P=part, P4 = lag(part,-4), dframe=TRUE)
+sarima(ded$dM, 0,0,0, xreg=ded[,2:6])  
 
-#################################################
-##  All estimates at once                      ##
-#################################################
-trend   = time(cmort) - mean(time(cmort)) # center time
-const   = time(cmort)/time(cmort)         # appropriate time series of 1s
-ded     = ts.intersect(M=cmort, T1=lag(tempr,-1), P=part, P4=lag(part,-4), trend, const)
-y       = ded[,1]
-input   = ded[,2:6]
-num     = length(y)
-A       = matrix(c(1,0), 1, 2)  
-
+##-- full run using Kfilter --## 
+trend  =  time(cmort) - mean(time(cmort))   # center time
+const  =  time(cmort)/time(cmort)           # a ts of 1s
+ded = ts.intersect(M=cmort, T1=lag(tempr,-1), P=part, P4=lag(part,-4), trend, const)
+y = ded[,1]; input =ded[,2:6]
+A = matrix(c(1,0), 1,2)
 # Function to Calculate Likelihood
 Linn=function(para){
- phi1   = para[1]; phi2 = para[2]; sR = para[3];  b1 = para[4]
- b2     = para[5];   b3 = para[6]; b4 = para[7]; alf = para[8]
- mu0    = matrix(c(0,0), 2, 1)
- Sigma0 = diag(100, 2)
- Phi    = matrix(c(phi1, phi2, 1, 0), 2)
- S      = 1
- Ups    = matrix(c(b1, 0, b2, 0, b3, 0, 0, 0, 0, 0), 2, 5)
- Gam    = matrix(c(0, 0, 0, b4, alf), 1, 5) 
- sQ     = matrix(c(phi1, phi2), 2)*sR
-# S      = sR^2
- kf     = Kfilter(y, A, mu0, Sigma0, Phi, sQ, sR, Ups=Ups, Gam=Gam, input=input, S=S, version=2)
-return(kf$like) 
-}
-
-# Estimation - prelim analysis gives good starting values
-init.par = c(phi1=.3, phi2=.3, sR=4, b1=-.1, b2=.1, b3=.04, b4=-1.3, alf=mean(cmort)) 
-L = c( 0,  0,  1, -1,  0,  0, -2, 70)   # lower bound on parameters
-U = c(.5, .5, 10,  0, .5, .5,  0, 90)   # upper bound - used in optim
-est      = optim(init.par, Linn, NULL, method='L-BFGS-B', lower=L, upper=U, 
-                 hessian=TRUE, control=list(trace=1, REPORT=1, factr=10^8))
-SE       = sqrt(diag(solve(est$hessian)))
-round(cbind(estimate=est$par, SE), 3) # results
-#################################################
+  phi1  = para[1]; phi2=para[2]; sR=para[3]; b1=para[4]; 
+  b2    = para[5]; b3=para[6]; b4=para[7]; alf=para[8]
+  mu0   = matrix(c(0,0), 2, 1); Sigma0 = diag(100, 2)
+  Phi   = matrix(c(phi1, phi2, 1, 0), 2)
+  sQ    = matrix(c(phi1, phi2), 2)*sR
+   S    = 1
+  Ups   = matrix(c(b1, 0, b2, 0, b3, 0, 0, 0, 0, 0), 2, 5)
+  Gam   = matrix(c(0, 0, 0, b4, alf), 1, 5);   
+  kf    = Kfilter(y, A, mu0, Sigma0, Phi, sQ, sR, Ups, Gam, input, S, version=2)
+  return(kf$like) }
+# Estimation
+init.par = c(phi1=.3, phi2=.3, cR=5, b1=-.2, b2=.1, b3=.05, b4=-1.6, alf=mean(cmort)) 
+L = c(.1, .1, 2, -.5,  0,  0, -2, 70)   # lower bound on parameters
+U = c(.5, .5, 8,   0, .4, .2,  0, 90)   # upper bound - used in optim
+est = optim(init.par, Linn, NULL, method="L-BFGS-B", lower=L, upper=U, hessian=TRUE, control=list(trace=1,REPORT=1,factr=10^8))
+SE = sqrt(diag(solve(est$hessian)))
+# Results
+u = cbind(estimate=est$par, SE)
+rownames(u)=c("phi1","phi2","sigv","TL1","P","PL4","trend",'constant')
+round(u,3)
 
 # Residual Analysis (not shown)
 phi1   = est$par[1]; phi2 = est$par[2]
@@ -1764,62 +1896,56 @@ S      = 1
 Ups    = matrix(c(b1, 0, b2, 0, b3, 0, 0, 0, 0, 0), 2, 5)
 Gam    = matrix(c(0, 0, 0, b4, alf), 1, 5) 
 sQ     = matrix(c(phi1, phi2), 2)*sR
-kf     = Kfilter(y, A, mu0, Sigma0, Phi, sQ, sR, Ups=Ups, Gam=Gam, input=input, S=S, version=2)
+kf     = Kfilter(y, A, mu0, Sigma0, Phi, sQ, sR, Ups, Gam, input, S, version=2)
 res    = ts(drop(kf$innov), start=start(cmort), freq=frequency(cmort))
 sarima(res, 0,0,0, no.constant=TRUE)  # gives a full residual analysis
 
-# Similar fit with but with trend in the X of ARMAX
-trend  = time(cmort) - mean(time(cmort))
-u      = ts.intersect(M=cmort, M1=lag(cmort,-1), M2=lag(cmort,-2), T1=lag(tempr,-1), 
-           P=part, P4=lag(part -4), trend)
-sarima(u[,1], 0,0,0, xreg=u[,2:7])
+# complete ARMAX approach
+ded = ts.intersect(M=cmort, M1=lag(cmort,-1), M2=lag(cmort,-2), T1=lag(tempr,-1), P=part, P4=lag(part,-4), trend=time(cmort), dframe=TRUE)
+sarima(ded$M, 0,0,0, xreg=ded[,2:7])   
+
 ```
 
 
 
-<br/> Example 6.13
-```r
-################################## 
-# NOTE:  If this takes a long time on your machine, 
-#        increase `tol` and/or decrease `nboot`
-tol   = .0001    # determines convergence of optimizer     
-nboot = 500      # number of bootstrap replicates     
-################################## 
+<br/> Example 6.14
 
-y     = window(qinfl, c(1953,1), c(1965,2))  # inflation   
+```r
+# data plot  
+tsplot(cbind(qinfl, qintr), ylab='Rate (%)', col=c(4,6), spag=TRUE, type='o', pch=2:3)
+legend("topleft", c("Inflation","Interest"), lty=1, col=c(4,6), pch=2:3, bg='white')
+# set up 
+y     = window(qinfl, c(1953,1), c(1965,2))  # quarterly inflation   
 z     = window(qintr, c(1953,1), c(1965,2))  # interest   
 num   = length(y) 
 A     = array(z, dim=c(1,1,num))
 input = matrix(1,num,1)  
-
 # Function to Calculate Likelihood   
 Linn  = function(para, y.data){  # pass data also
    phi = para[1];  alpha = para[2]
    b   = para[3];  Ups   = (1-phi)*b
    sQ  = para[4];  sR    = para[5]  
-   kf  = Kfilter(y.data,A,mu0,Sigma0,phi,sQ ,sR ,Ups ,Gam=alpha,input)
+   kf  = Kfilter(y.data, A, mu0, Sigma0, phi, sQ, sR, Ups, Gam=alpha, input)  
    return(kf$like)    
 }
-
-# Parameter Estimation   
-mu0      = 1
+# MLE   
+mu0      =  1
 Sigma0   = .01  
-init.par = c(phi=.84, alpha=-.77, b=.85, sQ=.12, sR=1.1)  # initial values   
-
+init.par = c(phi=.84, alpha=-.77, b=.85, sQ=.12, sR=1.1) # initial values   
 est = optim(init.par,  Linn, NULL, y.data=y, method="BFGS", hessian=TRUE, 
-             control=list(trace=1, REPORT=1, reltol=tol))  
+             control=list(trace=1, REPORT=1, reltol=.0001))  
 SE  = sqrt(diag(solve(est$hessian)))   
-
+# results 
 phi   = est$par[1];  alpha = est$par[2]
 b     = est$par[3];  Ups   = (1-phi)*b         
 sQ    = est$par[4];  sR    = est$par[5] 
 round(cbind(estimate=est$par, SE), 3)  
 
-
 # BEGIN BOOTSTRAP   
+tol   = .0001     # determines convergence of optimizer     
+nboot = 500       # number of bootstrap replicates 
 # Run the filter at the estimates 
 kf  = Kfilter(y, A, mu0, Sigma0, phi, sQ, sR, Ups, Gam=alpha, input) 
-
 # Pull out necessary values from the filter and initialize  
 xp      = kf$Xp
 Pp      = kf$Pp
@@ -1832,84 +1958,83 @@ xp.star = xp
 k       = 4:50                   # hold first 3 observations fixed 
 para.star = matrix(0, nboot, 5)  # to store estimates
 init.par  =  c(.84, -.77, .85, .12, 1.1)    
-
-pb = txtProgressBar(min = 0, max = nboot, initial = 0, style=3)  # progress bar
-
+pb = txtProgressBar(min=0, max=nboot, initial=0, style=3)  # progress bar
 for (i in 1:nboot){
  setTxtProgressBar(pb,i)                       
  e.star[k] = sample(e[k], replace=TRUE)   
  for (j in k){ 
-   K  = (phi*Pp[j]*z[j])/sig[j]  
-  xp.star[j] = phi*xp.star[j-1] + Ups +   K*sqrt(sig[j])*e.star[j]
+   K = (phi*Pp[j]*z[j])/sig[j]  
+  xp.star[j] = phi*xp.star[j-1] + Ups + K*sqrt(sig[j])*e.star[j]
   } 
    y.star[k] = z[k]*xp.star[k] + alpha + sqrt(sig[k])*e.star[k]  
- est.star  = optim(init.par, Linn, NULL, y.data=y.star, method='BFGS', control=list(reltol=tol))     
- para.star[i,] = cbind(est.star$par[1], est.star$par[2], est.star$par[3], 
-                       abs(est.star$par[4]), abs(est.star$par[5]))   
+ est.star  = optim(init.par, Linn, NULL, y.data=y.star, method='BFGS',control=list(reltol=tol))     
+ para.star[i,] = cbind(est.star$par[1], est.star$par[2], est.star$par[3], abs(est.star$par[4]), abs(est.star$par[5]))   
 }
 close(pb) 
 
-# Some summary statistics  
-rmse = rep(NA,5)                 # SEs from the bootstrap
-for(i in 1:5){rmse[i]=sqrt(sum((para.star[,i]-est$par[i])^2)/nboot)
-              cat(i, rmse[i],"\n") 
-             }              
-# Plot phi and sigw  (scatter.hist in astsa v1.13)
+# SEs from the bootstrap (compare these to the SEs above)   
+rmse = rep(NA,5)
+for(i in 1:5){
+  rmse[i]=sqrt(sum((para.star[,i]-est$par[i])^2)/nboot)
+  cat(i, rmse[i],"\n") 
+}           
+# Plot phi v sigw 
 phi  = para.star[,1] 
 sigw = abs(para.star[,4]) 
-scatter.hist(sigw, phi, ylab=<br/> Expression(phi), xlab=<br/> Expression(sigma[~w]), 
-             hist.col=astsa.col(5,.4), pt.col=5, pt.size=1.5)
+phi  = ifelse(phi<0, NA, phi)    # any phi < 0 not plotted
+scatter.hist(sigw, phi, ylab=bquote(phi), xlab=bquote(sigma[~w]), hist.col=astsa.col(5,.3), pt.col=astsa.col(5,.7), pt.size=1.2)
+quantile(phi, na.rm=TRUE, c(.025, .5, .975))
 ```
 
 
-<br/> Example 6.14
+
+<br/> Example 6.15
 
 ```r
 set.seed(123)
-num   = 50
-w     = rnorm(num,0,.1)
-x     = cumsum(cumsum(w))
-y     = x + rnorm(num,0,1)
-## State Space ##
-Phi   = matrix(c(2,1,-1,0),2)
-A     = matrix(c(1,0),1)
-mu0   = matrix(0,2); Sigma0 = diag(1,2)
-Linn  = function(para){
-  sigw = para[1] 
-  sigv = para[2]
-  sQ   = diag(c(sigw,0))
-  kf   = Kfilter(y, A, mu0, Sigma0, Phi, sQ, sigv)
-return(kf$like) 
+num = 50
+w = rnorm(num,0,.1)
+x = cumsum(cumsum(w))  # states
+y = x + rnorm(num,0,1) # observations
+tsplot(cbind(x,y), ylab="", type='o', pch=c(NA,20), lwd=2:1, col=c(1,4), spag=TRUE, gg=TRUE)
+# state space 
+Phi = matrix(c(2,1,-1,0),2)
+A   = matrix(c(1,0),1)
+mu0 = matrix(0,2)
+Sigma0 = diag(1,2)
+Linn = function(para){
+  sigw = para[1]; sigv = para[2]  
+  sQ = diag(c(sigw,0))
+  kf = Kfilter(y,A,mu0,Sigma0,Phi,sQ,sigv)
+  return(kf$like)   
 }
-
-## Estimation ##
-init.par = c(.1, 1)
-(est  = optim(init.par, Linn, NULL, method="BFGS", hessian=TRUE, control=list(trace=1,REPORT=1)))
-SE    = sqrt(diag(solve(est$hessian)))
-# Summary of estimation
+# estimation  
+init.par=c(.1, 1)  
+(est = optim(init.par, Linn, NULL, method="BFGS", hessian=TRUE, control=list(trace=1,REPORT=1))) 
+SE = sqrt(diag(solve(est$hessian))) 
 estimate = est$par; u = cbind(estimate, SE)
-rownames(u) = c("sigw","sigv"); u
+rownames(u)=c("sigw","sigv"); u 
 
-# Smooth
-sigw  = est$par[1]
-sQ    = diag(c(sigw,0))
-sigv  = est$par[2]
-ks    = Ksmooth(y, A, mu0, Sigma0, Phi, sQ, sigv)
+# smooth
+sigw = est$par[1]
+sQ   = diag(c(sigw,0))
+sigv = est$par[2]
+ks = Ksmooth(y, A, mu0, Sigma0, Phi, sQ, sigv)
 xsmoo = ts(ks$Xs[1,1,])
 psmoo = ts(ks$Ps[1,1,])
 upp   = xsmoo + 2*sqrt(psmoo)
 low   = xsmoo - 2*sqrt(psmoo)
-
-
-tsplot(x, ylab="", ylim=c(-1,8), col=1)
-lines(y, type='o', col=8)
-lines(xsmoo, col=4, lty=2, lwd=3)
-lines(upp, col=4, lty=2); lines(low, col=4, lty=2)
-lines(smooth.spline(y), lty=1, col=2)
-legend("topleft", c("Observations","State"), pch=c(1,-1), lty=1, lwd=c(1,2), col=c(8,1))
-legend("bottomright", c("Smoother", "GCV Spline"), lty=c(2,1), lwd=c(3,1), col=c(4,2))
+lines(xsmoo, col=6, lty=5, lwd=2)  
+ xx = c(time(xsmoo), rev(time(xsmoo)))
+ yy = c(low, rev(upp)) 
+polygon(xx, yy, col=gray(.6,.2), border=NA)
+lines(smooth.spline(y), lty=1, col=7)
+legend("topleft", c("Observations","State"), pch=c(20,NA), lty=1, lwd=c(1,2), col=c(4,1), bty='n')
+legend("bottomright", c("Smoother", "GCV Spline"), lty=c(5,1), lwd=c(2,1), col=c(6,7), bty='n') 
 ```
 
+
+## ######################  here
 <br/> Example 6.16
 
 ```r
