@@ -83,7 +83,7 @@ plot(djia_return, col=4, main="DJIA Returns")
 par(mfrow = c(2,1))  # set up the graphics
 tsplot(soi, col=4, ylab="", main="Southern Oscillation Index")
 text(1970,  .91, "COOL", col=5, font=4)
-teExt(1970, -.91, "WARM", col=6, font=4)
+text(1970, -.91, "WARM", col=6, font=4)
 tsplot(rec, col=4, ylab="", main="Recruitment") 
 ```
 
