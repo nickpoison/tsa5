@@ -132,7 +132,7 @@ tsplot(v, ylim=c(-3,3), main="moving average", col=4, gg=TRUE)
 <br/> Example 1.11
 
 ```r
-w = rnorm(300,0,1)  # 50 <br/> Extra to avoid startup problems
+w = rnorm(300,0,1)  # 50 extra to avoid startup problems
 x = filter(w, filter=c(1.5,-.75), method="recursive")[-(1:50)]
 tsplot(x, col=4, main="autoregression", gg=TRUE)
 ```
