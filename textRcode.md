@@ -50,6 +50,7 @@
 par(mfrow=2:1)
 tsplot(jj, col=4, ylab="USD", type="o", main="Johnson & Johnson Quarterly Earning per Share")
 tsplot(jj, col=4, ylab="USD", type="o", log="y")
+
 ```
 
 <br/> Example 1.2  
@@ -57,6 +58,7 @@ tsplot(jj, col=4, ylab="USD", type="o", log="y")
 ```r
 tsplot(cbind(gtemp_land, gtemp_ocean), spaghetti=TRUE, pch=c(20,18), type="o", col=astsa.col(c(4,2),.5), ylab="\u00B0C", main="Global Annual Mean Temperature Change")
 legend("topleft", legend=c("Land Surface","Sea Surface"), lty=1, pch=c(20,18), col=c(4,2), bg="white")
+
 ``` 
 
 <br/> Example 1.3  
@@ -65,6 +67,7 @@ legend("topleft", legend=c("Land Surface","Sea Surface"), lty=1, pch=c(20,18), c
 tsplot(speech, col=4)
 arrows(658, 3850, 766, 3850, code=3, angle=90, length=.05, col=6)
 text(712, 4100, "pitch period", cex=.75) 
+
 ``` 
 
 <br/> Example 1.4  
@@ -75,6 +78,7 @@ djia_return = diff(log(djia$Close))
 par(mfrow=2:1)
 plot(djia$Close, col=4, main="DJIA Close")
 plot(djia_return, col=4, main="DJIA Returns")
+
 ```
 
 <br/> Example 1.5  
@@ -85,6 +89,7 @@ tsplot(soi, col=4, ylab="", main="Southern Oscillation Index")
 text(1970,  .91, "COOL", col=5, font=4)
 text(1970, -.91, "WARM", col=6, font=4)
 tsplot(rec, col=4, ylab="", main="Recruitment") 
+
 ```
 
 <br/> Example 1.6
@@ -93,6 +98,7 @@ tsplot(rec, col=4, ylab="", main="Recruitment")
 tsplot(cbind(Hare, Lynx), col=c(2,4), type="o", pch=c(0,2), ylab="Number", spaghetti=TRUE)
 mtext("(\u00D7 1000)", side=2, adj=1, line=1.5, cex=.8)
 legend("topright", col=c(2,4), lty=1, pch=c(0,2), legend=c("Hare", "Lynx"), bty="n")
+
 ```
 
 <br/> Example 1.7
@@ -110,12 +116,14 @@ for (i in 1:3){
  lines(u, type="s", col=gray(.3))
 }
 mtext("seconds", side=1, line=1.75, c<br/> Ex=.9)
+
 ```
 
 <br/> Example 1.8
 
 ```r
 tsplot(cbind(EQ5,EXP6), ylab=c("Earthquake", "Explosion"), col=4)
+
 ```
 
  
@@ -127,6 +135,7 @@ v = filter(w, sides=2, rep(1/3,3))  # moving average
 par(mfrow=c(2,1))
 tsplot(w, main="white noise", col=4, gg=TRUE)
 tsplot(v, ylim=c(-3,3), main="moving average", col=4, gg=TRUE)
+
 ```
 
 <br/> Example 1.11
@@ -135,6 +144,7 @@ tsplot(v, ylim=c(-3,3), main="moving average", col=4, gg=TRUE)
 w = rnorm(300,0,1)  # 50 extra to avoid startup problems
 x = filter(w, filter=c(1.5,-.75), method="recursive")[-(1:50)]
 tsplot(x, col=4, main="autoregression", gg=TRUE)
+
 ```
 
 <br/> Example 1.12
@@ -147,26 +157,31 @@ wd = w +.2;      xd = cumsum(wd)
 tsplot(xd, ylim=c(-5,55), main="random walk", ylab="", col=4, gg=TRUE)
 lines(x, col=6);  clip(0, 200, 0, 50)
 abline(h=0, a=0, b=.2, col=8, lty=5)
+
 ```
 
 <br/> Example 1.13
 
 ```r
-cs = 2*cos(2*pi*(1:500 + 15)/50);  w = rnorm(500,0,1)
+cs = 2*cos(2*pi*(1:500 + 15)/50)  
+w = rnorm(500,0,1)
 par(mfrow=c(3,1))
 tsplot(cs, ylab="", main=bquote(2*cos(2*pi*t/50+.6*pi)), col=4, gg=TRUE)
 tsplot(cs+w, ylab="", main=bquote(2*cos(2*pi*t/50+.6*pi) + N(0,1)), col=4, gg=TRUE)
-tsplot(cs+5*w, ylab="", main=bquote(2*cos(2*pi*t/50+.6*pi) + N(0,5ˆ2)), col=4, gg=TRUE)
+tsplot(cs+5*w, ylab="", main=bquote(2*cos(2*pi*t/50+.6*pi) + N(0,5^2)), col=4, gg=TRUE)
+
 ```
 
 <br/> Example 1.25
 
 ```r
+set.seed(2)
 x = rnorm(100)
 y = lag(x, -5) + rnorm(100)
-ccf2(y, x, lwd=2, col=4, type="covariance", gg=TRUE)
-text( 10, 1.1, "x leads")
-text(-10, 1.1, "y leads")
+ccf2(y, x, lwd=2, col=4, type='covariance', gg=TRUE)
+text( 10, 1.1, 'x leads')
+text(-10, 1.1, 'y leads')
+
 ```
 
 <br/> Marginal normals that are not bivariate normal
@@ -176,18 +191,19 @@ x = rnorm(1000)
 z = rnorm(1000)
 y = ifelse(x*z > 0, z, -z)
 scatter.hist(x, y, hist.col=5, pt.col=6)
+
 ```
 
 <br/> Example 1.26
 
 ```r
 (r = format(acf1(soi, 6, plot=FALSE), digits=2)) # first 6 sample acf values
-#  [1] 0.60  0.37  0.21  0.05  -0.11  -0.19
 par(mfrow=c(1,2))
 tsplot(lag(soi,-1), soi, col=5, type="p", xlab="lag(soi,-1)")
  legend("topleft", legend=bquote(hat(rho)(1) == .(r[1])), bty="n", adj=.2)
 tsplot(lag(soi,-6), soi, col=5, type="p", xlab="lag(soi,-6)")
  legend("topleft", legend=bquote(hat(rho)(6) == .(r[6])), bty="n", adj=.2)
+
 ```
 
 
@@ -196,7 +212,8 @@ tsplot(lag(soi,-6), soi, col=5, type="p", xlab="lag(soi,-6)")
 ```r
 x = replicate(1000, acf1(rnorm(100), plot=FALSE))
 round(c(mean(x), sd(x)), 3)
-qqnorm(x)  # to check normality (not shown)
+qqnorm(x); qqline(x)  # to check normality (not shown)
+
 ```
 
 
@@ -210,24 +227,28 @@ y1 = 5 + filter(x1, sides=1, filter=c(1,-.5))[-1]
 y2 = 5 + filter(x2, sides=1, filter=c(1,-.5))[-1]
 tsplot(y1, type="s", col=4, yaxt="n", xaxt="n", gg=TRUE)
 axis(1, 1:10); axis(2, seq(2,8,2), las=1)
+box(col=gray(1))
 points(y1, pch=21, bg=6)
 round( acf1(y1, 4, plot=FALSE), 2)  # 1/√10 =.32
 round( acf1(y2, 4, plot=FALSE), 2)  # 1/√100 =.1
+
 ```
 
 <br/> Example 1.28
 
 ```r
 acf1(speech, 250, col=4)
+
 ```
 
 <br/> Example 1.29
 
 ```r
 par(mfrow=c(3,1))
-acf1(soi, 48, main="Southern Oscillation Ind<br/> Ex")
+acf1(soi, 48, main="Southern Oscillation Index")
 acf1(rec, 48, main="Recruitment")
 ccf2(soi, rec, 48, main="SOI vs Recruitment")
+
 ```
 
 <br/> Example 1.30
@@ -242,6 +263,7 @@ par(mfrow=c(3,1))
 tsplot(cbind(X,Y), col=c(4,6), ylab="data", spaghetti=TRUE, lwd=2, gg=TRUE)
 ccf2(X, Y, ylim=c(-.4,.4), col=4, lwd=2, gg=TRUE)
 ccf2(X, detrend(Y), ylim=c(-.4,.4), col=4, lwd=2, gg=TRUE)
+
 ```
 
 <br/> Example 1.31
@@ -249,6 +271,7 @@ ccf2(X, detrend(Y), ylim=c(-.4,.4), col=4, lwd=2, gg=TRUE)
 ```r
 persp(1:64, 1:36, soiltemp, phi=25, theta=25, scale=FALSE, expand=4, ticktype="detailed", xlab="rows", ylab="cols", zlab="temperature")
 tsplot(rowMeans(soiltemp), xlab="row", ylab="Average Temperature")
+
 ```
 
 <br/> Example 1.32
@@ -263,13 +286,14 @@ rs3 = rbind(rs2[41:2,], rs2)                #  the 0 lag
 
 par(mar = c(1,2.5,0,0)+.1)
 persp(-40:40, -20:20, rs3, phi=30, theta=30, expand=30, scale="FALSE", ticktype="detailed", xlab="row lags", ylab="column lags", zlab="ACF", col="lightblue")
+
 ```
 
 <br/> Bad LCG
 
 ```r
 x = c(1)  # set the seed to 1
-for (n in 2:24){ x[n] = (5*x[n-1] + 2) %% (2ˆ4) }
+for (n in 2:24){ x[n] = (5*x[n-1] + 2) %% (2^4) }
 x         # print x
 
 ```
