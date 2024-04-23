@@ -1,18 +1,24 @@
 
 ## R Code Used in the Examples - tsa5
 
-<img align="left" src="https://github.com/nickpoison/astsa/blob/master/fun_with_astsa/figs/tsa5.jpg" alt="&nbsp; tsa5 &nbsp;"  height="200" /><br/>Coming soon:  Code in [Time Series Analysis and Its Applications, 5th Edition](https://github.com/nickpoison/tsa5) 
+<img align="left" src="https://github.com/nickpoison/astsa/blob/master/fun_with_astsa/figs/tsa4.jpg" alt="&nbsp; tsa5 &nbsp;"  height="200"/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 
 
+Coming soon:  Code in [Time Series Analysis and Its Applications, 5th Edition](https://github.com/nickpoison/tsa5)  
 
-#### &#x2728; See the [NEWS](https://github.com/nickpoison/astsa/blob/master/NEWS.md) for further details about the state of the `astsa` package and the changelog.
+---
+
+ &#x2728; See the [NEWS](https://github.com/nickpoison/astsa/blob/master/NEWS.md) for further details about the state of the `astsa` package and the changelog.  
+
+ &#10024; An intro to `astsa` capabilities can be found at  [FUN WITH ASTSA](https://github.com/nickpoison/astsa/blob/master/fun_with_astsa/fun_with_astsa.md)  
+
+ &#10024; Here is [A Road Map](https://nickpoison.github.io/) if you want a broad view of what is available.  
+
+ &#10024; A brief [R tutorial](https://dsstoffer.github.io/Rtoot)  
+
+ &#10024; The [4th Edition](https://github.com/nickpoison/tsa4)  
 
 
-#### &#10024; An intro to `astsa` capabilities can be found at  [FUN WITH ASTSA](https://github.com/nickpoison/astsa/blob/master/fun_with_astsa/fun_with_astsa.md)
-
-#### &#10024; Here is [A Road Map](https://nickpoison.github.io/) if you want a broad view of what is available.
-
-#### &#10024;  The [4th Edition ](https://github.com/nickpoison/tsa4)
 
 <br/><br/>
 
@@ -312,6 +318,7 @@ x         # print x
 ```r
 summary( lm(chicken~time(chicken), na.action=NULL) )
 trend(chicken, lwd=2)  # produces a graphic
+
 ```
 
 <br/> Example 2.2
@@ -324,7 +331,7 @@ tsplot(part, ylab="PPM", type="o", pch=19, col=2, nxm=2, main="Particulates")
 dev.new()
 pairs(cbind(Mortality=cmort, Temperature=tempr, Particulates=part), col=4, lower.panel = astsa:::.panelcor)
 temp = tempr - mean(tempr)  # center temperature
-temp2 = tempˆ2
+temp2 = temp^2
 trend = time(cmort)
 fit = lm(cmort~ trend + temp + temp2 + part, na.action=NULL)
 summary(fit)  # regression results
@@ -333,17 +340,19 @@ summary(aov(lm(cmort~cbind(trend, temp, temp2, part)))) # Table 2.1
 num = length(cmort)  # sample size
 AIC(fit)/num - log(2*pi)  # AIC as in (2.15)
 BIC(fit)/num - log(2*pi)  # BIC as in (2.17)
-(AICc = log(sum(resid(fit)ˆ2)/num) + (num+5)/(num-5-2)) # AICc
+(AICc = log(sum(resid(fit)^2)/num) + (num+5)/(num-5-2)) # AICc
+
 ```
 
 <br/> Example 2.3
 
 ```r
-# uses variables from previous <br/> Example
+# uses variables from previous example
 summary(fit2 <- lm(cmort~ trend + temp + temp2 + part + co, data=lap, na.action=NULL))
 # compare models
 c( AIC(fit),  BIC(fit))/num   # model without co
 c( AIC(fit2), BIC(fit2))/num  # model with co
+
 ```
 
 
@@ -363,6 +372,7 @@ mtext("Lynx Residuals", outer=TRUE, line=-1.4, font=2)
 # using dynlm
 library(dynlm)
 summary( fit2 <- dynlm(Lynx~ L(Lynx,1) + L(Lynx,1):L(Hare,1)) )
+
 ``` 
 
 
@@ -379,6 +389,7 @@ par(mfrow = c(3,1))
 acf1(chicken, col=6, lwd=2)
 acf1(detrend(chicken), col=3, lwd=2)
 acf1(diff(chicken), col=4, lwd=2)
+
 ```
 
 <br/> Example 2.7
@@ -389,6 +400,7 @@ tsplot(diff(gtemp_land), col=4, xlab="Year")
 acf1(diff(gtemp_land), col=4)
 mean(diff(window(gtemp_land, end=1980)))   # drift until 1980
 mean(diff(window(gtemp_land, start=1980))) # drift since 1980
+
 ```
 
 
@@ -403,6 +415,7 @@ tsplot(log(varve), main="", ylab="", col=4)
  mtext("log(varve)", side=3, line=.5, cex=1.2, font=2, adj=0)
 qqnorm(varve, main=NA, col=4); qqline(varve, col=2, lwd=2)
 qqnorm(log(varve), main=NA, col=4); qqline(log(varve), col=2, lwd=2) 
+
 ```
 
 
@@ -411,6 +424,7 @@ qqnorm(log(varve), main=NA, col=4); qqline(log(varve), col=2, lwd=2)
 ```r
 lag1.plot(soi, 12, col=4)      # Figure 2.10
 lag2.plot(soi, rec, 8, col=4)  # Figure 2.11
+
 ```
 
 <br/> Example 2.10
@@ -424,6 +438,7 @@ tsplot(fish[,"SL6"], fish[,"R"], type="p", col=8, xlab=bquote(S[~t-6]), ylab=bqu
 lines(lowess(fish[,"SL6"], fish[,"R"]), col=4, lwd=2)
 points(fish[,"SL6"], fitted(fit), pch="+", col=2)
 tsplot(resid(fit), col=4)
+
 ```
 
  
@@ -441,6 +456,7 @@ par(mfrow=c(2,1))
 tsplot(x, col=4, gg=TRUE)
 tsplot(x, ylab=bquote(hat(x)), col=4, gg=TRUE)
 lines(fitted(fit), col=2, lwd=2)
+
 ```
 
 
@@ -454,6 +470,7 @@ acf1(x, 200)
 summary(fit <- nls(x~ A*cos(2*pi*omega*t + phi), start=list(A=10, omega=1/55, phi=0)))
 tsplot(x, ylab=bquote(hat(x)), col=4, gg=TRUE)
 lines(fitted(fit), col=2, lwd=2)
+
 ```
 
 
@@ -468,6 +485,7 @@ lines(ENSOf, lwd=2, col=4)
 par(fig = c(.02, .25, .01, .4), new=TRUE, bty="n")
 nwgts = c(rep(0,6), wgts, rep(0,6))
 plot(nwgts, type="l", xaxt="n", yaxt="n", ann=FALSE)
+
 ```
 
 
@@ -479,6 +497,7 @@ tsplot(ENSO, col=8)
 lines(ksmooth(time(ENSO), ENSO, "normal", bandwidth=1), lwd=2, col=4)
 par(fig = c(.02, .25, .01, .4), new=TRUE, bty="n")
 curve(dnorm,-4,4, xaxt="n", yaxt="n", ann=FALSE)
+
 ```
 
 
@@ -487,6 +506,7 @@ curve(dnorm,-4,4, xaxt="n", yaxt="n", ann=FALSE)
 ```r
 trend(ENSO, lowess=TRUE, col=c(8,6))  # data and trend
 lines(lowess(ENSO, f=.03), lwd=2, col=4)  # El Niño cycle
+
 ```
 
 
@@ -499,6 +519,7 @@ trend(ENSO, order=3)  # not shown
 tsplot(ENSO, col=8)
 lines(smooth.spline(time(ENSO), ENSO, spar= 1), lwd=2, col=6)  # trend
 lines(smooth.spline(time(ENSO), ENSO, spar=.5), lwd=2, col=4)  # El Niño
+
 ```
 
 <br/> Example 2.17
@@ -520,6 +541,7 @@ tsplot(out[,2], main="Trend", ylab="% rooms", col=8, type="c")
 text(out[,2], labels=1:4, col=c(3,4,2,6), cex=1.25)
 tsplot(out[,3], main="Noise", ylab="% rooms", col=8, type="c")
 text(out[,3], labels=1:4, col=c(3,4,2,6), cex=1.25)
+
 ```
 
 [<sub>top</sub>](#table-of-contents)
