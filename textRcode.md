@@ -18,6 +18,15 @@ Coming soon:  Code in [Time Series Analysis and Its Applications, 5th Edition](h
 
  &#10024; The [4th Edition](https://github.com/nickpoison/tsa4)  
 
+ <br/>
+
+&#9940; &#9940;   __WARNING:__   If loaded, the package `dplyr` may corrupt the base scripts  `filter` 
+and  `lag`  that we use often. In this case, to avoid problems, issue the commands 
+```r
+filter = stats::filter
+lag = stats::lag
+``` 
+before analyzing time series data. &#128534; (If you are wondering how it is possible to corrupt a base package, you are not alone.)
 
 
 <br/><br/>
@@ -553,15 +562,13 @@ text(out[,3], labels=1:4, col=c(3,4,2,6), cex=1.25)
 ## Chapter 3
 
 
-
-
-
 <br/> Example 3.2
 
 ```r
 par(mfrow=2:1)
 tsplot(sarima.sim(ar= .9, n=100), ylab="x", col=4, gg=TRUE, main=bquote(AR(1)~~~phi==+.9))
 tsplot(sarima.sim(ar=-.9, n=100), ylab="x", col=4, gg=TRUE, main=bquote(AR(1)~~~phi==-.9))
+
 ```
 
 <br/> Example 3.5
@@ -570,6 +577,7 @@ tsplot(sarima.sim(ar=-.9, n=100), ylab="x", col=4, gg=TRUE, main=bquote(AR(1)~~~
 par(mfrow = 2:1)
 tsplot(sarima.sim(ma= .9, n=100), ylab="x", col=4, gg=TRUE, main=bquote(MA(1)~~~phi==+.9))
 tsplot(sarima.sim(ma=-.9, n=100), ylab="x", col=4, gg=TRUE, main=bquote(MA(1)~~~phi==-.9))  
+
 ```
 
 <br/> Example 3.7
@@ -578,6 +586,7 @@ tsplot(sarima.sim(ma=-.9, n=100), ylab="x", col=4, gg=TRUE, main=bquote(MA(1)~~~
 set.seed(8675309)         # Jenny, I got your number
 x = rnorm(150, mean=5)    # Jenerate iid N(5,1)s
 arima(x, order=c(1,0,1))  # Jenstimation
+
 ```
 
 <br/> Example 3.8
@@ -586,6 +595,7 @@ arima(x, order=c(1,0,1))  # Jenstimation
 ARMAtoMA(ar = .9, ma = .5, 10)   # first 10 psi-weights
 ARMAtoAR(ar = .9, ma = .5, 10)   # first 10 pi-weights
 ARMAtoMA(ar=1, ma=0, 20)
+
 ```
 
 <br/> Example 3.9
@@ -600,9 +610,10 @@ tsplot(seg1, (1-seg1), ylim=c(-1,1), xlim=c(-2,2), ylab=name2, xlab=name1, main=
  lines(-seg1, (1-seg1), ylim=c(-1,1), xlim=c(-2,2)) 
  abline(h=0, v=0, lty=2, col=8)
  lines(seg2, -(seg2^2 /4), ylim=c(-1,1))
- lines( x=c(-2,2), y=c(-1,-1), ylim=c(-1,1))
+ lines(x=c(-2,2), y=c(-1,-1), ylim=c(-1,1))
  text(0, .35, 'real roots')
  text(0, -.5, 'complex roots')
+
 ```
 
 
@@ -611,6 +622,7 @@ tsplot(seg1, (1-seg1), ylim=c(-1,1), xlim=c(-2,2), ylab=name2, xlab=name1, main=
 ```r
 ARMAtoMA(ar=.9, ma=.5, 50)  # for a list
 plot(ARMAtoMA(ar=.9, ma=.5, 50))  # for a graph
+
 ```
 
 
@@ -633,6 +645,7 @@ z = c(1,-1.5,.75)  # coefficients of the polynomial
 Arg(a) # in radians/pt
 (theta = Arg(a)/(2*pi)) # in cycles/pt
 1/theta # the pseudo period
+
 ```
 
 
@@ -648,6 +661,7 @@ mtext(side=1, at=seq(0,2,by=.5), text=seq(0,24,by=6), cex=.8)
 tsplot(PACF, type="h", xlab="LAG", ylim=c(-.8,1), gg=TRUE, col=4, xaxt="n")
 abline(h=0, col=8)
 mtext(side=1, at=seq(0,2,by=.5), text=seq(0,24,by=6), cex=.8)
+
 ```
 
 <br/> Example 3.17  
@@ -655,7 +669,8 @@ mtext(side=1, at=seq(0,2,by=.5), text=seq(0,24,by=6), cex=.8)
 ```r
 acf2(rec, 48)     # will produce values and a graphic 
 (regr = ar.ols(rec, order=2, demean=FALSE, intercept=TRUE))  # regression
-regr$asy.se.coef  # standard errors  
+regr$asy.se.coef  # standard errors 
+
 ```
 
 
@@ -672,6 +687,7 @@ L = fore$pred-fore$se
 xx = c(time(U), rev(time(U)))
 yy = c(L, rev(U))
 polygon(xx, yy, border = 8, col = gray(0.6, alpha = 0.2))
+
 ```
 
 
@@ -693,6 +709,7 @@ xx = c(-9:0, 0:-9)
 yy = c(L, rev(U))
 polygon(xx, yy, border = 8, col = gray(0.6, alpha = 0.2))
 lines(-9:0, nx[1:10], col=2, type="o")
+
 ```
 
 
@@ -709,6 +726,7 @@ rec.pr = predict(rec.yw, n.ahead=24)
 tsplot(cbind(rec, rec.pr$pred), col=1:2, spaghetti=TRUE)
 lines(rec.pr$pred + rec.pr$se, col=2, lty=5)
 lines(rec.pr$pred - rec.pr$se, col=2, lty=5)
+
 ```
 
 
@@ -718,6 +736,7 @@ lines(rec.pr$pred - rec.pr$se, col=2, lty=5)
 set.seed(1)
 ma1 = sarima.sim(ma = 0.9, n = 50)
 acf1(ma1, 1, plot=FALSE)
+
 ```
 
 
@@ -730,6 +749,7 @@ rec.mle$x.mean
 rec.mle$ar
 sqrt(diag(rec.mle$asy.var.coef))
 rec.mle$var.pred
+
 ```
 
 
@@ -748,8 +768,9 @@ num = length(x)            # 633
 para[1] = (1-sqrt(1-4*(r^2)))/(2*r)  # MME to start (not very good)
 niter   = 12             
 for (j in 1:niter){  
- for (t in 2:num){ w[t] = x[t]   - para[j]*w[t-1]
-                   z[t] = w[t-1] - para[j]*z[t-1]
+ for (t in 2:num){ 
+   w[t] = x[t]   - para[j]*w[t-1]
+   z[t] = w[t-1] - para[j]*z[t-1]
  }
  Sc[j]  = sum(w^2)
  Sz[j]  = sum(z^2)
@@ -770,6 +791,7 @@ cSS[p] = sum(w^2)
 tsplot(th, cSS, ylab=bquote(S[c](theta)), xlab=bquote(theta))
 abline(v=para[1:12], lty=2, col=4) # add previous results to plot
 points(para[1:12], Sc[1:12], pch=16, col=4)
+
 ```
 
 
@@ -786,6 +808,7 @@ x = seq(1900, 2024, by=1)
 tsplot(x, g(x), ylab="Population", xlab="Year", main="U.S. Population by Official Census", cex.main=1, col=4)
 points(time(USpop), USpop, pch=21, bg=rainbow(12), cex=1.25)
 mtext(bquote("\u00D7"~10^6), side=2, line=1.5, adj=1, cex=.8)
+
 ```
 
 
@@ -834,6 +857,7 @@ quantile(phi.star.yw, probs = c(alf, 1-alf))
 quantile(phi.yw, probs = c(alf, 1-alf))
 n = 100; phi = fit$ar; se = sqrt((1-phi)/n)
 c( phi - qnorm(1-alf)*se, phi + qnorm(1-alf)*se )
+
 ```
 
 
@@ -855,6 +879,7 @@ lines(yfore, col=6)
 polygon(xx, yy, border = NA, col = gray(0.6, alpha = 0.2))
 text(85, 23, 'PAST', cex=.8); text(115, 23, 'FUTURE', cex=.8) 
 abline(v=100, lty=2) 
+
 ```
 
 <br/> Example 3.37
@@ -864,6 +889,7 @@ set.seed(666)
 x = sarima.sim(d = 1, ma = -0.8, n = 100)
 (x.ima = HoltWinters(x, beta=FALSE, gamma=FALSE))
 plot(x.ima)
+
 ```
 
 <br/> Example 3.38
@@ -871,6 +897,7 @@ plot(x.ima)
 ```r
 sarima(log(varve), 0, 1, 1, col=4)
 sarima(log(varve), 1, 1, 1, no.constant=TRUE, col=4)
+
 ```
 
 <br/> Example 3.39
@@ -880,6 +907,7 @@ trend = time(cmort); temp = tempr - mean(tempr); temp2 = temp^2
 summary(fit <- lm(cmort~trend + temp + temp2 + part, na.action=NULL))
 acf2(resid(fit), 52)   # implies AR2
 sarima(cmort, 2,0,0, xreg=cbind(trend, temp, temp2, part))  
+
 ```
 
 
@@ -893,6 +921,7 @@ summary( fit <- lm(L~ L1 + L1:H1, data=pp, na.action=NULL) )
 acf2(resid(fit), col=4)   # ACF/PACF of the residuls
 # Try AR(2) errors
 sarima(pp$L, 2,0,0, xreg=cbind(L1=pp$L1, LH1=pp$L1*pp$H1), col=4)
+
 ```
 
 
@@ -915,6 +944,7 @@ tsplot(LAG, ACF, type="h", xlab="LAG \u00F7 12", ylim=c(-.04,1), gg=TRUE, col=4)
  abline(h=0, col=8)
 tsplot(LAG, PACF, type="h", xlab="LAG \u00F7 12", ylim=c(-.04,1), gg=TRUE, col=4)
  abline(h=0, col=8)
+
 ```
 
 
@@ -929,12 +959,14 @@ tsplot(ACF,  type="h", xlab="LAG \u00F7 12", gg=TRUE, col=4)
  abline(h=0, col=8)
 tsplot(PACF, type="h", xlab="LAG \u00F7 12", gg=TRUE, col=4)  
 
+dev.new()
 tsplot(gtemp.month, spaghetti=TRUE, col=rainbow(49, start=.2, v=.8, rev=TRUE), ylab='\u00b0C', xlab='Months', xaxt='n', main='Mean Monthly Global Temperature')
 axis(1, labels=Months, at=1:12)
 lines(gtemp.month[,1],  lwd=2, col=6)
 lines(gtemp.month[,49], lwd=2, col=3)
 text(10, 13, '1975')
 text(10.3, 15.5, '2023')
+
 ```
 
 <br/> Example 3.44
@@ -951,6 +983,7 @@ sarima.for(cardox, 60, 1,1,1, 0,1,1,12, col=4)
 abline(v=2023.17, lty=6)
 ##-- for comparison, try the first model --##
 sarima.for(cardox, 60, 0,1,1, 0,1,1,12)  # not shown 
+
 ```
 
  
@@ -972,6 +1005,7 @@ tsplot(t, X, xlab="Hours", ylab=bquote(X[~t]), gg=TRUE, col=7)
 T = seq(1, length(t), by=250)    # observe every 2.5 hrs 
 points(t[T], X[T], pch=19, col=4)
 lines(t, cos(2*pi*t/10), col=4)
+
 ```
 
 <br/> Example 4.1
@@ -986,6 +1020,7 @@ tsplot(x1, ylim=c(-10,10), main=bquote(omega==6/100~~A^2==13),  col=4, gg=TRUE)
 tsplot(x2, ylim=c(-10,10), main=bquote(omega==10/100~~A^2==41), col=4, gg=TRUE)
 tsplot(x3, ylim=c(-10,10), main=bquote(omega==40/100~~A^2==85), col=4, gg=TRUE)
 tsplot(x,  ylim=c(-16,16), main="sum", col=4, gg=TRUE)
+
 ```
 
 <br/> Example 4.2
@@ -996,6 +1031,7 @@ per = Mod( fft(x)/sqrt(100) )^2
 P = (4/100)*per;  Fr = 0:99/100
 tsplot(Fr, P, type="h", lwd=3, xlab="frequency", ylab="scaled periodogram", col=4, gg=TRUE)
 abline(v=.5, lty=5, col=8)
+
 ```
 
 <br/> Example 4.4
@@ -1006,6 +1042,7 @@ for(i in 4:9){
 mvspec(fmri1[,i], main=colnames(fmri1)[i], ylim=c(0,3), xlim=c(0,.2), col=5, lwd=2, type='o', pch=20)
 abline(v=1/32, col=4, lty=5)  # stimulus frequency
 }
+
 ```
 
 <br/> Examples 4.5
@@ -1022,19 +1059,21 @@ tsplot(star, ylab="star magnitude", xlab="day", col=4)
 Pstar = mvspec(star, col=5, xlim=c(0,.08), lwd=3, type="h", main=NA)
 text(.05, 7000, "24 day cycle"); text(.027, 9000, "29 day cycle")
 Pstar$details[19:26,]
-```
 
+```
 
 
 <br/> Example 4.9
 
 ```r
 round(z <- polyroot(c(1,-1,.9)), 3)
-Arg(z[1])/(2*pi)par(mfrow=c(3,1))
+Arg(z[1])/(2*pi)
 
+par(mfrow=c(3,1))
 arma.spec(main="White Noise", col=5, gg=TRUE)
 arma.spec(ma=.9, main="Moving Average", col=5, gg=TRUE)
 arma.spec(ar=c(1,-.9), main="Autoregression", col=5, gg=TRUE)
+
 ```
 
 <br/> DFT 
@@ -1043,6 +1082,7 @@ arma.spec(ar=c(1,-.9), main="Autoregression", col=5, gg=TRUE)
 ( dft = fft(1:4)/sqrt(4) )
 ( idft = fft(dft, inverse=TRUE)/sqrt(4) )
 ( Re(idft) )  # keep it real
+
 ```
 
 
@@ -1055,6 +1095,7 @@ c2 = cos(2*pi*t*2/5);  s2 = sin(2*pi*t*2/5)
 omega1 = cbind(c1, s1);  omega2 = cbind(c2, s2)
 anova(lm(x~ omega1 + omega2))    # ANOVA Table
 Mod(fft(x))^2/5       # the periodogram (as a check)
+
 ```
 
 
@@ -1068,6 +1109,7 @@ P = mvspec(ENSO, lowess=TRUE, col=5, main='ENSO: Raw Periodogram')
  mtext('1/4',side=1, line=0, at=.25, cex=.75)
 # confidence interval:
 c(2*P$spec[18]/qchisq(.975, 2),  2*P$spec[18]/qchisq(.025, 2))
+
 ```
 
 <br/> smoothing the periodogram
@@ -1076,6 +1118,7 @@ c(2*P$spec[18]/qchisq(.975, 2),  2*P$spec[18]/qchisq(.025, 2))
 P = mvspec(rnorm(2^10), col=8, main=NA, ylab='periodogram', gg=TRUE)
 segments(0,1, .5,1, col=astsa.col(6,.7), lwd=5)  # actual spectrum
 lines(P$freq, filter(P$spec, filter=rep(.01,100), circular=TRUE), col=4, lwd=3)
+
 ```
 
 
@@ -1094,6 +1137,7 @@ ENSO.avl = mvspec(ENSO, lowess=TRUE, kernel=k, col=5, main='ENSO: Averaged Perio
  rect(1/7, .005, 1/2, 1, density=NA, col=gray(.6,.2))
  abline(v=1/4, lty=5, col=8)
  mtext('1/4', side=1, line=0, at=.25, cex=.75)
+
 ```
 
 
@@ -1105,6 +1149,7 @@ y = ts(100:1 %% 20, freq=20)   # sawtooth signal
 par(mfrow=2:1)
 tsplot(1:100, y, ylab='sawtooth signal', col=4, gg=TRUE)
 mvspec(y, main=NA, ylab='periodogram', col=5, gg=TRUE)
+
 ```
 
 <br/> Modified Daniell kernel
@@ -1113,6 +1158,7 @@ mvspec(y, main=NA, ylab='periodogram', col=5, gg=TRUE)
 par(mfrow=1:2)
 tsplot(kernel("modified.daniell", c(3,3)), ylab=bquote(h[~k]), lwd=2, col=4, ylim=c(0,.16), xlab='k', type='h', main='mDaniell(3,3)', gg=TRUE)
 tsplot(kernel("modified.daniell", c(3,3,3)), ylab=bquote(h[~k]), lwd=2, col=4, ylim=c(0,.16), xlab='k', type='h', main='mDaniell(3,3,3)', gg=TRUE)
+
 ```
 
 
@@ -1129,6 +1175,7 @@ ENSO.sml = mvspec(ENSO, lowess=TRUE, spans=c(7,7), col=5, main='ENSO: Smoothed P
  rect(1/7, .005, 1/2,4, density=NA, col=gray(.6,.2))
  abline(v=1/4, lty=5, col=8)
  mtext('1/4',side=1, line=0, at=.25, cex=.75)
+
 ```
 
 
@@ -1142,6 +1189,7 @@ s0 = mvspec(ENSO, lowess=TRUE, spans=c(7,7,7), plot=FALSE)   # no taper
 lines(s0$freq, s0$spec, col=2, lty=5) 
 text(.22, .4, 'leakage', cex=.8)
 legend('bottomleft', legend=c('no taper', 'full taper'), lty=c(5,1), col=c(2,4), bty='n')
+
 ``` 
 
 
@@ -1151,7 +1199,8 @@ legend('bottomleft', legend=c('no taper', 'full taper'), lty=c(5,1), col=c(2,4),
 par(xpd = NA, oma=c(0,0,0,5)) 
 x = rep(1,100) 
 tsplot(1:100/100, cbind(spec.taper(x, p=.1), spec.taper(x, p=.2), spec.taper(x, p=.5)), col=astsa.col(2:4,.5), lty=c(5,2,1), gg=TRUE, spaghetti=TRUE, xlab='t / n', lwd=2, ylab='taper')
-legend('topright', inset=c(-.2,0), bty='n', lty=c(5,2,1), col=2:4, legend=c('10%','20%', 'Full'), lwd=2)
+legend('topright', inset=c(-.15,0), bty='n', lty=c(5,2,1), col=2:4, legend=c('10%','20%', 'Full'), lwd=2)
+
 ```
 
 
@@ -1161,6 +1210,7 @@ legend('topright', inset=c(-.2,0), bty='n', lty=c(5,2,1), col=2:4, legend=c('10%
 par(mfrow=2:1)
 mvspec(ts(scale(EQ5), freq=40), spans=c(21,21), xlim=c(0,10), taper=.1, col=5, main='Earthquake', xlab='frequency (Hz)')
 mvspec(ts(scale(EXP6), freq=40), spans=c(21,21), xlim=c(0,10), taper=.1, col=5, main='Explosion', xlab='frequency (Hz)')
+
 ```
 
 
@@ -1172,6 +1222,7 @@ spec.ic(ENSO, lowess=TRUE, col=astsa.col(5, .7), ylim=c(0,.65), lwd=2)
 u = mvspec(ENSO, lowess=TRUE, spans=c(7,7), taper=.2, plot=FALSE)
 lines(u$freq, u$spec, col=6, lty=5)
 legend('topright', legend=c('Parameteric', 'Nonparametric'), lty=c(1,5), col=5:6, bg='white')
+
 ```
 
 
@@ -1181,6 +1232,7 @@ legend('topright', legend=c('Parameteric', 'Nonparametric'), lty=c(1,5), col=5:6
 sr = mvspec(cbind(soi,rec), kernel=kernel("daniell",9), col=5, ci.col=8, ci.lty=2, plot.type='coh', main='SOI & Recruitment') 
 f = qf(.999, 2, sr$df-2)  
 abline(h = f/(18+f), col=8)
+
 ```
 
 <br/> Example 4.26
@@ -1199,6 +1251,7 @@ tsplot(12*w, FRdiff, col=4, ylab='', xlab='frequency (\u00D7 12)', main='First D
 u = rowSums(cos(outer(w, 2*pi*1:5)))
 FRma = ((1 + cos(12*pi*w) + 2*u)/12)^2
 tsplot(12*w, FRma, col=4, ylab='', xlab='frequency (\u00D7 12)',  main='Seasonal Moving Average')
+
 ```
 
 <br/> Example 4.28
@@ -1211,6 +1264,7 @@ fish = ts.intersect(R=rec, RL1=lag(rec,-1), SL5=lag(soi,-5), dframe=TRUE)
 (u = lm(R~ RL1 + SL5, data=fish, na.action=NULL))
 acf2(resid(u))  # suggests ar1  
 sarima(fish$R, 1, 0, 0, xreg=fish[,2:3]) 
+
 ```
 
 
@@ -1225,6 +1279,7 @@ mvspec(f.ENSO, lowess=TRUE, spans=c(21,21), taper=.5, col=5, na.action=na.omit)
  rect(1/12,-1, 1/2,1, density=NA, col=gray(.6,.2))
  abline(v=1/3, lty=5, col=8)
  mtext('1/3',side=1, line=0, at=1/3, cex=.75)
+
 ```
 
 <br/> Example 4.30
@@ -1234,10 +1289,13 @@ per   = Mod(fft(soiltemp-mean(soiltemp))/sqrt(64*36))^2
  per2 = cbind(per[1:32,18:2], per[1:32,1:18])  # these lines used ...
  per3 = rbind(per2[32:2,], per2)               # ... for better display
 persp(-31:31/64, -17:17/36, per3, phi=30, theta=30, expand=.6, ticktype="detailed", xlab="cycles/row", ylab="cycles/column", zlab="Periodogram", col='lightblue')
+
 ```
 
 
 <br/> Example 4.31
+
+> Note: For the remaining examples, the breakpoints can vary because GA is random - adjust accordingly
 
 ```r
 set.seed(90210)
@@ -1246,13 +1304,12 @@ x2 = sarima.sim(ar=c(1.7, -.8), n=400)
 x  = c(x1, x2)
 tsplot(x, col=4)
 abline(v=600.5, col=2, lwd=2)
-autoParm(x)
-
-ar(x[1:600], order=2)
+autoParm(x)              
+ar(x[1:600], order=2)    
 ar(x[601:1000], order=2)
 
 mvspec(x)  # all action  < .2 (not displayed)
-autoSpec(x, max.freq=.2)
+autoSpec(x, max.freq=.2) 
 
 ##-- graphics
 z1 = arma.spec(ar=c(1.4, -.8), var=1.5^2, plot=FALSE) 
@@ -1270,6 +1327,7 @@ mvspec(x[598:1000], taper=.5, kernel=bart(3), col=5, main='AutoSpec', gg=TRUE, l
  lines(z2$freq, z2$spec, col=8)
  lines(z1$freq, z1$spec, col=8)
  legend('topright', legend=c('True', 'Segment 1', 'Segment 2'), lty=1, col=c(8,6,5), bty="n")
+
 ```
 
 <br/> Example 4.32
@@ -1301,6 +1359,7 @@ mvspec(x[1:1004], taper=.5, kernel=bart(1), col=5, main='AutoSpec - Segment 1', 
  segments(x0=.04+1/150, y0=-10, y1=10, col=2)
 mvspec(x[1005:2000], taper=.5, kernel=bart(1), col=5, main='AutoSpec - Segment 2', gg=TRUE, las=0, xlim=c(0,.1)) 
  segments(x0=.04, y0=-10, y1=10, col=2)
+
 ```
 
 <br/> Example 4.33
@@ -1325,6 +1384,7 @@ mtext('7',  side=1, line=-.2, at=1/7, cex=.75, font=2, col=3)
 mtext('3',  side=1, line=-.2, at=1/3, cex=.75, font=2, col=3)
 mtext('1.5',side=1, line=-.2, at=2/3, cex=.75, font=2, col=3)
 mtext('2',  side=1, line=-.2, at=.5,  cex=.75, font=2, col=3) 
+
 ```
 
 
@@ -1338,8 +1398,10 @@ mtext('2',  side=1, line=-.2, at=.5,  cex=.75, font=2, col=3)
 Classic long memory (of the way we were)
 
 ```r
+par(mfrow=2:1)
 acf1(log(varve), 100) 
-acf1(cumsum(rnorm(1000)), 100)  # compare to ACF of random walk (not shown)
+acf1(cumsum(rnorm(1000)), 100)  # compare to ACF of random walk  
+
 ```
 
 <br/> Example 5.1
@@ -1355,6 +1417,7 @@ dev.new()
 p = rep(1,31)
 for (k in 1:30){ p[k+1] = (k-coef(varve.fd)[1])*p[k]/(k+1) }
 tsplot(p[-1], ylab=bquote(pi[j](d)), xlab="Index (j)", type="h", lwd=4, col=2:7, nxm=5)
+
 ```
 
 
@@ -1363,6 +1426,7 @@ tsplot(p[-1], ylab=bquote(pi[j](d)), xlab="Index (j)", type="h", lwd=4, col=2:7,
 ```r
 library(arfima)
 summary(varve1.fd <- arfima(log(varve), order=c(0,0,1)))
+
 ```
 
 
@@ -1393,6 +1457,7 @@ dog = mvspec(log(varve), fast=FALSE, demean=TRUE, plot=FALSE)
 n   = length(varve);  lper = log(dog$spec);  freq = dog$freq
 z   = -2*log(2*sin(pi*freq));  m = floor(n^.8)  
 summary(lm(lper[1:m]~ z[1:m]))
+
 ```
 
 
@@ -1403,6 +1468,7 @@ library(tseries)
 adf.test(log(varve), k=0)               # DF test 
 adf.test(log(varve))                    # ADF test 
 pp.test(log(varve))                     # PP test 
+
 ```
 
 
@@ -1415,6 +1481,7 @@ acf2(diff(log(GNP)), col=4, main=NA)  # p/acf
 library(fGarch)                       # fit ARCH model
 summary(gnp.g <- garchFit(~arma(2,0)+garch(1,0), data=diff(log(GNP)), cond.dist='std'))
 plot(gnp.g)   # for various graphics 
+
 ```
 
 
@@ -1434,6 +1501,7 @@ Tsay.test(djiar)
 
 test.linear(dENSO, main='ENSO')  
 test.linear(djiar, main='DJIA Returns')  
+
 ```
 
 
@@ -1448,6 +1516,7 @@ acf2(djiar^2, col=4)   #  oozes autocorrelation
 library(fGarch)
 summary(djia.g <- garchFit(~arma(1,0)+garch(1,1), data=djiar, cond.dist='std'))
 plot(djia.g)    # to see all plot options
+
 ```
 
 <br/> Example 5.8  
@@ -1458,6 +1527,7 @@ djiar = diff(log(djia$Close))[-1]
 library(fGarch)
 summary(djia.ap <- garchFit(~arma(1,0)+aparch(1,1), data=djiar, cond.dist='std'))
 plot(djia.ap)   # to see all plot options (none shown)
+
 ```
 
 
@@ -1498,6 +1568,7 @@ sarima(dflu-prd, 0,0,0)  # residual analysis (not shown)
 library(NTS)       # load package - install it first
 flutar = uTAR(diff(flu), p1=4, p2=4)   
 sarima(resid(flutar), 0,0,0)  # residual analysis (not shown)
+
 ```
 
 <br/> Example 5.10 & 5.11
@@ -1517,6 +1588,7 @@ serial.test(fit, lags.pt=12, type="PT.adjusted")
 ( acfm(resid(fit), 0, plot=FALSE) )
 (fit.pr = predict(fit, n.ahead = 24, ci = 0.95))  # 4 weeks ahead
 fanchart(fit.pr)  # plot prediction + error bounds
+
 ```
 
 <br/> Example 5.12
@@ -1524,14 +1596,14 @@ fanchart(fit.pr)  # plot prediction + error bounds
 ```r
 library(marima)
 model = define.model(kvar=3, ar=c(1,2), ma=c(1))
-arp = model$ar.pattern;  map = model$ma.pattern
-cmort.d = detrend(cmort)
+arp   = model$ar.pattern;  map = model$ma.pattern
+resid(detr <- lm(cmort~time(cmort), na.action=NULL))
 xdata = matrix(cbind(cmort.d, tempr, part), ncol=3)  # strip ts attributes
-fit = marima(xdata, ar.pattern=arp, ma.pattern=map, means=c(0,1,1), penalty=1)
+fit   = marima(xdata, ar.pattern=arp, ma.pattern=map, means=c(0,1,1), penalty=1)
 #  resid analysis (not displayed)
 innov = t(resid(fit));  plot.ts(innov);  acfm(innov, na.action=na.pass)
 #  fitted values for cmort  
-pred = ts(t(fitted(fit))[,1], start=start(cmort), freq=frequency(cmort)) + detr$coef[1] + detr$coef[2]*time(cmort) 
+pred = ts(t(fitted(fit))[,1], start=start(cmort), freq=frequency(cmort))+detr$coef[1]+detr$coef[2]*time(cmort) 
 tsplot(cmort, type='p', col=8, ylab="Cardiovascular Mortality")
 lines(pred, col=4)
 # print estimates and corresponding t^2-statistic
@@ -1542,6 +1614,7 @@ short.form(fit$ma.estimates, leading=FALSE)
 short.form(fit$ma.fvalues,   leading=FALSE) 
 # short.form(fit$ma.pvalues, leading=FALSE)   # p-values 
 fit$resid.cov    # estimate of noise cov matrix  
+
 ```
 
 
@@ -1552,14 +1625,11 @@ fit$resid.cov    # estimate of noise cov matrix
 ## Chapter 6
 
  
-
-
-
-
 <br/> Example 6.1
 
 ```r
 tsplot(blood, type='o', col=c(4,6,3), pch=19, cex=1)
+
 ```
 
 <br/> Example 6.2
@@ -1567,6 +1637,7 @@ tsplot(blood, type='o', col=c(4,6,3), pch=19, cex=1)
 ```r
 tsplot(cbind(gtemp_land, gtemp_both), col=astsa.col(c(4,6),.7), lwd=2, ylab='Temperature Deviations', spaghetti=TRUE)
 legend("topleft", legend=c("Land Only","Land & Ocean"), col=c(4,6), lty=1, bty="n")
+
 ```
 
 <br/> Example 6.5
@@ -1601,6 +1672,7 @@ tsplot(mu[-1], type='p', col=4, pch=19, ylab=bquote(mu[~t]), main="Smoother", yl
  yy = c(ks$Xs-2*sqrt(ks$Ps), rev(ks$Xs+2*sqrt(ks$Ps)))
  polygon(xx, yy, col=gray(.6,.2), border=NA)
  lines(y, col=6, lty=5)
+
 ```
 
 
@@ -1630,8 +1702,8 @@ Linn = function(para){
 (est = optim(init.par, Linn, gr=NULL, method="BFGS", hessian=TRUE, control=list(trace=1, REPORT=1)))
 SE = sqrt(diag(solve(est$hessian)))
 round(cbind(estimate=c(phi=est$par[1],sigw=est$par[2],sigv=est$par[3]),SE), 3)
-```
 
+```
 
 
 <br/> Example 6.7
@@ -1678,14 +1750,11 @@ lines(xsm, lwd=2, col=6)
   xx = c(time(xsm), rev(time(xsm)))
   yy = c(xsm-2*rmse, rev(xsm+2*rmse))
 polygon(xx, yy, border=NA, col=gray(.6, alpha=.25))
+
 ```
 
 
-
-
-
 <br/> Example 6.8
-
 
 ```r
 library(nlme)   # loads package nlme (comes with R)
@@ -1717,6 +1786,7 @@ SE = sqrt(diag(solve(emhess$Hessian)))
 estimate = c(para, em$mu0, em$Sigma0); SE = c(SE,NA,NA)
 u = cbind(estimate, SE)
 rownames(u) = c("phi","sigw","sigv","mu0","Sigma0"); u
+
 ```
 
 <br/> Example 6.9
@@ -1754,10 +1824,8 @@ Phi[1,1:2]   # (actual 1.5 and -.75)
 Q[1,1]   # (actual 1)
 R        # (actual .1)
 Gam      # (actual 50)
+
 ```
-
-
-
 
 
 <br/> Example 6.10
@@ -1804,6 +1872,7 @@ tsplot(HCT, type='p', pch=19, ylim=c(20,40), col=2, lwd=2, cex=1)
  lines(y3s)
   yy = c(y3s-p3, rev(y3s+p3))
  polygon(xx, yy, border=8, col=astsa.col(8, alpha = .1))
+
 ```
 
 
@@ -1875,6 +1944,7 @@ for (m in 1:n.ahead){
 y = ts(append(jj, y), start=1960, freq=4)
 
 # plot
+dev.new()
 tsplot(window(y, start=1975), type='o', main='', ylab='J&J QE/Share', col=4, ylim=c(5,26))
  lines(window(y, start=1981), type='o', col=6)
  upp = window(y, start=1981)+3*rmspe
@@ -1882,6 +1952,7 @@ tsplot(window(y, start=1975), type='o', main='', ylab='J&J QE/Share', col=4, yli
   xx  = c(time(low), rev(time(upp)))
   yy  = c(low, rev(upp))
  polygon(xx, yy, border=NA, col=gray(.6, alpha = .2))
+
 ```
 
 
@@ -2030,9 +2101,8 @@ sigw = abs(para.star[,4])
 phi  = ifelse(phi<0, NA, phi)    # any phi < 0 not plotted
 scatter.hist(sigw, phi, ylab=bquote(phi), xlab=bquote(sigma[~w]), hist.col=astsa.col(5,.3), pt.col=astsa.col(5,.7), pt.size=1.2)
 quantile(phi, na.rm=TRUE, c(.025, .5, .975))
+
 ```
-
-
 
 <br/> Example 6.15
 
@@ -2076,7 +2146,8 @@ lines(xsmoo, col=6, lty=5, lwd=2)
 polygon(xx, yy, col=gray(.6,.2), border=NA)
 lines(smooth.spline(y), lty=1, col=7)
 legend("topleft", c("Observations","State"), pch=c(20,NA), lty=1, lwd=c(1,2), col=c(4,1), bty='n')
-legend("bottomright", c("Smoother", "GCV Spline"), lty=c(5,1), lwd=c(2,1), col=c(6,7), bty='n') 
+legend("bottomright", c("Smoother", "GCV Spline"), lty=c(5,1), lwd=c(2,1), col=c(6,7), bty='n')
+
 ```
 
 
@@ -2115,6 +2186,7 @@ hist(EQcount, breaks=30, prob=TRUE, main=NA, col='lightblue')
  u2 = pi2*dpois(xvals, lams[2])
  lines(xvals, u1, col=4, lwd=2)
  lines(xvals, u2, col=2, lwd=2)
+
 ```
 
 <br/> Example 6.18
@@ -2145,6 +2217,7 @@ hist(y, 25, prob=TRUE, main="", xlab='S&P500 Weekly Returns', ylim=c(0,22), col=
  for (i in 1:3) { mu=norms.mle[1,i]; sig = norms.mle[2,i]
   x = seq(-.15,.12, by=.001)
   lines(x, pi.hat[4-i]*dnorm(x, mean=mu, sd=sig), lwd=2, col=culer[i]) }
+
 ```
 
 
@@ -2158,6 +2231,7 @@ model = lm(dflu~ 1)
 mod = msmFit(model, k=2, p=2, sw=rep(TRUE,4))  # 2 regimes, AR(2)s 
 summary(mod)
 plotProb(mod, which=3)  # or which=2
+
 ```
 
 
@@ -2236,6 +2310,7 @@ tsplot(Time, xfilter[1,,k], ylim=c(-.1,.4), ylab="", col=4)
  lines(Time, xfilter[3,,k], col=3); 
  lines(Time, xfilter[4,,k], col=2)
  text(1979,.38,"(b)")
+
 ```
 
 
@@ -2297,6 +2372,7 @@ polygon(xx, yy, border=8, col=gray(.7,.2))
 scatter.hist(draws[,1],draws[,2], xlab=bquote(sigma[w]), ylab=bquote(sigma[v]), reset.par = FALSE, pt.col=5, hist.col=5)
 abline(v=mean(draws[,1]), col=3, lwd=2)
 abline(h=mean(draws[,2]), col=3, lwd=2)
+
 ```
 
 
@@ -2308,6 +2384,7 @@ abline(h=mean(draws[,2]), col=3, lwd=2)
  set.seed(90013)     # Skid Row
  x = sarima.sim(ar=c(1,-.9)) + 50  # phi0 = 50(1-1+.9) = 45
  ar.mcmc(x, 2)  
+
 ```
 
 
@@ -2395,6 +2472,7 @@ tsplot(msea, ylab='', col=4, main='season', cex.main=1)
  xx = c(time(msea), rev(time(msea)))
  yy = c(lsea, rev(usea))
 polygon(xx, yy, border=NA, col=astsa.col(4,.1)) 
+
 ```
 
 
@@ -2408,6 +2486,7 @@ x1 = rnorm(500)         # independent sampling
 x2 = sarima.sim(ar=.5)  # good sampling
 x3 = sarima.sim(ar=.99) # not so good sampling
 round( apply(cbind(x1,x2,x3), 2, ESS) )
+
 ```
 
 <br/> Example 6.32 
@@ -2415,12 +2494,14 @@ round( apply(cbind(x1,x2,x3), 2, ESS) )
 ```r
 spfit = SV.mcmc(sp500w)
 str(spfit)  # use ?SV.mcmc for option descriptions
+
 ```
 
 <br/> Example 6.33
 
 ```r
 SV.mle(BCJ[,'boa'])   # also produces the graphics
+
 ```
 
 <br/> Example 6.34
@@ -2428,10 +2509,10 @@ SV.mle(BCJ[,'boa'])   # also produces the graphics
 ```r
 SV.mle(BCJ[,"boa"], rho=0, feedback=TRUE)
 SV.mle(BCJ[,"boa"], feedback=TRUE)
+
 ```
 
 
-## ######################  here
 
 [<sub>top</sub>](#table-of-contents)
 
@@ -2448,6 +2529,7 @@ colnames(x) = rep(c("Brush", "Heat", "Shock"), 2)
 tsplot(x, ncol=2, byrow=FALSE, col=4:2, main=NA, ylim=c(-.6,.6))
 mtext("Awake",   side=3, line=-1, adj=.25, cex=1, outer=TRUE)
 mtext("Sedated", side=3, line=-1, adj=.78, cex=1, outer=TRUE)
+
 ```
 
 ```r
@@ -2457,6 +2539,7 @@ x = cbind(x, eqexp[S, c(5:6,5:6+8,17)])
 tsplot(x, ncol=2, byrow=FALSE, col=2:6)
 mtext("P waves", side=3, line=-1, adj=.25, cex=.9, outer=TRUE)
 mtext("S waves", side=3, line=-1, adj=.78, cex=.9, outer=TRUE)
+
 ```
 
 
@@ -2505,6 +2588,7 @@ tsplot(S, coh.15$Betahat[,1], type="h", xlab="Index", xlim=c(-20,20), main=names
 abline(h=0)
 tsplot(S, coh.15$Betahat[,2], type="h", xlab="Index", xlim=c(-20,20), main=names(climhyd[5]), ylim=c(-.03, .06), col=4, lwd=2, ylab="Impulse Response")
 abline(h=0)
+
 ```
 
 
@@ -2522,6 +2606,7 @@ Y = ts.union(Y, rowMeans(Y))
 colnames(Y) = c(names(beamd), 'beamd')
 tsplot(Y, col=4, main="Infrasonic Signals and Beam")
 detach(beamd)     # Redemption
+
 ```
 
 <br/> Example 7.4
@@ -2553,6 +2638,7 @@ pID = FDR(p,fdr)
 Fq  = qf(1-fdr, df1, df2)
 tsplot(Fr[nFr], eF[nFr], col=5, ylab="F-statistic", xlab="Frequency", main="F Statistic", cex.main=1)
 abline(h=c(Fq, eF[pID]), lty=c(1,5), col=8)
+
 ```
 
 
@@ -2602,6 +2688,7 @@ tsplot(Fr, eF[1:n.freq], col=5, xlab="Frequency", ylab="F Statistic", ylim=c(0,7
 abline(h=qf(.999, num.df, den.df),lty=2)
 text(.25, 6.5, loc.name[Loc], cex=1.2)   
 }
+
 ```
 
 
@@ -2637,7 +2724,7 @@ HatF = Z%*%solve(ZZ, t(Z))
 HatR = Z[,1]%*%t(Z[,1])/ZZ[1,1]
 
 par(mfrow=c(3,3))
-loc.name = c("Cort<br/> Ex 1","Cort<br/> Ex 2","Cort<br/> Ex 3","Cort<br/> Ex 4","Caudate","Thalamus 1",
+loc.name = c("Cortex 1","Cortex 2","Cortex 3","Cortex 4","Caudate","Thalamus 1",
               "Thalamus 2", "Cerebellum 1","Cerebellum 2")
 
 for(Loc in 1:9) {   
@@ -2664,6 +2751,7 @@ eF =(den.df/num.df)*(sSSER-sSSEF)/sSSEF
 tsplot(Fr, eF[1:n.freq], xlab="Frequency", ylab="F Statistic", ylim=c(0,7), main=loc.name[Loc])
 abline(h=qf(.999, num.df, den.df),lty=2) 
 }
+
 ```
 
 <br/> Example 7.7
@@ -2728,7 +2816,9 @@ tsplot(Fr[nFr], eF.con[nFr], col=5, xlab="Frequency", ylab='F-Statistic', ylim=c
   if(Loc==1)  mtext("Consciousness", side=3, line=0, cex=.9)   
 tsplot(Fr[nFr], eF.int[nFr], col=5, xlab="Frequency", ylab='F-Statistic', ylim=c(0,12), topper=.2, margins=c(0,1,0,.2))
   abline(h=qf(.999, df.int, den.df), lty=5, col=8)
-  if(Loc==1) mtext("Interaction", side=3, line=0, cex=.9)    }
+  if(Loc==1) mtext("Interaction", side=3, line=0, cex=.9)    
+}
+
 ```
 
 
@@ -2781,7 +2871,9 @@ tsplot(Fr[nFr], eF[nFr,2], col=5, xlab="Frequency", ylab="F Statistic", ylim=c(0
   if(Loc==1)  mtext("Heat", side=3, line=0, cex=.9)   
 tsplot(Fr[nFr],eF[nFr,3],  col=5,, xlab="Frequency", ylab="F Statistic", ylim=c(0,5), topper=.2, margins=c(0,1,0,.2))
   abline(h=qf(.999, num.df, den.df),lty=5, col=8)
-  if(Loc==1) mtext("Shock", side=3, line=0, cex=.9)  }                         
+  if(Loc==1) mtext("Shock", side=3, line=0, cex=.9)  
+}  
+
 ```
 
 
@@ -2850,6 +2942,7 @@ r         = 1 - ((p.dim+1)*(p.dim-1)/6*p.dim*(2-1))*(2/Mi - 1/M)
 TS[k]     = -2*r*(log.n1+log.n2-log.d1-log.d2)   }
 tsplot(freq, TS, col=5, xlab="Frequency (Hz)", ylab="Chi-Sq Statistic", main="Equal Spectral Matrices")
 abline(h = qchisq(.9999, p.dim^2))  # too small to be on plot
+
 ```
 
 
@@ -2914,6 +3007,7 @@ for(j in 1:16) {
 Posterior = cbind(1:8, post.eq, 1:8, post.ex)
 colnames(Posterior) = c("EQ","P(EQ|data)","EX","P(EX|data)")
 round(Posterior,3)  # Results from Cross-validation 
+
 ```
 
 
@@ -2932,8 +3026,9 @@ f.NZ = array(dim=c(2, 2, 512))
 det.c <- function(mat){return(Re(mat[1,1]*mat[2,2]-mat[1,2]*mat[2,1]))}
 L = c(15,13,5)      # for smoothing
 for (i in 1:8){     # compute spectral matrices
- f.eq[i,,,] = mvspec(cbind(eq[P,i], eq[S,i]), spans=L, taper=.5)$fxx
- f.ex[i,,,] = mvspec(cbind(ex[P,i], ex[S,i]), spans=L, taper=.5)$fxx}
+ f.eq[i,,,] = mvspec(cbind(eq[P,i], eq[S,i]), spans=L, taper=.5, plot=FALSE)$fxx
+ f.ex[i,,,] = mvspec(cbind(ex[P,i], ex[S,i]), spans=L, taper=.5, plot=FALSE)$fxx
+ }
  u = mvspec(cbind(nz[P], nz[S]), spans=L, taper=.5, plot=FALSE)
  f.NZ = u$fxx	
 bndwidth = u$bandwidth*40  # about .75 Hz
@@ -2984,6 +3079,7 @@ legend("topleft", legend=c("EQ","EX", "NZ"), pch=c(8,6,3), pt.lwd=2, col=c(4,6,3
 abline(h=0, v=0, lty=2, col=8)
 text(KLDiff[-c(1,2,3,7,14)]-.075, BDiff[-c(1,2,3,7,14)], label=names(eqexp[-c(1,2,3,7,14)]), cex=.7)
 text(KLDiff[c(1,2,3,7,14)]+.075, BDiff[c(1,2,3,7,14)], label=names(eqexp[c(1,2,3,7,14)]), cex=.7)
+
 ```
 
 
@@ -3020,6 +3116,7 @@ par(mar=c(2,2,1,.5)+.5,  mgp = c(1.4,.6,0), cex=3/4, cex.lab=4/3, cex.main=4/3)
 clusplot(JD, cluster.2$cluster, col.clus=gray(.5), labels=3, lines=0, main="Clustering Results for Explosions and Earthquakes", col.p=c(rep(4,8),rep(6,8), 3))   
 text(-4.5,-.8, "Group I",  cex=1.1, font=2) 
 text( 3.5,  5, "Group II", cex=1.1, font=2)
+
 ```
 
 
@@ -3053,6 +3150,7 @@ for (l in 2:5){          # last 3 evs are 0
  sig.e1 = Re(sig.e1)*lam[1]*sum(bart(2)$coef^2)
 p.val = round(pchisq(2*abs(evec[,1])^2/diag(sig.e1), 2, lower.tail=FALSE), 3)
 cbind(colnames(fmri1)[-1], abs(evec[,1]), p.val) # table values
+
 ```
 
 
@@ -3062,6 +3160,7 @@ cbind(colnames(fmri1)[-1], abs(evec[,1]), p.val) # table values
 bhat = sqrt(lam[1])*evec[,1]
 (Dhat = Re(diag(fxx[,,4] - bhat%*%Conj(t(bhat)))))
 (res = Mod(fxx[,,4] - Dhat - bhat%*%Conj(t(bhat))))
+
 ```
 
 
@@ -3090,6 +3189,7 @@ abline(v=.125, lty=5, col=8)
 e.vec1 = eigen(gr.spec$fxx[,,10], symmetric=TRUE)$vectors[,1]
 e.vec2 = eigen(gr.spec$fxx[,,5], symmetric=TRUE)$vectors[,2]
 round(Mod(e.vec1), 2);  round(Mod(e.vec2), 3)
+
 ```
 
 <br/> Sleep pretty baby do not cry
@@ -3105,6 +3205,7 @@ x = x[!is.na(x)]
 mvspec(x, col=5, main=NA)
  abline(v=1/60, col=8, lty=5)
  mtext('1/60', side=1, adj=.04, cex=.75)
+
  ```
 
 
@@ -3122,6 +3223,7 @@ for (j in 1:4){
   specenv(xdata, spans=c(7,7), section=L:U, col=5, ylim=c(0,1.28)) 
   text(.475, 1.25, id[j]) 
 }
+
 ```
 
 <br/> Example 7.18
@@ -3139,6 +3241,7 @@ x = seq(-.2, .2, by=.001)
 tsplot(x, gopt(x), col=4, xlab='x', ylab='g(x)')
 lines(x, abs(x), col=6)
 legend('bottomright', lty=1, col=c(4,6), legend=c('optimal', 'absolute value'), bg='white')
+
 ```
 
 [<sub>top</sub>](#table-of-contents)
