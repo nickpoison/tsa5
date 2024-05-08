@@ -22,9 +22,11 @@ Coming soon:  Code in [Time Series Analysis and Its Applications, 5th Edition](h
 
 &#9940; &#9940;   __WARNING:__   If loaded, the package `dplyr` may corrupt the base scripts  `filter` 
 and  `lag`  that we use often. In this case, to avoid problems, issue the commands 
+
 ```r
 filter = stats::filter
 lag = stats::lag
+
 ``` 
 before analyzing time series data. &#128534; (If you are wondering how it is possible to corrupt a base package, you are not alone.)
 
@@ -146,7 +148,7 @@ tsplot(cbind(EQ5,EXP6), ylab=c("Earthquake", "Explosion"), col=4)
 
 ```r
 w = rnorm(250,0,1)                  # 250 N(0,1) variates
-v = filter(w, sides=2, rep(1/3,3))  # moving average
+v = filter(w, sides=2, rep(1/3,3))  # moving average 
 par(mfrow=c(2,1))
 tsplot(w, main="white noise", col=4, gg=TRUE)
 tsplot(v, ylim=c(-3,3), main="moving average", col=4, gg=TRUE)
