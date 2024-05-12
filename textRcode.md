@@ -238,16 +238,14 @@ qqnorm(x); qqline(x)  # to check normality (not shown)
 
 ```r
 set.seed(101011)
-x1 = sample(c(-2,2),  11, replace=TRUE) # simulated coin tosses
-x2 = sample(c(-2,2), 101, replace=TRUE)
-y1 = 5 + filter(x1, sides=1, filter=c(1,-.5))[-1]
-y2 = 5 + filter(x2, sides=1, filter=c(1,-.5))[-1]
-tsplot(y1, type="s", col=4, yaxt="n", xaxt="n", gg=TRUE)
-axis(1, 1:10); axis(2, seq(2,8,2), las=1)
-box(col=gray(1))
-points(y1, pch=21, bg=6)
-round( acf1(y1, 4, plot=FALSE), 2)  # 1/√10 =.32
-round( acf1(y2, 4, plot=FALSE), 2)  # 1/√100 =.1
+x    = sample(c(-2,2), 101, replace=TRUE)  # simulated coin tosses
+y100 = 5 + filter(x, sides=1, filter=c(1,-.5))[-1] 
+y10  = y100[1:10]
+tsplot(y10, type='s', col=4, yaxt='n', xaxt='n', gg=TRUE)  
+ axis(1, 1:10); axis(2, seq(2,8,2), las=1)
+ points(y10, pch=21, bg=6)    
+round( acf1(y10, 4, plot=FALSE), 2)   #  $1/\sqrt{10}$ =.32
+round( acf1(y100, 4, plot=FALSE), 2)  #  $1/\sqrt{100}$ =.1
 
 ```
 
@@ -274,12 +272,12 @@ ccf2(soi, rec, 48, main="SOI vs Recruitment")
 set.seed(90210)
 num = 250  
 t   = 1:num
-X   = .01*t + rnorm(num,0,2)
+X   = .02*t + rnorm(num,0,2)
 Y   = .01*t + rnorm(num)
 par(mfrow=c(3,1))
 tsplot(cbind(X,Y), col=c(4,6), ylab="data", spaghetti=TRUE, lwd=2, gg=TRUE)
-ccf2(X, Y, ylim=c(-.4,.4), col=4, lwd=2, gg=TRUE)
-ccf2(X, detrend(Y), ylim=c(-.4,.4), col=4, lwd=2, gg=TRUE)
+ccf2(X, Y, ylim=c(-.4,.5), col=4, lwd=2, gg=TRUE)
+ccf2(X, detrend(Y), ylim=c(-.4,.5), col=4, lwd=2, gg=TRUE)
 
 ```
 
