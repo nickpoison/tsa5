@@ -3,7 +3,7 @@
 
 <img align="left" src="https://github.com/nickpoison/astsa/blob/master/fun_with_astsa/figs/tsa4.jpg" alt="&nbsp; tsa5 &nbsp;"  height="200"/>
 
-<br/><br/>
+<br/>
 
 
  &#x2728; See the [NEWS](https://github.com/nickpoison/astsa/blob/master/NEWS.md) for further details about the state of the `astsa` package and the changelog.  
@@ -26,7 +26,7 @@ filter = stats::filter
 lag = stats::lag
 
 ```
-before analyzing time series data. &#128534; (If you are wondering how it is possible to corrupt a base package, you are not alone. If you're wondering how the tidyverse coders didn't know the terms "filter" or "lag" were important in signal processing and have been since the turn of the 20th century, you are not alone.  Anyway, you are not alone. &#128125;)
+before analyzing time series data. &#128534; (If you are wondering how it is possible to corrupt a base package, you are not alone. If you're wondering how the tidyverse coders didn't know "filter" and "lag" were important in signal processing and have been since the turn of the 20th century, you are not alone.  Anyway, you are not alone. &#128125;)
 
 <br/><br/>
 
