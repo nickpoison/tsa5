@@ -1,12 +1,10 @@
 
-## R Code Used in the Examples - tsa5
+## R Code Used in [Time Series Analysis and Its Applications, 5th Edition](https://github.com/nickpoison/tsa5)   - tsa5
 
-<img align="left" src="https://github.com/nickpoison/astsa/blob/master/fun_with_astsa/figs/tsa4.jpg" alt="&nbsp; tsa5 &nbsp;"  height="200"/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+<img align="left" src="https://github.com/nickpoison/astsa/blob/master/fun_with_astsa/figs/tsa4.jpg" alt="&nbsp; tsa5 &nbsp;"  height="200"/>
 
+<br/><br/>
 
-Coming soon:  Code in [Time Series Analysis and Its Applications, 5th Edition](https://github.com/nickpoison/tsa5)  
-
----
 
  &#x2728; See the [NEWS](https://github.com/nickpoison/astsa/blob/master/NEWS.md) for further details about the state of the `astsa` package and the changelog.  
 
@@ -16,24 +14,23 @@ Coming soon:  Code in [Time Series Analysis and Its Applications, 5th Edition](h
 
  &#10024; A brief [R tutorial](https://dsstoffer.github.io/Rtoot)  
 
- &#10024; The [4th Edition](https://github.com/nickpoison/tsa4)  
+ &#10024; Pages for the old [4th Edition](https://github.com/nickpoison/tsa4)  
 
  <br/>
 
-&#9940; &#9940;   __WARNING:__   If loaded, the package `dplyr` may corrupt the base scripts  `filter` 
+&#9940; &#9940;   __WARNING:__   If loaded, the package `dplyr` may (and most likely will) corrupt the base scripts  `filter` 
 and  `lag`  that we use often. In this case, to avoid problems, issue the commands 
 
 ```r
 filter = stats::filter
 lag = stats::lag
 
-``` 
-before analyzing time series data. &#128534; (If you are wondering how it is possible to corrupt a base package, you are not alone.)
-
+```
+before analyzing time series data. &#128534; (If you are wondering how it is possible to corrupt a base package, you are not alone. If you're wondering how the tidyverse coders didn't know the terms "filter" or "lag" were important in signal processing and have been since the turn of the 20th century, you are not alone.  Anyway, you are not alone. &#128125;)
 
 <br/><br/>
 
-## THIS IS IN PROGRESS - BELOW IS STILL 4TH EDTION STUFF
+
 
 ---
 ---
@@ -44,10 +41,10 @@ before analyzing time series data. &#128534; (If you are wondering how it is pos
 
 
 -----
------- 
+------
 
 ### Table of Contents
-  
+
   * [Chapter 1 - Characteristics of Time Series](#chapter-1)
   * [Chapter 2 - Time Series Regression and Exploratory Data Analysis](#chapter-2)
   * [Chapter 3 - ARIMA Models](#chapter-3)
@@ -55,7 +52,7 @@ before analyzing time series data. &#128534; (If you are wondering how it is pos
   * [Chapter 5 - Additional Time Domain Topics](#chapter-5)
   * [Chapter 6 - State Space Models](#chapter-6)
   * [Chapter 7 - Statistical Methods in the Frequency Domain](#chapter-7)
- 
+
 ---
 
 ## Chapter 1
@@ -76,7 +73,7 @@ tsplot(jj, col=4, ylab="USD", type="o", log="y")
 tsplot(cbind(gtemp_land, gtemp_ocean), spaghetti=TRUE, pch=c(20,18), type="o", col=astsa.col(c(4,2),.5), ylab="\u00B0C", main="Global Annual Mean Temperature Change")
 legend("topleft", legend=c("Land Surface","Sea Surface"), lty=1, pch=c(20,18), col=c(4,2), bg="white")
 
-``` 
+```
 
 <br/> Example 1.3  
 
@@ -85,7 +82,7 @@ tsplot(speech, col=4)
 arrows(658, 3850, 766, 3850, code=3, angle=90, length=.05, col=6)
 text(712, 4100, "pitch period", cex=.75) 
 
-``` 
+```
 
 <br/> Example 1.4  
 
@@ -132,7 +129,7 @@ for (i in 1:3){
  axis(seq(0,256,64), side=1, at=0:4)
  lines(u, type="s", col=gray(.3))
 }
-mtext("seconds", side=1, line=1.75, c<br/> Ex=.9)
+mtext("seconds", side=1, line=1.75, cex=.9)
 
 ```
 
@@ -143,7 +140,7 @@ tsplot(cbind(EQ5,EXP6), ylab=c("Earthquake", "Explosion"), col=4)
 
 ```
 
- 
+
 <br/> Example 1.10
 
 ```r
@@ -222,7 +219,6 @@ tsplot(lag(soi,-6), soi, col=5, type="p", xlab="lag(soi,-6)")
  legend("topleft", legend=bquote(hat(rho)(6) == .(r[6])), bty="n", adj=.2)
 
 ```
-
 
 <br/> Property 1.2 demonstration
 
@@ -382,7 +378,7 @@ mtext("Lynx Residuals", outer=TRUE, line=-1.4, font=2)
 library(dynlm)
 summary( fit2 <- dynlm(Lynx~ L(Lynx,1) + L(Lynx,1):L(Hare,1)) )
 
-``` 
+```
 
 
 
@@ -511,7 +507,7 @@ curve(dnorm,-4,4, xaxt="n", yaxt="n", ann=FALSE)
 
 
 <br/> Example 2.15
- 
+
 ```r
 trend(ENSO, lowess=TRUE, col=c(8,6))  # data and trend
 lines(lowess(ENSO, f=.03), lwd=2, col=4)  # El Niño cycle
@@ -1190,7 +1186,7 @@ lines(s0$freq, s0$spec, col=2, lty=5)
 text(.22, .4, 'leakage', cex=.8)
 legend('bottomleft', legend=c('no taper', 'full taper'), lty=c(5,1), col=c(2,4), bty='n')
 
-``` 
+```
 
 
 <br/> Example 4.20
@@ -1624,7 +1620,7 @@ fit$resid.cov    # estimate of noise cov matrix
 
 ## Chapter 6
 
- 
+
 <br/> Example 6.1
 
 ```r
@@ -3206,7 +3202,7 @@ mvspec(x, col=5, main=NA)
  abline(v=1/60, col=8, lty=5)
  mtext('1/60', side=1, adj=.04, cex=.75)
 
- ```
+```
 
 
 <br/> Example 7.17 
