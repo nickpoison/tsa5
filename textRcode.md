@@ -18,7 +18,7 @@
 
  <br/>
 
-&#9940; &#9940;   __WARNING:__   If loaded, the package `dplyr` may (and most likely will) corrupt the base scripts  `filter` 
+&#9940; &#9940;  __WARNING:__   If loaded, the package `dplyr` may (and most likely will) corrupt the base scripts  `filter` 
 and  `lag`  that we use often. In this case, to avoid problems, issue the commands 
 
 ```r
@@ -26,7 +26,7 @@ filter = stats::filter
 lag = stats::lag
 
 ```
-before analyzing time series data. &#128534; (If you are wondering how it is possible to corrupt a base package, you are not alone. If you're wondering how the tidyverse coders didn't know "filter" and "lag" were important in signal processing and have been since the turn of the 20th century, you are not alone.  Anyway, you are not alone. &#128125;)
+before analyzing time series data.  &#128534; If you are wondering how it is possible to corrupt a base package, you are not alone. 
 
 <br/><br/>
 
@@ -36,8 +36,6 @@ before analyzing time series data. &#128534; (If you are wondering how it is pos
 ---
 
 >  __Note__ when you are in a code block below, you can copy the contents of the block by moving your mouse to the upper right corner and clicking on the copy icon ( &#128203; ).
-
-
 
 
 -----
@@ -155,7 +153,7 @@ tsplot(v, ylim=c(-3,3), main="moving average", col=4, gg=TRUE)
 <br/> Example 1.11
 
 ```r
-w = rnorm(300,0,1)  # 50 extra to avoid startup problems
+w = rnorm(300,0,1)  # 250 +50 extra to avoid startup problems
 x = filter(w, filter=c(1.5,-.75), method="recursive")[-(1:50)]
 tsplot(x, col=4, main="autoregression", gg=TRUE)
 
@@ -824,7 +822,7 @@ tsplot(w, f(w), gg=TRUE, col=4, xlab='w', ylab='f(w)', ylim=c(0,.4))
 lines(w, dnorm(w), col=2) 
 
 fit = ar.yw(dex, order=1, aic=FALSE)
-round(est <- c(fit$x.mean, fit$ar, sqrt(fit$asy.var.coef), fit$var.pred),3)
+round(c(mean=fit$x.mean, ar1=fit$ar, se=sqrt(fit$asy.var.coef), var=fit$var.pred), 3)
 
 set.seed(111)
 phi.yw = c()
@@ -1291,7 +1289,7 @@ persp(-31:31/64, -17:17/36, per3, phi=30, theta=30, expand=.6, ticktype="detaile
 
 <br/> Example 4.31
 
-> Note: For the remaining examples, the breakpoints can vary because GA is random - adjust accordingly
+> Note: For the remaining examples in this chapter, the breakpoints can vary because GA is random - adjust accordingly
 
 ```r
 set.seed(90210)
@@ -1391,7 +1389,7 @@ mtext('2',  side=1, line=-.2, at=.5,  cex=.75, font=2, col=3)
 
 ## Chapter 5
 
-Classic long memory (of the way we were)
+Classic long memory (of the way we were &#127926;)
 
 ```r
 par(mfrow=2:1)
