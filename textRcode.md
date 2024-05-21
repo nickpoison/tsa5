@@ -28,18 +28,8 @@ lag = stats::lag
 ```
 before analyzing time series data.  &#128534; If you are wondering how it is possible to corrupt a base package, you are not alone. 
 
-<br/><br/>
 
-
-
----
----
-
->  __Note__ when you are in a code block below, you can copy the contents of the block by moving your mouse to the upper right corner and clicking on the copy icon ( &#128203; ).
-
-
------
-------
+<br/>
 
 ### Table of Contents
 
@@ -51,7 +41,17 @@ before analyzing time series data.  &#128534; If you are wondering how it is pos
   * [Chapter 6 - State Space Models](#chapter-6)
   * [Chapter 7 - Statistical Methods in the Frequency Domain](#chapter-7)
 
+
 ---
+---
+
+>  __Note__ when you are in a code block below, you can copy the contents of the block by moving your mouse to the upper right corner and clicking on the copy icon ( &#128203; ).
+
+
+---
+---
+
+<br/>
 
 ## Chapter 1
 
@@ -1852,20 +1852,24 @@ p2  = 2*sqrt(ks$Ps[2,2,])
 p3  = 2*sqrt(ks$Ps[3,3,])
 
 # plots
+miss = ifelse(is.na(y), 1 ,0)[,1]   # for ticks at missing days
 par(mfrow=c(3,1))
 tsplot(WBC, type='p', pch=19, ylim=c(1,5), col=6, lwd=2, cex=1)
  lines(y1s)
   xx = c(time(WBC), rev(time(WBC)))  # same for all
   yy = c(y1s-p1, rev(y1s+p1))
- polygon(xx, yy, border=8, col=astsa.col(8, alpha = .1))
+ polygon(xx, yy, border=8, col=astsa.col(8, alpha = .1))         
+ lines(miss, type='h', lwd=2)
 tsplot(PLT, type='p', ylim=c(3,6), pch=19, col=4, lwd=2, cex=1)
  lines(y2s)
   yy = c(y2s-p2, rev(y2s+p2))
- polygon(xx, yy, border=8, col=astsa.col(8, alpha = .1))
+ polygon(xx, yy, border=8, col=astsa.col(8, alpha = .1))       
+ lines(3*miss, type='h', lwd=2)
 tsplot(HCT, type='p', pch=19, ylim=c(20,40), col=2, lwd=2, cex=1)
  lines(y3s)
   yy = c(y3s-p3, rev(y3s+p3))
  polygon(xx, yy, border=8, col=astsa.col(8, alpha = .1))
+ lines(20*miss, type='h', lwd=2)
 
 ```
 
