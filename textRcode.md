@@ -19,7 +19,14 @@
  <br/>
 
 &#9940; &#9940;  __WARNING:__   If loaded, the package `dplyr` may (and most likely will) corrupt the base scripts  `filter` 
-and  `lag`  that we use often. In this case, to avoid problems, issue the commands 
+and  `lag`  that we use often. In this case, to avoid problems, either detach the problem package
+
+```r
+detach(package:dplyr)
+
+```
+
+or issue the commands 
 
 ```r
 filter = stats::filter
@@ -117,8 +124,7 @@ legend("topright", col=c(2,4), lty=1, pch=c(0,2), legend=c("Hare", "Lynx"), bty=
 
 ```r
 par(mfrow=c(3,1))
-x = ts(fmri1[,4:9], start=0, freq=32)
-# data
+x = ts(fmri1[,4:9], start=0, freq=32)  # data
 u = ts(rep(c(rep(.6,16), rep(-.6,16)), 4), start=0, freq=32) # stimulus signal
 names = c("Cortex","Thalamus","Cerebellum")
 for (i in 1:3){
@@ -162,8 +168,7 @@ tsplot(x, col=4, main="autoregression", gg=TRUE)
 <br/> Example 1.12
 
 ```r
-set.seed(154)
-# so you can reproduce the results
+set.seed(154)  # so you can reproduce the results
 w  = rnorm(200);  x = cumsum(w)  # two commands in one line
 wd = w +.2;      xd = cumsum(wd)
 tsplot(xd, ylim=c(-5,55), main="random walk", ylab="", col=4, gg=TRUE)
@@ -532,6 +537,7 @@ x = window(hor, start=2002)
 plot(decompose(x))  # not shown
 plot(stl(x, s.window="per")) # seasons are perfectly periodic - not shown
 plot(stl(x, s.window=15))
+
 # better graphic
 par(mfrow = c(4,1))
 x = window(hor, start=2002)
@@ -642,7 +648,6 @@ Arg(a) # in radians/pt
 
 ```
 
-
 <br/> Example 3.15
 
 ```r
@@ -696,7 +701,7 @@ pxr = sarima.for(xr,10,1,0,1, plot=FALSE) # backcast
 pxrp = rev(pxr$pred) # reorder the predictors (for plotting)
 pxrse = rev(pxr$se) # reorder the SEs
 nx = ts(c(pxrp, x), start=-9)  # attach the backcasts to the data
-tsplot(nx, ylab=bquote(X[~t]), main="Backcasting", ylim=c(-5,4), gg=TRUE)
+tsplot(nx, ylab=bquote(X[~t]), main="Backcasting", ylim=c(-5,4), col=4, gg=TRUE)
 U = nx[1:10] + pxrse
 L = nx[1:10] - pxrse
 xx = c(-9:0, 0:-9)
@@ -722,7 +727,6 @@ lines(rec.pr$pred + rec.pr$se, col=2, lty=5)
 lines(rec.pr$pred - rec.pr$se, col=2, lty=5)
 
 ```
-
 
 <br/> Example 3.28
 
@@ -798,7 +802,7 @@ reg = lm( USpop~ t+I(t^2)+I(t^3)+I(t^4)+I(t^5)+I(t^6)+I(t^7)+I(t^8) )
 b = as.vector(reg$coef)
 g = function(t){ b[1] + b[2]*(t-1955) + b[3]*(t-1955)^2 + b[4]*(t-1955)^3 + b[5]*(t-1955)^4 + b[6]*(t-1955)^5 + b[7]*(t-1955)^6 + b[8]*(t-1955)^7 + b[9]*(t-1955)^8
 }
-x = seq(1900, 2024, by=1)
+x = 1900:2024
 tsplot(x, g(x), ylab="Population", xlab="Year", main="U.S. Population by Official Census", cex.main=1, col=4)
 points(time(USpop), USpop, pch=21, bg=rainbow(12), cex=1.25)
 mtext(bquote("\u00D7"~10^6), side=2, line=1.5, adj=1, cex=.8)
@@ -822,7 +826,7 @@ tsplot(w, f(w), gg=TRUE, col=4, xlab='w', ylab='f(w)', ylim=c(0,.4))
 lines(w, dnorm(w), col=2) 
 
 fit = ar.yw(dex, order=1, aic=FALSE)
-round(c(mean=fit$x.mean, ar1=fit$ar, se=sqrt(fit$asy.var.coef), var=fit$var.pred), 3)
+round(estyw <- c(mean=fit$x.mean, ar1=fit$ar, se=sqrt(fit$asy.var.coef), var=fit$var.pred), 3)
 
 set.seed(111)
 phi.yw = c()
@@ -834,23 +838,23 @@ for (i in 1:1000){
   phi.yw[i] = ar.yw(x, order=1)$ar   
 } 
 
+
 # Bootstrap
 boots = ar.boot(dex, order=1, plot=FALSE)  # default is B = 500
 phi.star.yw = boots[[1]]       # bootstrapped phi  
 # Picture
+dev.new()
 hist(phi.star.yw, main=NA, prob=TRUE, xlim=c(.65,1.05), ylim=c(0,15), col=astsa.col(4,.4), xlab=bquote(hat(phi)), breaks="FD")
 lines(density(phi.yw, bw=.02), lwd=2) # from previous simulation
 u = seq(.75, 1.1, by=.001)            # normal approximation
-lines(u, dnorm(u, mean=est[2], sd=est[3]), lty=2, lwd=2)
+lines(u, dnorm(u, mean=estyw[2], sd=estyw[3]), lty=2, lwd=2)
 legend(.65, 15, bty="n", lty=c(1,0,2), lwd=c(2,0,2), col=1, pch=c(NA,22,NA), pt.bg=c(NA,astsa.col(4,.4),NA), pt.cex=2.5, legend=c("true distribution",   "bootstrap distribution", "normal approximation"))
 
-
-alf = .025
 # 95% CI
-quantile(phi.star.yw, probs = c(alf, 1-alf))
-quantile(phi.yw, probs = c(alf, 1-alf))
-n = 100; phi = fit$ar; se = sqrt((1-phi)/n)
-c( phi - qnorm(1-alf)*se, phi + qnorm(1-alf)*se )
+alf = .025
+quantile(phi.star.yw, probs = c(alf, 1-alf))      # boot
+quantile(phi.yw, probs = c(alf, 1-alf))           # true
+qnorm(c(alf, 1-alf), mean=estyw[2], sd=estyw[3])  # asym normal
 
 ```
 
@@ -923,7 +927,7 @@ sarima(pp$L, 2,0,0, xreg=cbind(L1=pp$L1, LH1=pp$L1*pp$H1), col=4)
 <br/> Example 3.41
 
 ```r
-set.seed(111)
+set.seed(10101010)
 SAR = sarima.sim(sar=.95, S=12, n=37) + 50
 layout(matrix(c(1,2, 1,3), nc=2), heights=c(1.5,1))
 tsplot(SAR, type="c", xlab="Year", gg=TRUE, ylab='SAR(1)', xaxt='n')
@@ -941,7 +945,6 @@ tsplot(LAG, PACF, type="h", xlab="LAG \u00F7 12", ylim=c(-.04,1), gg=TRUE, col=4
 
 ```
 
-
 <br/> Example 3.42
 
 ```r
@@ -954,7 +957,7 @@ tsplot(ACF,  type="h", xlab="LAG \u00F7 12", gg=TRUE, col=4)
 tsplot(PACF, type="h", xlab="LAG \u00F7 12", gg=TRUE, col=4)  
 
 dev.new()
-tsplot(gtemp.month, spaghetti=TRUE, col=rainbow(49, start=.2, v=.8, rev=TRUE), ylab='\u00b0C', xlab='Months', xaxt='n', main='Mean Monthly Global Temperature')
+tsplot(gtemp.month, spaghetti=TRUE, col=rainbow(49, start=.2, v=.8, rev=TRUE), ylab='\u00b0C', xlab='Month', xaxt='n', main='Mean Monthly Global Temperature')
 axis(1, labels=Months, at=1:12)
 lines(gtemp.month[,1],  lwd=2, col=6)
 lines(gtemp.month[,49], lwd=2, col=3)
@@ -993,10 +996,10 @@ sarima.for(cardox, 60, 0,1,1, 0,1,1,12)  # not shown
 Aliasing
 
 ```r
-t = seq(0, 24, by=.01)
+t = seq(0, 24, by=.1)
 X = cos(2*pi*t/2)                # one cycle every 2 hrs
 tsplot(t, X, xlab="Hours", ylab=bquote(X[~t]), gg=TRUE, col=7)
-T = seq(1, length(t), by=250)    # observe every 2.5 hrs 
+T = seq(1, length(t), by=25)    # observe every 2.5 hrs 
 points(t[T], X[T], pch=19, col=4)
 lines(t, cos(2*pi*t/10), col=4)
 
@@ -1070,7 +1073,7 @@ arma.spec(ar=c(1,-.9), main="Autoregression", col=5, gg=TRUE)
 
 ```
 
-<br/> DFT 
+<br/> DFT  - it's injective
 
 ```r
 ( dft = fft(1:4)/sqrt(4) )
@@ -1084,9 +1087,8 @@ arma.spec(ar=c(1,-.9), main="Autoregression", col=5, gg=TRUE)
 
 ```r
 x = c(1, 2, 3, 2, 1);  t=1:5
-c1 = cos(2*pi*t*1/5);  s1 = sin(2*pi*t*1/5)
-c2 = cos(2*pi*t*2/5);  s2 = sin(2*pi*t*2/5)
-omega1 = cbind(c1, s1);  omega2 = cbind(c2, s2)
+omega1 = cbind(cos(2*pi*t*1/5), sin(2*pi*t*1/5))
+omega2 = cbind(cos(2*pi*t*2/5), sin(2*pi*t*2/5))
 anova(lm(x~ omega1 + omega2))    # ANOVA Table
 Mod(fft(x))^2/5       # the periodogram (as a check)
 
@@ -1121,13 +1123,13 @@ lines(P$freq, filter(P$spec, filter=rep(.01,100), circular=TRUE), col=4, lwd=3)
 <br/> Example 4.16
 
 ```r
-k = kernel("daniell", 4)  # k is a vector of nine 1/9s
+kd = kernel("daniell", 4)  # nine 1/9s
 par(mfrow=2:1)
-ENSO.av  = mvspec(ENSO, lowess=TRUE, kernel=k, col=5, main='ENSO: Averaged Periodogram')
+ENSO.av  = mvspec(ENSO, lowess=TRUE, kernel=kd, col=5, main='ENSO: Averaged Periodogram')
  rect(1/7,-1, 1/2,4, density=NA, col=gray(.6,.2))
  abline(v=1/4, lty=5, col=8)
  mtext('1/4', side=1, line=0, at=.25, cex=.75)
-ENSO.avl = mvspec(ENSO, lowess=TRUE, kernel=k, col=5, main='ENSO: Averaged Periodogram (log scale)', log='y')
+ENSO.avl = mvspec(ENSO, lowess=TRUE, kernel=kd, col=5, main='ENSO: Averaged Periodogram (log scale)', log='y')
  rect(1/7, .005, 1/2, 1, density=NA, col=gray(.6,.2))
  abline(v=1/4, lty=5, col=8)
  mtext('1/4', side=1, line=0, at=.25, cex=.75)
@@ -1394,7 +1396,7 @@ Classic long memory (of the way we were &#127926;)
 ```r
 par(mfrow=2:1)
 acf1(log(varve), 100) 
-acf1(cumsum(rnorm(1000)), 100)  # compare to ACF of random walk  
+acf1(cumsum(rnorm(500)), 100)  
 
 ```
 
