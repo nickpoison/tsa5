@@ -455,7 +455,7 @@ qqnorm(log(varve), main=NA, col=4, panel.first=Grid(minor=FALSE)); qqline(log(va
 
 ```r
 lag1.plot(soi, 12, col=4)      # Figure 2.10
-dev
+dev.new()
 lag2.plot(soi, rec, 8, col=4)  # Figure 2.11
 
 ```
