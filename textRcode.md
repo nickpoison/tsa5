@@ -216,9 +216,9 @@ scatter.hist(x, y, hist.col=5, pt.col=6)
 ```r
 (r = format(acf1(soi, 6, plot=FALSE), digits=2)) # first 6 sample acf values
 par(mfrow=c(1,2))
-tsplot(lag(soi,-1), soi, col=5, type="p", xlab="lag(soi,-1)")
+tsplot(lag(soi,-1), soi, col=4, type="p", xlab="lag(soi,-1)")
  legend("topleft", legend=bquote(hat(rho)(1) == .(r[1])), bty="n", adj=.2)
-tsplot(lag(soi,-6), soi, col=5, type="p", xlab="lag(soi,-6)")
+tsplot(lag(soi,-6), soi, col=4, type="p", xlab="lag(soi,-6)")
  legend("topleft", legend=bquote(hat(rho)(6) == .(r[6])), bty="n", adj=.2)
 
 ```
@@ -243,8 +243,8 @@ y10  = y100[1:10]
 tsplot(y10, type='s', col=4, yaxt='n', xaxt='n', gg=TRUE)  
  axis(1, 1:10); axis(2, seq(2,8,2), las=1)
  points(y10, pch=21, bg=6)    
-round( acf1(y10, 4, plot=FALSE), 2)   #  $1/\sqrt{10}$ =.32
-round( acf1(y100, 4, plot=FALSE), 2)  #  $1/\sqrt{100}$ =.1
+round( acf1(y10, 4, plot=FALSE), 2)   #  1/\sqrt{10}  =.32
+round( acf1(y100, 4, plot=FALSE), 2)  #  1/\sqrt{100} =.1
 
 ```
 
@@ -283,7 +283,9 @@ ccf2(X, detrend(Y), ylim=c(-.4,.5), col=4, lwd=2, gg=TRUE)
 <br/> Example 1.31
 
 ```r
-persp(1:64, 1:36, soiltemp, phi=25, theta=25, scale=FALSE, expand=4, ticktype="detailed", xlab="rows", ylab="cols", zlab="temperature")
+persp(1:64, 1:36, soiltemp, phi=25, theta=25, scale=FALSE, expand=4, ticktype="detailed", xlab="rows", ylab="cols", zlab="temperature", col="lightblue")
+
+dev.new()
 tsplot(rowMeans(soiltemp), xlab="row", ylab="Average Temperature")
 
 ```
@@ -324,8 +326,9 @@ x         # print x
 <br/> Example 2.1
 
 ```r
-summary( lm(chicken~time(chicken), na.action=NULL) )
-trend(chicken, lwd=2)  # produces a graphic
+par(mfrow=2:1)
+trend(chicken, lwd=2, results=TRUE) # graphic and results
+trend(salmon, lwd=2)                # graphic only
 
 ```
 
@@ -367,7 +370,25 @@ c( AIC(fit2), BIC(fit2))/num  # model with co
 
 <br/> Example 2.4  
 
-```r
+First, the Lotka-Volterra simulation (code not in the book)
+
+```R
+H = c(1); L =c(.5)
+for (t in 1:66000){
+H[t+1] = 1.0015*H[t] - .00060*L[t]*H[t] 
+L[t+1]  = .9994*L[t] + .00025*L[t]*H[t]
+}
+L = ts(10*L, start=1850, freq=900)
+H = ts(10*H, start=1850, freq=900)
+
+tsplot(cbind(H,L), spag=T, col=c(2,4), ylim=c(0,134), ylab="Population Size", gg=TRUE)
+legend('topleft', legend=c('predator', 'prey'), lty=1, col=c(4,2), bty='n', horiz=TRUE, cex=.9)
+
+```
+
+and now back to our regularly scheduled program...
+
+```R
 prdtr = ts.intersect(L=Lynx, L1=lag(Lynx,-1), H1=lag(Hare,-1), dframe=TRUE)
 summary( fit <- lm(L~ L1 + L1:H1, data=prdtr, na.action=NULL) )
 
@@ -392,6 +413,7 @@ summary( fit2 <- dynlm(Lynx~ L(Lynx,1) + L(Lynx,1):L(Hare,1)) )
 par(mfrow=2:1)
 tsplot(detrend(chicken), col=4, main="detrended" )
 tsplot(diff(chicken), col=4, main="first difference")
+
 dev.new()
 par(mfrow = c(3,1))
 acf1(chicken, col=6, lwd=2)
@@ -421,8 +443,10 @@ tsplot(varve, main="", ylab="", col=4)
  mtext("varve", side=3, line=.5, cex=1.2, font=2, adj=0)
 tsplot(log(varve), main="", ylab="", col=4)
  mtext("log(varve)", side=3, line=.5, cex=1.2, font=2, adj=0)
-qqnorm(varve, main=NA, col=4); qqline(varve, col=2, lwd=2)
-qqnorm(log(varve), main=NA, col=4); qqline(log(varve), col=2, lwd=2) 
+
+# Some OSs (think macOS) don't play with panel.first, so remove it if necessary
+qqnorm(varve, main=NA, col=4, panel.first=Grid(minor=FALSE)); qqline(varve, col=2, lwd=2)
+qqnorm(log(varve), main=NA, col=4, panel.first=Grid(minor=FALSE)); qqline(log(varve), col=2, lwd=2) 
 
 ```
 
@@ -431,6 +455,7 @@ qqnorm(log(varve), main=NA, col=4); qqline(log(varve), col=2, lwd=2)
 
 ```r
 lag1.plot(soi, 12, col=4)      # Figure 2.10
+dev
 lag2.plot(soi, rec, 8, col=4)  # Figure 2.11
 
 ```
@@ -1920,11 +1945,11 @@ par(mfrow=c(2,1))
 tsplot(Tsm, main='Trend Component', ylab='', col=4)
   xx  = c(time(jj), rev(time(jj)))
   yy  = c(Tsm-p1, rev(Tsm+p1))
- polygon(xx, yy, border=NA, col=gray(.5, alpha = .3))
-tsplot(jj, main='Data & Trend+Season', ylab='', col=4, ylim=c(-.5,17))
+ polygon(xx, yy, border=NA, col=gray(.5, alpha=.3))
+tsplot(Ssm, main='Seasonal Component', ylab='', col=4)
   xx  = c(time(jj), rev(time(jj)) )
-  yy  = c((Tsm+Ssm)-(p1+p2), rev((Tsm+Ssm)+(p1+p2)) )
- polygon(xx, yy, border=NA, col=gray(.5, alpha = .3)) 
+  yy  = c(Ssm-p2, rev(Ssm+p2)) 
+ polygon(xx, yy, border=NA, col=gray(.5, alpha=.3)) 
 
 # Forecasts 
 n.ahead = 12
@@ -2440,11 +2465,12 @@ for (iter in 1:niter){
 }
 close(pb)
 
-# graphics
+##-- graphics --##
  u     = draws[(burn+1):(niter),]
  parms = u[,1:4]
  q025  = function(x){quantile(x,0.025)}
  q975  = function(x){quantile(x,0.975)}
+
 #  plot parameters  
  names= c(bquote(phi), bquote(sigma[w1]), bquote(sigma[w2]), bquote(sigma[v]))
 par(mfrow=c(2,2))
@@ -2453,7 +2479,9 @@ for (i in 1:4){
  u1 = apply(parms,2,q025); u2 = apply(parms,2,mean); u3 = apply(parms,2,q975);
  abline(v=c(u1[i], u2[i], u3[i]), lwd=2, col=c(3,6,3))
 }
+
 #  plot states   
+dev.new()
   tr   = ts(u[,5:(n+4)], start=1960, frequency=4)
  ltr   = ts(apply(tr,2,q025), start=1960, frequency=4)
  mtr   = ts(apply(tr,2,mean), start=1960, frequency=4)
