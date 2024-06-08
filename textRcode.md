@@ -736,7 +736,6 @@ lines(-9:0, nx[1:10], col=2, type="o")
 
 ```
 
-
 <br/> Example 3.27
 
 ```r
@@ -756,9 +755,9 @@ lines(rec.pr$pred - rec.pr$se, col=2, lty=5)
 <br/> Example 3.28
 
 ```r
-set.seed(1)
-ma1 = sarima.sim(ma = 0.9, n = 50)
-acf1(ma1, 1, plot=FALSE)
+x = replicate(1000, acf1(sarima.sim(ma=.9, n=50), max.lag=1, plot=FALSE))
+1 - ecdf(abs(x))(.5)  # .5 exceedance prob 
+hist(x); abline(v=.5, col=2)
 
 ```
 
