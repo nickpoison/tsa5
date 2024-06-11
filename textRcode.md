@@ -755,10 +755,13 @@ lines(rec.pr$pred - rec.pr$se, col=2, lty=5)
 <br/> Example 3.28
 
 ```r
-x = replicate(1000, acf1(sarima.sim(ma=.9, n=50), max.lag=1, plot=FALSE))
-1 - ecdf(abs(x))(.5)  # .5 exceedance prob 
-hist(x); abline(v=.5, col=2)
+# generate 10000 MA(1)s and calculate the 1st sample ACF
+x = replicate(10000, acf1(sarima.sim(ma=.9, n=100), max.lag=1, plot=FALSE))  
+1 - ecdf(abs(x))(.5)   # .5 exceedance prob (is about 38%)
+hist(x); abline(v=.5, col=2)  # for fun (not in text)
 
+# The asymptotic approximation is   (not in text)
+pnorm( (.5-.497)/.071, lower=FALSE)  # = 0.4831483
 ```
 
 
