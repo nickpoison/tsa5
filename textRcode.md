@@ -19,7 +19,7 @@
  <br/>
 
 &#9940; &#9940;  __WARNING:__   If loaded, the package `dplyr` may (and most likely will) corrupt the base scripts  `filter` 
-and  `lag`  that we use often. In this case, to avoid problems, you have some simple choices:
+and  `lag`  that we use often. To avoid problems, before analyzing time series data you have some simple choices:
 
 ```R
 # either detach the problem package
@@ -37,7 +37,7 @@ lag = stats::lag
 
 ```
 
-before analyzing time series data.  &#128534; If you are wondering how it is possible to corrupt a base package, you are not alone. 
+&#128534; If you are wondering how it is possible to corrupt a base package, you are not alone. 
 
 <br/>
 
