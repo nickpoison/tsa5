@@ -1218,14 +1218,13 @@ legend('bottomleft', legend=c('no taper', 'full taper'), lty=c(5,1), col=c(2,4),
 
 ```
 
-
 <br/> Example 4.20
 
 ```r
-par(xpd = NA, oma=c(0,0,0,5)) 
-x = rep(1,100) 
-tsplot(1:100/100, cbind(spec.taper(x, p=.1), spec.taper(x, p=.2), spec.taper(x, p=.5)), col=astsa.col(2:4,.5), lty=c(5,2,1), gg=TRUE, spaghetti=TRUE, xlab='t / n', lwd=2, ylab='taper')
-legend('topright', inset=c(-.15,0), bty='n', lty=c(5,2,1), col=2:4, legend=c('10%','20%', 'Full'), lwd=2)
+par(xpd=NA, oma=c(0,0,0,10)) 
+tap = function(p){spec.taper(rep(1,100), p)}
+tsplot(1:100/100, cbind(tap(.1), tap(.2), tap(.5)), col=astsa.col(2:4,.5), lty=c(5,2,1), gg=TRUE, spaghetti=TRUE, xlab='t / n', lwd=2, ylab='taper')
+legend('topright', inset=c(-.2,0), bty='n', lty=c(5,2,1), col=2:4, legend=c('10%','20%', 'Full'), lwd=2)
 
 ```
 
@@ -1440,7 +1439,7 @@ sarima(innov, 0,0,0, no.constant=TRUE, col=4)  # residual analysis
 
 # plot pi wgts
 dev.new()
-p = rep(1,31)
+p = c(1)
 for (k in 1:30){ p[k+1] = (k-coef(varve.fd)[1])*p[k]/(k+1) }
 tsplot(p[-1], ylab=bquote(pi[j](d)), xlab="Index (j)", type="h", lwd=4, col=2:7, nxm=5)
 
