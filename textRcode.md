@@ -321,7 +321,7 @@ x         # print x
 
 ---
 
-
+<br/>
 
 ## Chapter 2
 
@@ -585,7 +585,7 @@ text(out[,3], labels=1:4, col=c(3,4,2,6), cex=1.25)
 
 ---
 
-
+<br/>
 
 ## Chapter 3
 
@@ -1019,7 +1019,7 @@ sarima.for(cardox, 60, 0,1,1, 0,1,1,12)  # not shown
 
 ---
 
-
+<br/>
 
 ## Chapter 4
 
@@ -1418,6 +1418,8 @@ mtext('2',  side=1, line=-.2, at=.5,  cex=.75, font=2, col=3)
 
 ---
 
+<br/>
+
 ## Chapter 5
 
 Classic long memory (of the way we were &#127926;)
@@ -1646,6 +1648,8 @@ fit$resid.cov    # estimate of noise cov matrix
 [<sub>top</sub>](#table-of-contents)
 
 ---
+
+<br/>
 
 ## Chapter 6
 
@@ -2550,6 +2554,8 @@ SV.mle(BCJ[,"boa"], feedback=TRUE)
 
 ---
 
+<br/>
+
 ## Chapter 7
 
 Code in Introduction
@@ -3279,3 +3285,5 @@ legend('bottomright', lty=1, col=c(4,6), legend=c('optimal', 'absolute value'), 
 [<sub>top</sub>](#table-of-contents)
 
 ---
+
+<br/><br/>
