@@ -763,7 +763,7 @@ x = replicate(10000, acf1(sarima.sim(ma=.9, n=100), max.lag=1, plot=FALSE))
 1 - ecdf(abs(x))(.5)   # .5 exceedance prob (is about 38%)
 hist(x); abline(v=.5, col=2)  # for fun (not in text)
 
-# The asymptotic approximation is   (not in text)
+# The asymptotic approximation is not very good:
 pnorm( (.5-.497)/.071, lower=FALSE)  # = 0.4831483
 ```
 
@@ -2572,14 +2572,12 @@ mtext("Sedated", side=3, line=-1, adj=.78, cex=1, outer=TRUE)
 
 ```r
 P = 1:1024; S = P+1024
-x = eqexp[P, c(5:6,5:6+8,17)]
-x = cbind(x, eqexp[S, c(5:6,5:6+8,17)])
-tsplot(x, ncol=2, byrow=FALSE, col=2:6)
+x = eqexp[ , c(5:6,5:6+8,17)]
+tsplot(cbind(x[P,], x[S,]), ncol=2, byrow=FALSE, col=2:6)
 mtext("P waves", side=3, line=-1, adj=.25, cex=.9, outer=TRUE)
 mtext("S waves", side=3, line=-1, adj=.78, cex=.9, outer=TRUE)
 
 ```
-
 
 <br/> Example 7.1
 
