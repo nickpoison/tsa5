@@ -30,6 +30,8 @@ detach(package:dplyr)
 library(dplyr, exclude = c("filter", "lag"))  # remove the culprits on load
 Lag <- dplyr::lag            # and do what the dplyr ... 
 Filter <- dplyr::filter      # ... maintainers refuse to do
+# then use `Lag` and `Filter` for dplyr's scripts
+# `lag` and `filter` will remain uncorrupted as originally intended
 
 # or just take back the commands
 filter = stats::filter
@@ -246,8 +248,8 @@ y10  = y100[1:10]
 tsplot(y10, type='s', col=4, yaxt='n', xaxt='n', gg=TRUE)  
  axis(1, 1:10); axis(2, seq(2,8,2), las=1)
  points(y10, pch=21, bg=6)    
-round( acf1(y10, 4, plot=FALSE), 2)   #  1/\sqrt{10}  =.32
-round( acf1(y100, 4, plot=FALSE), 2)  #  1/\sqrt{100} =.1
+round( acf1(y10, 4, plot=FALSE), 2)   
+round( acf1(y100, 4, plot=FALSE), 2)  
 
 ```
 
