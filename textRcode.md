@@ -1,7 +1,7 @@
 
 ## R Code Used in [Time Series Analysis and Its Applications, 5th Edition](https://github.com/nickpoison/tsa5)   - tsa5
 
-<img align="left" src="https://github.com/nickpoison/astsa/blob/master/fun_with_astsa/figs/tsa4.jpg" alt="&nbsp; tsa5 &nbsp;"  height="200"/>
+<img align="left" src="cover.jpg" alt="&nbsp; tsa5 &nbsp;"  height="200"/>
 
 <br/>
 
@@ -22,10 +22,10 @@
 and  `lag`  that we use often. To avoid problems, before analyzing time series data you have some simple choices:
 
 ```R
-# either detach the problem package
+# (1) either detach the problem package
 detach(package:dplyr)  
 
-# or fix it yourself if you want dplyr 
+# (2) or fix it yourself if you want dplyr 
 # this is a great idea from  https://stackoverflow.com/a/65186251
 library(dplyr, exclude = c("filter", "lag"))  # remove the culprits on load
 Lag <- dplyr::lag            # and do what the dplyr ... 
@@ -33,13 +33,17 @@ Filter <- dplyr::filter      # ... maintainers refuse to do
 # then use `Lag` and `Filter` for dplyr's scripts
 # `lag` and `filter` will remain uncorrupted as originally intended
 
-# or just take back the commands
+# (3) or just take back the commands
 filter = stats::filter
 lag = stats::lag
 
+# in this case, you can still use these for dplyr
+Lag <- dplyr::lag     
+Filter <- dplyr::filter 
+
 ```
 
-&#128534; If you are wondering how it is possible to corrupt a base package, you are not alone. 
+&#128534; If you are wondering how it is possible to corrupt a base package, &#128125; you are not alone. 
 
 <br/>
 
