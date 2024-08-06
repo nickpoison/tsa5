@@ -3,8 +3,6 @@
 
 <img align="left" src="cover.jpg" alt="&nbsp; tsa5 &nbsp;"  height="200"/>
 
-<br/>
-
 
  &#x2728; See the [NEWS](https://github.com/nickpoison/astsa/blob/master/NEWS.md) for further details about the state of the `astsa` package and the changelog.  
 
