@@ -1,16 +1,14 @@
-<img src="https://github.com/nickpoison/astsa/blob/master/fun_with_astsa/figs/tsa4.jpg" alt="tsa5"  height="200" > 
+<img src="cover.jpg" alt="tsa5"  height="200" >  5th Edition In progress...
 
  #### &#10024; Here is [A Road Map](https://nickpoison.github.io/) if you want a broad view of what is available.
 
  <br/>
 
- # COMING SOON
 
-## tsa5
+
+## tsa5 
 
 - All the  code used in the text  is in [textRcode.md](https://github.com/nickpoison/tsa5/blob/master/textRcode.md)
-
-
 
 
 
@@ -20,8 +18,7 @@
 
 - See the [NEWS](https://github.com/nickpoison/astsa/blob/master/NEWS.md) for further details about the state of the package and the changelog.
 
-- A demonstration of the capabilities of `astsa` can be found here at
-[**FUN WITH ASTSA**](https://github.com/nickpoison/astsa/blob/master/fun_with_astsa/fun_with_astsa.md)
+- A demonstration of the capabilities of `astsa` can be found here at [**FUN WITH ASTSA**](https://github.com/nickpoison/astsa/blob/master/fun_with_astsa/fun_with_astsa.md)
 
 
 ## python 
@@ -35,5 +32,4 @@ _this is for edition 4_
 - _Why use Python if you can use R?_ &nbsp; &nbsp; -Mr Natural
 
 &emsp; &ensp;<img src="https://github.com/nickpoison/astsa/blob/master/fun_with_astsa/figs/tool.png" alt="mr natch">
-
 
