@@ -27,7 +27,7 @@ detach(package:dplyr)
 # this is a great idea from  https://stackoverflow.com/a/65186251
 library(dplyr, exclude = c("filter", "lag"))  # remove the culprits on load
 Lag <- dplyr::lag            # and do what the dplyr ... 
-Filter <- dplyr::filter      # ... maintainers refuse to do
+Filter <- dplyr::filter      # ... maintainer refuses to do
 # then use `Lag` and `Filter` for dplyr's scripts
 # `lag` and `filter` will remain uncorrupted as originally intended
 
@@ -85,6 +85,9 @@ tsplot(jj, col=4, ylab="USD", type="o", log="y")
 tsplot(cbind(gtemp_land, gtemp_ocean), spaghetti=TRUE, pch=c(20,18), type="o", col=astsa.col(c(4,2),.5), ylab="\u00B0C", main="Global Annual Mean Temperature Change")
 legend("topleft", legend=c("Land Surface","Sea Surface"), lty=1, pch=c(20,18), col=c(4,2), bg="white")
 
+##-- alternately, use addLegend --##
+tsplot(cbind(gtemp_land, gtemp_ocean), spaghetti=TRUE, pch=c(20,18), type="o", col=astsa.col(c(4,2),.5), ylab="\u00B0C", main="Global Annual Mean Temperature Change", addLegend=TRUE, location='topleft')
+
 ```
 
 <br/> Example 1.3  
@@ -124,6 +127,10 @@ tsplot(rec, col=4, ylab="", main="Recruitment")
 tsplot(cbind(Hare, Lynx), col=c(2,4), type="o", pch=c(0,2), ylab="Number", spaghetti=TRUE)
 mtext("(\u00D7 1000)", side=2, adj=1, line=1.5, cex=.8)
 legend("topright", col=c(2,4), lty=1, pch=c(0,2), legend=c("Hare", "Lynx"), bty="n")
+
+##-- alternately, use addLegend --##
+tsplot(cbind(Hare, Lynx), col=c(2,4), type="o", pch=c(0,2), ylab="Number", spaghetti=TRUE, addLegend=TRUE)
+mtext("(\u00D7 1000)", side=2, adj=1, line=1.5, cex=.8)
 
 ```
 
