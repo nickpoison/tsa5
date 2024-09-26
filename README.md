@@ -1,4 +1,4 @@
-<img src="cover.jpg" alt="tsa5"  height="200" >  5th Edition In progress...
+<img src="cover.jpg" alt="tsa5"  height="200" >  5th Edition (December 2024)
 
  #### &#10024; Here is [A Road Map](https://nickpoison.github.io/) if you want a broad view of what is available.
 
