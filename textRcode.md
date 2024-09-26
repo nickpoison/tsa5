@@ -16,8 +16,7 @@
 
  <br/>
 
-&#9940; &#9940;  __WARNING:__   If loaded, the package `dplyr` may (and most likely will) corrupt the base scripts  `filter` 
-and  `lag`  that we use often. To avoid problems, before analyzing time series data you have some simple choices:
+&#9940; &#9940;  __WARNING:__   If loaded, the package `dplyr` may (and most likely will) corrupt the base scripts  `filter`  and  `lag`  that we use often. To avoid problems, before analyzing time series data you have some simple choices:
 
 ```R
 # (1) either detach the problem package
@@ -86,7 +85,7 @@ tsplot(cbind(gtemp_land, gtemp_ocean), spaghetti=TRUE, pch=c(20,18), type="o", c
 legend("topleft", legend=c("Land Surface","Sea Surface"), lty=1, pch=c(20,18), col=c(4,2), bg="white")
 
 ##-- alternately, use addLegend --##
-tsplot(cbind(gtemp_land, gtemp_ocean), spaghetti=TRUE, pch=c(20,18), type="o", col=astsa.col(c(4,2),.5), ylab="\u00B0C", main="Global Annual Mean Temperature Change", addLegend=TRUE, location='topleft')
+tsplot(cbind(gtemp_land, gtemp_ocean), spaghetti=TRUE, lwd=2, col=astsa.col(c(4,2),.7), ylab="\u00B0C", main="Global Surface Temperature Anomalies", addLegend=TRUE, location='topleft', legend=c("Land Surface","Sea Surface"))
 
 ```
 
@@ -154,7 +153,7 @@ mtext("seconds", side=1, line=1.75, cex=.9)
 <br/> Example 1.8
 
 ```r
-tsplot(cbind(EQ5,EXP6), ylab=c("Earthquake", "Explosion"), col=4)
+tsplot(cbind(EQ5, EXP6), ylab=c("Earthquake", "Explosion"), col=4)
 
 ```
 
@@ -397,6 +396,9 @@ H = ts(10*H, start=1850, freq=900)
 
 tsplot(cbind(H,L), spag=T, col=c(2,4), ylim=c(0,134), ylab="Population Size", gg=TRUE)
 legend('topleft', legend=c('predator', 'prey'), lty=1, col=c(4,2), bty='n', horiz=TRUE, cex=.9)
+
+#== alternately ==##
+tsplot(cbind(predator=L, prey=H), spag=T, col=c(2,4), ylim=c(0,134), ylab="Population Size", gg=TRUE, addLegend=TRUE, location='topleft', horiz=TRUE)
 
 ```
 
@@ -775,7 +777,8 @@ x = replicate(10000, acf1(sarima.sim(ma=.9, n=100), max.lag=1, plot=FALSE))
 hist(x); abline(v=.5, col=2)  # for fun (not in text)
 
 # The asymptotic approximation is not very good:
-pnorm( (.5-.497)/.071, lower=FALSE)  # = 0.4831483
+pnorm( (.5-.497)/.071, lower=FALSE)  
+#  [1] 0.4831483
 ```
 
 
@@ -1678,6 +1681,8 @@ tsplot(blood, type='o', col=c(4,6,3), pch=19, cex=1)
 tsplot(cbind(gtemp_land, gtemp_both), col=astsa.col(c(4,6),.7), lwd=2, ylab='Temperature Deviations', spaghetti=TRUE)
 legend("topleft", legend=c("Land Only","Land & Ocean"), col=c(4,6), lty=1, bty="n")
 
+##-- alternately (but not as nice) --##
+tsplot(cbind(gtemp_land, gtemp_both), col=astsa.col(c(4,6),.7), lwd=2, ylab='Temperature Deviations', spaghetti=TRUE, addLegend=TRUE, location='topleft')
 ```
 
 <br/> Example 6.5

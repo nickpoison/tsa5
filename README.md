@@ -23,9 +23,7 @@
 
 ## python 
 
-_this is for edition 4_
-
-- The [code in the first 3 chapters of the text has been converted to Python here.](https://github.com/borisgarbuzov/tsa4-python/tree/master/src) 
+- The [code in the first 3 chapters of the text has been converted to Python here.](https://github.com/borisgarbuzov/tsa4-python/tree/master/src)  (edition 4)
 
 - And a [Python package that contains datasets from `astsa` is here.](https://pypi.org/project/astsadata/)
 
