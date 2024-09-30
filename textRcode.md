@@ -1,7 +1,7 @@
 
 ## R Code Used in [Time Series Analysis and Its Applications, 5th Edition](https://github.com/nickpoison/tsa5)   - tsa5
 
-<img align="left" src="cover.jpg" alt="&nbsp; tsa5 &nbsp;"  height="200"/>
+<img align="left" src="cover.jpg" alt="&nbsp; tsa5 &nbsp;"  height="200" padding-right=20px />
 
 
  &#x2728; See the [NEWS](https://github.com/nickpoison/astsa/blob/master/NEWS.md) for further details about the state of the `astsa` package and the changelog.  
@@ -15,6 +15,35 @@
  &#10024; Pages for the old [4th Edition](https://github.com/nickpoison/tsa4)  
 
  <br/>
+
+### Table of Contents
+
+  * [Chapter 1 - Characteristics of Time Series](#chapter-1)
+
+  * [Chapter 2 - Time Series Regression and Exploratory Data Analysis](#chapter-2)
+
+  * [Chapter 3 - ARIMA Models](#chapter-3)
+
+  * [Chapter 4 - Spectral Analysis and Filtering](#chapter-4)
+
+  * [Chapter 5 - Additional Time Domain Topics](#chapter-5)
+
+  * [Chapter 6 - State Space Models](#chapter-6)
+
+  * [Chapter 7 - Statistical Methods in the Frequency Domain](#chapter-7)
+
+<br/>
+
+---
+---
+
+>  __Note__ when you are in a code block below, you can copy the contents of the block by moving your mouse to the upper right corner and clicking on the copy icon ( &#128203; ).
+
+
+---
+---
+
+<br/>    
 
 &#9940; &#9940;  __WARNING:__   If loaded, the package `dplyr` may (and most likely will) corrupt the base scripts  `filter`  and  `lag`  that we use often. To avoid problems, before analyzing time series data you have some simple choices:
 
@@ -44,27 +73,8 @@ Filter <- dplyr::filter
 
 <br/>
 
-### Table of Contents
-
-  * [Chapter 1 - Characteristics of Time Series](#chapter-1)
-  * [Chapter 2 - Time Series Regression and Exploratory Data Analysis](#chapter-2)
-  * [Chapter 3 - ARIMA Models](#chapter-3)
-  * [Chapter 4 - Spectral Analysis and Filtering](#chapter-4)
-  * [Chapter 5 - Additional Time Domain Topics](#chapter-5)
-  * [Chapter 6 - State Space Models](#chapter-6)
-  * [Chapter 7 - Statistical Methods in the Frequency Domain](#chapter-7)
 
 
----
----
-
->  __Note__ when you are in a code block below, you can copy the contents of the block by moving your mouse to the upper right corner and clicking on the copy icon ( &#128203; ).
-
-
----
----
-
-<br/>
 
 ## Chapter 1
 
@@ -84,7 +94,7 @@ tsplot(jj, col=4, ylab="USD", type="o", log="y")
 tsplot(cbind(gtemp_land, gtemp_ocean), spaghetti=TRUE, pch=c(20,18), type="o", col=astsa.col(c(4,2),.5), ylab="\u00B0C", main="Global Annual Mean Temperature Change")
 legend("topleft", legend=c("Land Surface","Sea Surface"), lty=1, pch=c(20,18), col=c(4,2), bg="white")
 
-##-- alternately, use addLegend --##
+##-- alternately, use addLegend (will be available in version 2.2) --##
 tsplot(cbind(gtemp_land, gtemp_ocean), spaghetti=TRUE, lwd=2, col=astsa.col(c(4,2),.7), ylab="\u00B0C", main="Global Surface Temperature Anomalies", addLegend=TRUE, location='topleft', legend=c("Land Surface","Sea Surface"))
 
 ```
@@ -127,7 +137,7 @@ tsplot(cbind(Hare, Lynx), col=c(2,4), type="o", pch=c(0,2), ylab="Number", spagh
 mtext("(\u00D7 1000)", side=2, adj=1, line=1.5, cex=.8)
 legend("topright", col=c(2,4), lty=1, pch=c(0,2), legend=c("Hare", "Lynx"), bty="n")
 
-##-- alternately, use addLegend --##
+##-- alternately, use addLegend (will be available in version 2.2) --##
 tsplot(cbind(Hare, Lynx), col=c(2,4), type="o", pch=c(0,2), ylab="Number", spaghetti=TRUE, addLegend=TRUE)
 mtext("(\u00D7 1000)", side=2, adj=1, line=1.5, cex=.8)
 
