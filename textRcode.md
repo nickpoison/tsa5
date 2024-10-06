@@ -1,5 +1,5 @@
 
-## Code Used in [Time Series Analysis and Its Applications, 5th Edition](https://github.com/nickpoison/tsa5)
+## Code Used in [Time Series Analysis and Its Applications, 5th Edition](https://link.springer.com/book/9783031705830)
 
 <img align="left" src="cover.jpg" alt="&nbsp; tsa5 &nbsp;"  height="200" padding-right="10px" />
 
