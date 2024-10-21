@@ -10,7 +10,6 @@
 
 - All the  code used in the text  is in [textRcode.md](https://github.com/nickpoison/tsa5/blob/master/textRcode.md)
 
-- The site for the [4th edition](https://github.com/nickpoison/tsa4)
 
 ## astsa
 
@@ -23,7 +22,7 @@
 
 ## python 
 
-- The [code in the first 3 chapters of the text has been converted to Python here.](https://github.com/borisgarbuzov/tsa4-python/tree/master/src)  (edition 4)
+- The code in the first 3 chapters of the  [4th edition](https://github.com/nickpoison/tsa4) text has been [converted to Python.](https://github.com/borisgarbuzov/tsa4-python/tree/master/src)  
 
 - And a [Python package that contains datasets from `astsa` is here.](https://pypi.org/project/astsadata/)
 
