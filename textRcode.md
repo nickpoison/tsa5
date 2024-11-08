@@ -2140,8 +2140,8 @@ for (i in 1:nboot){
  setTxtProgressBar(pb,i)                       
  e.star[k] = sample(e[k], replace=TRUE)   
  for (j in k){ 
-   K = (phi*Pp[j]*z[j])/sig[j]  
-  xp.star[j] = phi*xp.star[j-1] + Ups + K*sqrt(sig[j])*e.star[j]
+   K = (phi*Pp[j-1]*z[j-1])/sig[j-1]  
+  xp.star[j] = phi*xp.star[j-1] + Ups + K*sqrt(sig[j-1])*e.star[j-1]
   } 
    y.star[k] = z[k]*xp.star[k] + alpha + sqrt(sig[k])*e.star[k]  
  est.star  = optim(init.par, Linn, NULL, y.data=y.star, method='BFGS',control=list(reltol=tol))     
@@ -2153,7 +2153,7 @@ close(pb)
 rmse = rep(NA,5)
 for(i in 1:5){
   rmse[i]=sqrt(sum((para.star[,i]-est$par[i])^2)/nboot)
-  cat(i, rmse[i],"\n") 
+  cat(names(est$par[i]), "\t", rmse[i], "\n")
 }           
 # Plot phi v sigw 
 phi  = para.star[,1] 
