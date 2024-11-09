@@ -2089,8 +2089,7 @@ sarima(ded$M, 0,0,0, xreg=ded[,2:7])
 
 ```r
 # data plot  
-tsplot(cbind(qinfl, qintr), ylab='Rate (%)', col=c(4,6), spag=TRUE, type='o', pch=2:3)
-legend("topleft", c("Inflation","Interest"), lty=1, col=c(4,6), pch=2:3, bg='white')
+tsplot(cbind(qinfl, qintr), ylab='Rate (%)', col=c(4,6), spag=TRUE, type='o', pch=2:3, addLegend=TRUE, location="topleft", legend=c("Inflation","Interest"))
 # set up 
 y     = window(qinfl, c(1953,1), c(1965,2))  # quarterly inflation   
 z     = window(qintr, c(1953,1), c(1965,2))  # interest   
