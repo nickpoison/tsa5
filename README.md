@@ -21,8 +21,8 @@
 
 - Other packages used in the text:
 
-   - Ch 1 - 4: `xts` (`zoo`), `dynlm` (used for a demonstration - not necessary to install)
-   - Ch 5 - 7: `xts` (`zoo`), `NTS`, `arfima`, `tseries`, `fGarch`, `TSA`, `vars`, `marima`,`nlme`  (comes with R), `depmixS4`, `MSwM`, `cluster`
+   - Ch 1 - 4: `xts` `zoo`, `dynlm` (used for a demonstration - not necessary to install)
+   - Ch 5 - 7: `xts` `zoo`, `NTS`, `arfima`, `tseries`, `fGarch`, `TSA`, `vars`, `marima`,`nlme`  (comes with R), `depmixS4`, `MSwM`, `cluster`
 
 
 ## python 

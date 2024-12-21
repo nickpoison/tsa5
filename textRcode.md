@@ -40,6 +40,8 @@
 
 >  __Note__ when you are in a code block below, you can copy the contents of the block by moving your mouse to the upper right corner and clicking on the copy icon ( __&#10697;__ ).
 
+> The code below is based on `astsa` version 2.2 or higher, so a few things won't work with lower versions.
+
 
 ---
 ---
@@ -92,10 +94,6 @@ tsplot(jj, col=4, ylab="USD", type="o", log="y")
 <br/> Example 1.2  
 
 ```r
-tsplot(cbind(gtemp_land, gtemp_ocean), spaghetti=TRUE, pch=c(20,18), type="o", col=astsa.col(c(4,2),.5), ylab="\u00B0C", main="Global Annual Mean Temperature Change")
-legend("topleft", legend=c("Land Surface","Sea Surface"), lty=1, pch=c(20,18), col=c(4,2), bg="white")
-
-##-- alternately, use addLegend (will be available in version 2.2) --##
 tsplot(cbind(gtemp_land, gtemp_ocean), spaghetti=TRUE, lwd=2, col=astsa.col(c(4,2),.7), ylab="\u00B0C", main="Global Surface Temperature Anomalies", addLegend=TRUE, location='topleft', legend=c("Land Surface","Sea Surface"))
 
 ```
@@ -134,14 +132,8 @@ tsplot(rec, col=4, ylab="", main="Recruitment")
 <br/> Example 1.6
 
 ```r
-tsplot(cbind(Hare, Lynx), col=c(2,4), type="o", pch=c(0,2), ylab="Number", spaghetti=TRUE)
-mtext("(\u00D7 1000)", side=2, adj=1, line=1.5, cex=.8)
-legend("topright", col=c(2,4), lty=1, pch=c(0,2), legend=c("Hare", "Lynx"), bty="n")
-
-##-- alternately, use addLegend (will be available in version 2.2) --##
 tsplot(cbind(Hare, Lynx), col=c(2,4), type="o", pch=c(0,2), ylab="Number", spaghetti=TRUE, addLegend=TRUE)
 mtext("(\u00D7 1000)", side=2, adj=1, line=1.5, cex=.8)
-
 ```
 
 <br/> Example 1.7
@@ -205,7 +197,8 @@ abline(h=0, a=0, b=.2, col=8, lty=5)
 
 ```r
 cs = 2*cos(2*pi*(1:500 + 15)/50)  
-w = rnorm(500,0,1)
+w  = rnorm(500)
+
 par(mfrow=c(3,1))
 tsplot(cs, ylab="", main=bquote(2*cos(2*pi*t/50+.6*pi)), col=4, gg=TRUE)
 tsplot(cs+w, ylab="", main=bquote(2*cos(2*pi*t/50+.6*pi) + N(0,1)), col=4, gg=TRUE)
@@ -324,7 +317,7 @@ rs = cs/cs[1,1]                             # ACF
 rs2 = cbind(rs[1:41,21:2], rs[1:41,1:21])   #  these lines are just to center
 rs3 = rbind(rs2[41:2,], rs2)                #  the 0 lag  
 
-par(mar = c(1,2.5,0,0)+.1)
+par(mar = c(1,2.5,0,0) + .1)
 persp(-40:40, -20:20, rs3, phi=30, theta=30, expand=30, scale="FALSE", ticktype="detailed", xlab="row lags", ylab="column lags", zlab="ACF", col="lightblue")
 
 ```
@@ -363,6 +356,7 @@ par(mfrow = c(3,1))
 tsplot(cmort, ylab="Rate per 10,000", type="o", pch=19, col=6, nxm=2, main="Cardiovascular Mortality")
 tsplot(tempr, ylab="\u00B0F", type="o", pch=19, col=4, nxm=2, main="Temperature")
 tsplot(part, ylab="PPM", type="o", pch=19, col=2, nxm=2, main="Particulates")
+
 dev.new()
 pairs(cbind(Mortality=cmort, Temperature=tempr, Particulates=part), col=4, lower.panel = astsa:::.panelcor)
 temp = tempr - mean(tempr)  # center temperature
@@ -400,15 +394,11 @@ First, the Lotka-Volterra simulation (code not in the book)
 H = c(1); L =c(.5)
 for (t in 1:66000){
 H[t+1] = 1.0015*H[t] - .00060*L[t]*H[t] 
-L[t+1]  = .9994*L[t] + .00025*L[t]*H[t]
+L[t+1] =  .9994*L[t] + .00025*L[t]*H[t]
 }
 L = ts(10*L, start=1850, freq=900)
 H = ts(10*H, start=1850, freq=900)
 
-tsplot(cbind(H,L), spag=T, col=c(2,4), ylim=c(0,134), ylab="Population Size", gg=TRUE)
-legend('topleft', legend=c('predator', 'prey'), lty=1, col=c(4,2), bty='n', horiz=TRUE, cex=.9)
-
-#== alternately ==##
 tsplot(cbind(predator=L, prey=H), spag=T, col=c(2,4), ylim=c(0,134), ylab="Population Size", gg=TRUE, addLegend=TRUE, location='topleft', horiz=TRUE)
 
 ```
@@ -538,7 +528,7 @@ lines(fitted(fit), col=2, lwd=2)
 <br/> Example 2.13
 
 ```r
-wgts = c(.5, rep(1,11), .5)/12
+wgts  = c(.5, rep(1,11), .5)/12
 ENSOf = filter(ENSO, sides=2, filter=wgts)
 tsplot(ENSO, col=8)
 lines(ENSOf, lwd=2, col=4)
@@ -811,11 +801,11 @@ rec.mle$var.pred
 
 ```r
 acf2(diff(log(varve)), col=4)  # sample ACF and PACF
-x = diff(log(varve))       # data
-r = acf1(x, 1, plot=FALSE) # acf(1)
+x = diff(log(varve))           # data
+r = acf1(x, 1, plot=FALSE)     # acf(1)
 c(0) -> z -> Sc -> Sz -> Szw -> para # initialize .. 
 c(x[1]) -> w                         # .. all variables
-num = length(x)            # 633
+num = length(x)                # 633
 
 ## Gauss-Newton Estimation
 para[1] = (1-sqrt(1-4*(r^2)))/(2*r)  # MME to start (not very good)
@@ -896,12 +886,12 @@ for (i in 1:1000){
 
 # Bootstrap
 boots = ar.boot(dex, order=1, plot=FALSE)  # default is B = 500
-phi.star.yw = boots[[1]]       # bootstrapped phi  
+phi.star.yw = boots[[1]]                   # bootstrapped phi  
 # Picture
 dev.new()
 hist(phi.star.yw, main=NA, prob=TRUE, xlim=c(.65,1.05), ylim=c(0,15), col=astsa.col(4,.4), xlab=bquote(hat(phi)), breaks="FD")
-lines(density(phi.yw, bw=.02), lwd=2) # from previous simulation
-u = seq(.75, 1.1, by=.001)            # normal approximation
+lines(density(phi.yw, bw=.02), lwd=2)     # from previous simulation
+u = seq(.75, 1.1, by=.001)                # normal approximation
 lines(u, dnorm(u, mean=estyw[2], sd=estyw[3]), lty=2, lwd=2)
 legend(.65, 15, bty="n", lty=c(1,0,2), lwd=c(2,0,2), col=1, pch=c(NA,22,NA), pt.bg=c(NA,astsa.col(4,.4),NA), pt.cex=2.5, legend=c("true distribution",   "bootstrap distribution", "normal approximation"))
 
@@ -1689,11 +1679,8 @@ tsplot(blood, type='o', col=c(4,6,3), pch=19, cex=1)
 <br/> Example 6.2
 
 ```r
-tsplot(cbind(gtemp_land, gtemp_both), col=astsa.col(c(4,6),.7), lwd=2, ylab='Temperature Deviations', spaghetti=TRUE)
-legend("topleft", legend=c("Land Only","Land & Ocean"), col=c(4,6), lty=1, bty="n")
-
-##-- alternately (but not as nice) --##
 tsplot(cbind(gtemp_land, gtemp_both), col=astsa.col(c(4,6),.7), lwd=2, ylab='Temperature Deviations', spaghetti=TRUE, addLegend=TRUE, location='topleft')
+
 ```
 
 <br/> Example 6.5
