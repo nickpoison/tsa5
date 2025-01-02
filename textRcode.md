@@ -1038,6 +1038,9 @@ sarima.for(cardox, 60, 0,1,1, 0,1,1,12)  # not shown
 
 ## Chapter 4
 
+>  &#10004; Note- the script `mvspec` has a slight change in `astsa` version 2.2  ... instead of including the tapering amount in the default graphic title, tapering information is printed along with bandwidth and degrees of freedom. 
+<br/>
+
 Aliasing
 
 ```r
