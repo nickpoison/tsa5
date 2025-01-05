@@ -1133,7 +1133,7 @@ arma.spec(ar=c(1,-.9), main="Autoregression", col=5, gg=TRUE)
 
 ```
 
-<br/> DFT  - it's injective
+<br/> DFT  - it's injective (so be receptive,  be perceptive and acceptive, we ain't tryin to be deceptive)
 
 ```r
 ( dft = fft(1:4)/sqrt(4) )
@@ -1168,7 +1168,7 @@ c(2*P$spec[18]/qchisq(.975, 2),  2*P$spec[18]/qchisq(.025, 2))
 
 ```
 
-<br/> smoothing the periodogram
+<br/> smoothing the periodogram (&#128545; remember if `dplyr` is loaded it will mess up `filter` &#128545;)
 
 ```r
 P = mvspec(rnorm(2^10), col=8, main=NA, ylab='periodogram', gg=TRUE)
@@ -1179,13 +1179,13 @@ lines(P$freq, filter(P$spec, filter=rep(.01,100), circular=TRUE), col=4, lwd=3)
 
 
 
-
 <br/> Example 4.16
 
 ```r
 kd = kernel("daniell", 4)  # nine 1/9s
 par(mfrow=2:1)
 ENSO.av  = mvspec(ENSO, lowess=TRUE, kernel=kd, col=5, main='ENSO: Averaged Periodogram')
+##  Bandwidth: 0.125 | Degrees of Freedom: 17.96 | split taper: 0%
  rect(1/7,-1, 1/2,4, density=NA, col=gray(.6,.2))
  abline(v=1/4, lty=5, col=8)
  mtext('1/4', side=1, line=0, at=.25, cex=.75)
@@ -1208,7 +1208,7 @@ mvspec(y, main=NA, ylab='periodogram', col=5, gg=TRUE)
 
 ```
 
-<br/> Modified Daniell kernel
+<br/> Modified Daniell kernel (Central Limit Theorem in action &#128526;)
 
 ```r
 par(mfrow=1:2)
@@ -1265,6 +1265,7 @@ legend('topright', inset=c(-.2,0), bty='n', lty=c(5,2,1), col=2:4, legend=c('10%
 par(mfrow=2:1)
 mvspec(ts(scale(EQ5), freq=40), spans=c(21,21), xlim=c(0,10), taper=.1, col=5, main='Earthquake', xlab='frequency (Hz)')
 mvspec(ts(scale(EXP6), freq=40), spans=c(21,21), xlim=c(0,10), taper=.1, col=5, main='Explosion', xlab='frequency (Hz)')
+#  Bandwidth: 0.587 | Degrees of Freedom: 53.88 | split taper: 10%  
 
 ```
 
@@ -1298,6 +1299,8 @@ tsplot(ENSO, main='SOI', col=4, ylab='' )
 tsplot(diff(ENSO), col=4, ylab='', main='First Difference') 
  k = kernel("modified.daniell", 6)  
 tsplot(kernapply(ENSO, k), col=4, ylab='', main='Seasonal Moving Average')  
+
+
 ##-- frequency responses --##
 w =  seq(0, .5, by=.001) 
 FRdiff = abs(1-exp(2i*pi*w))^2
