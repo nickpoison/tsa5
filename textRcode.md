@@ -42,6 +42,8 @@
 
 > The code below is based on `astsa` version 2.2 or higher, so a few things won't work with lower versions. 
 
+> This is still a work in progress ... if you notice any problems, mistakes, general goof-ups, and so on, submit an issue here: https://github.com/nickpoison/tsa5/issues  ... but make sure you're using version 2.2+ first
+
 
 ---
 ---
@@ -846,7 +848,7 @@ points(para[1:12], Sc[1:12], pch=16, col=4)
 
 
 
-<br/> Example 3.34
+<br/> Example 3.35
 
 ```r
 t = time(USpop) - 1955
@@ -861,8 +863,7 @@ mtext(bquote("\u00D7"~10^6), side=2, line=1.5, adj=1, cex=.8)
 
 ```
 
-
-<br/> Example 3.35
+<br/> Example 3.36
 
 ```r
 # data
@@ -912,27 +913,27 @@ qnorm(c(alf, 1-alf), mean=estyw[2], sd=estyw[3])  # asym normal
 
 
 
-
-<br/> Example 3.36
+<br/> Example 3.37
 
 ```r
-set.seed(1234567)  
+set.seed(9999)
 x = ts(cumsum(rnorm(150, .2)))  # RW with drift .2 and error sd 1
 y = window(x, end=100)          # first 100 obs
 c(d <- mean(diff(y)), s <- sd(diff(y))) # estimated drift and error sd
+# || [1] 0.2207063  1.0369163 ||
 rmspe = s*sqrt(1:50)
 yfore = ts(y[100] + 1:50*d, start=101)
-tsplot(x, ylab=bquote(X[~t]), col=4, gg=TRUE, ylim=c(0,25))
+tsplot(x, ylab=bquote(X[~t]), col=4, gg=TRUE, ylim=c(0,40))
 lines(yfore, col=6)
   xx = c(101:150, 150:101)
   yy = c(yfore - 1*rmspe, rev(yfore + 1*rmspe))
 polygon(xx, yy, border = NA, col = gray(0.6, alpha = 0.2))
-text(85, 23, 'PAST', cex=.8); text(115, 23, 'FUTURE', cex=.8) 
-abline(v=100, lty=2) 
+text(85, 38, 'PAST', cex=.8); text(115, 38, 'FUTURE', cex=.8) 
+abline(v=100, lty=2)  
 
 ```
 
-<br/> Example 3.37
+<br/> Example 3.38
 
 ```r
 set.seed(666)
@@ -942,7 +943,7 @@ plot(x.ima)
 
 ```
 
-<br/> Example 3.38
+<br/> Example 3.39
 
 ```r
 sarima(log(varve), 0, 1, 1, col=4)
@@ -950,7 +951,7 @@ sarima(log(varve), 1, 1, 1, no.constant=TRUE, col=4)
 
 ```
 
-<br/> Example 3.39
+<br/> Example 3.40
 
 ```r
 trend = time(cmort); temp = tempr - mean(tempr); temp2 = temp^2
@@ -962,7 +963,7 @@ sarima(cmort, 2,0,0, xreg=cbind(trend, temp, temp2, part))
 
 
 
-<br/> Example 3.40
+<br/> Example 3.41
 
 ```r
 pp = ts.intersect(L=Lynx, L1=lag(Lynx,-1), H1=lag(Hare,-1), dframe=TRUE)
@@ -976,7 +977,7 @@ sarima(pp$L, 2,0,0, xreg=cbind(L1=pp$L1, LH1=pp$L1*pp$H1), col=4)
 
 
 
-<br/> Example 3.41
+<br/> Example 3.42
 
 ```r
 set.seed(10101010)
@@ -997,7 +998,7 @@ tsplot(LAG, PACF, type="h", xlab="LAG \u00F7 12", ylim=c(-.04,1), gg=TRUE, col=4
 
 ```
 
-<br/> Example 3.42
+<br/> Example 3.43
 
 ```r
 phi  = c(rep(0,11),.8)
@@ -1008,7 +1009,11 @@ tsplot(ACF,  type="h", xlab="LAG \u00F7 12", gg=TRUE, col=4)
  abline(h=0, col=8)
 tsplot(PACF, type="h", xlab="LAG \u00F7 12", gg=TRUE, col=4)  
 
-dev.new()
+```
+
+<br/>Seasonal Persistence (with drift toward annihilation)
+
+```r
 tsplot(gtemp.month, spaghetti=TRUE, col=rainbow(49, start=.2, v=.8, rev=TRUE), ylab='\u00b0C', xlab='Month', xaxt='n', main='Mean Monthly Global Temperature')
 axis(1, labels=Months, at=1:12)
 lines(gtemp.month[,1],  lwd=2, col=6)
@@ -1018,7 +1023,7 @@ text(10.3, 15.5, '2023')
 
 ```
 
-<br/> Example 3.44
+<br/> Example 3.45
 
 ```r
 par(mfrow=2:1)
