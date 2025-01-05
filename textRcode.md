@@ -40,7 +40,7 @@
 
 >  __Note__ when you are in a code block below, you can copy the contents of the block by moving your mouse to the upper right corner and clicking on the copy icon ( __&#10697;__ ).
 
-> The code below is based on `astsa` version 2.2 or higher, so a few things won't work with lower versions.
+> The code below is based on `astsa` version 2.2 or higher, so a few things won't work with lower versions. 
 
 
 ---
@@ -245,10 +245,9 @@ tsplot(lag(soi,-6), soi, col=4, type="p", xlab="lag(soi,-6)")
 ```r
 x = replicate(1000, acf1(rnorm(100), plot=FALSE))
 round(c(mean(x), sd(x)), 3)
-qqnorm(x); qqline(x)  # to check normality (not shown)
+QQnorm(x)    # to check normality (not shown)
 
 ```
-
 
 <br/> Example 1.27
 
@@ -322,12 +321,17 @@ persp(-40:40, -20:20, rs3, phi=30, theta=30, expand=30, scale="FALSE", ticktype=
 
 ```
 
-<br/> Bad LCG
+<br/> Bad LCGs
 
 ```r
 x = c(1)  # set the seed to 1
 for (n in 2:24){ x[n] = (5*x[n-1] + 2) %% (2^4) }
 x         # print x
+
+##-- here's an 8-bit one that sucks  --##
+x = c(3)  # set the seed to 3
+for (n in 2:20){ x[n] = (3*x[n-1] + 2) %% 2^8 }
+x
 
 ```
 
@@ -388,7 +392,7 @@ c( AIC(fit2), BIC(fit2))/num  # model with co
 
 <br/> Example 2.4  
 
-First, the Lotka-Volterra simulation (code not in the book)
+First, the Lotka-Volterra example graphic (code not in the book)
 
 ```R
 H = c(1); L =c(.5)
@@ -445,7 +449,7 @@ acf1(diff(chicken), col=4, lwd=2)
 par(mfrow = 2:1)
 tsplot(diff(gtemp_land), col=4, xlab="Year")
 acf1(diff(gtemp_land), col=4)
-mean(diff(window(gtemp_land, end=1980)))   # drift until 1980
+mean(diff(window(gtemp_land, end=1979)))   # drift before 1980
 mean(diff(window(gtemp_land, start=1980))) # drift since 1980
 
 ```
@@ -460,10 +464,8 @@ tsplot(varve, main="", ylab="", col=4)
  mtext("varve", side=3, line=.5, cex=1.2, font=2, adj=0)
 tsplot(log(varve), main="", ylab="", col=4)
  mtext("log(varve)", side=3, line=.5, cex=1.2, font=2, adj=0)
-
-# Some OSs (think macOS) don't play with panel.first, so remove it if necessary
-qqnorm(varve, main=NA, col=4, panel.first=Grid(minor=FALSE)); qqline(varve, col=2, lwd=2)
-qqnorm(log(varve), main=NA, col=4, panel.first=Grid(minor=FALSE)); qqline(log(varve), col=2, lwd=2) 
+QQnorm(varve, main=NA, nxm=0)
+QQnorm(log(varve), main=NA, nxm=0)
 
 ```
 
