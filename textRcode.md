@@ -226,6 +226,11 @@ z = rnorm(1000)
 y = ifelse(x*z > 0, z, -z)
 scatter.hist(x, y, hist.col=5, pt.col=6)
 
+# seeing is believing (sometimes)
+dev.new()
+par(mfrow=1:2)
+QQnorm(x); QQnorm(y)
+
 ```
 
 <br/> Example 1.26
