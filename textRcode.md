@@ -781,7 +781,14 @@ lines(rec.pr$pred - rec.pr$se, col=2, lty=5)
 # generate 10000 MA(1)s and calculate the 1st sample ACF
 x = replicate(10000, acf1(sarima.sim(ma=.9, n=100), max.lag=1, plot=FALSE))  
 1 - ecdf(abs(x))(.5)   # .5 exceedance prob (is about 38%)
-hist(x); abline(v=.5, col=2)  # for fun (not in text)
+
+# for fun (not in text)
+h = hist(x, plot=FALSE)
+culer = ifelse(h$breaks >= .5, 6, 3)[-length(h$breaks)]
+culer = astsa.col(culer, .3)
+plot(h, col=culer, freq=FALSE, main=NA, xlab=bquote(hat(theta)))
+text(.475,2,'GO'); text(.525,2,'STOP')
+
 
 # The asymptotic approximation is not very good:
 pnorm( (.5-.497)/.071, lower=FALSE)  
