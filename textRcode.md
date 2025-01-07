@@ -42,8 +42,6 @@
 
 > The code below is based on `astsa` version 2.2 or higher, so a few things won't work with lower versions. 
 
-> This is still a work in progress ... if you notice any problems, mistakes, general goof-ups, and so on, submit an issue here: https://github.com/nickpoison/tsa5/issues  ... but make sure you're using version 2.2+ first
-
 
 ---
 ---
@@ -332,12 +330,12 @@ persp(-40:40, -20:20, rs3, phi=30, theta=30, expand=30, scale="FALSE", ticktype=
 
 ```r
 x = c(1)  # set the seed to 1
-for (n in 2:24){ x[n] = (5*x[n-1] + 2) %% (2^4) }
+for (n in 2:32){ x[n] = (5*x[n-1] + 2) %% (2^5) }
 x         # print x
 
-##-- here's an 8-bit one that sucks  --##
-x = c(3)  # set the seed to 3
-for (n in 2:20){ x[n] = (3*x[n-1] + 2) %% 2^8 }
+##-- here's a 32-bit one that sucks  --##
+x = c(1)  # the bad seed (they're all bad)
+for (n in 2:100){ x[n] = (12*x[n-1] + 4) %% 2^32 }
 x
 
 ```
@@ -471,7 +469,7 @@ tsplot(varve, main="", ylab="", col=4)
  mtext("varve", side=3, line=.5, cex=1.2, font=2, adj=0)
 tsplot(log(varve), main="", ylab="", col=4)
  mtext("log(varve)", side=3, line=.5, cex=1.2, font=2, adj=0)
-QQnorm(varve, main=NA, nxm=0)
+QQnorm(varve, main=NA, nxm=0)   # in version 2.2+
 QQnorm(log(varve), main=NA, nxm=0)
 
 ```
@@ -493,7 +491,7 @@ dummy = ifelse(soi<0, 0, 1)
 fish = ts.intersect(R=rec, SL6=lag(soi,-6), DL6=lag(dummy,-6), dframe=TRUE)
 summary(fit <- lm(R~ SL6*DL6, data=fish, na.action=NULL))
 layout(matrix(1:2,2), heights = c(3,2))
-tsplot(fish[,"SL6"], fish[,"R"], type="p", col=8, xlab=bquote(S[~t-6]), ylab=bquote(R[~t]))
+tsplot(fish[,"SL6"], fish[,"R"], type="p", col=astsa.col(8,.5), pch=19, xlab=bquote(S[~t-6]), ylab=bquote(R[~t]))
 lines(lowess(fish[,"SL6"], fish[,"R"]), col=4, lwd=2)
 points(fish[,"SL6"], fitted(fit), pch="+", col=2)
 tsplot(resid(fit), col=4)
@@ -510,14 +508,13 @@ t  = 1:500
 x  = 2*cos(2*pi*(t+15)/50) + rnorm(500,0,5)
 z1 = cos(2*pi*t/50)  
 z2 = sin(2*pi*t/50)
-summary(fit <- lm(x~0+z1+z2))  # zero to exclude the intercept
+summary(fit <- lm(x~ 0+z1+z2))  # zero to exclude the intercept
 par(mfrow=c(2,1))
 tsplot(x, col=4, gg=TRUE)
 tsplot(x, ylab=bquote(hat(x)), col=4, gg=TRUE)
-lines(fitted(fit), col=2, lwd=2)
+ lines(fitted(fit), col=2, lwd=2)
 
 ```
-
 
 <br/> Example 2.12
 
@@ -547,7 +544,7 @@ plot(nwgts, type="l", xaxt="n", yaxt="n", ann=FALSE)
 
 ```
 
-
+&#127384; remember if you have `dplyr` loaded, it corrupts `filter` and `lag` so use one of the fixes listed at the [top](#table-of-contents).
 
 <br/> Example 2.14 
 
@@ -1050,7 +1047,7 @@ sarima.for(cardox, 60, 0,1,1, 0,1,1,12)  # not shown
 
 ## Chapter 4
 
->  &#10004; Note- the script `mvspec` has a slight change in `astsa` version 2.2  ... instead of including the tapering amount in the default graphic title, tapering information is printed along with bandwidth and degrees of freedom. 
+>  &#10004; Note- the script `mvspec` has a slight change in `astsa` version 2.2. If `plot` is `TRUE` and smoothing is used, instead of including the tapering amount in the default graphic title, tapering information is printed along with bandwidth and degrees of freedom () 
 <br/>
 
 Aliasing
@@ -1083,7 +1080,12 @@ tsplot(x,  ylim=c(-16,16), main="sum", col=4, gg=TRUE)
 <br/> Example 4.2
 
 ```r
-# x from previous example used here
+### x from previous example used here
+x1 = 2*cos(2*pi*1:100*6/100)  + 3*sin(2*pi*1:100*6/100)
+x2 = 4*cos(2*pi*1:100*10/100) + 5*sin(2*pi*1:100*10/100)
+x3 = 6*cos(2*pi*1:100*40/100) + 7*sin(2*pi*1:100*40/100)
+x  = x1 + x2 + x3
+###
 per = Mod( fft(x)/sqrt(100) )^2
 P = (4/100)*per;  Fr = 0:99/100
 tsplot(Fr, P, type="h", lwd=3, xlab="frequency", ylab="scaled periodogram", col=4, gg=TRUE)
@@ -1111,6 +1113,7 @@ tsplot(x <- 2*cos(2*pi*.2*t)*cos(2*pi*.01*t))   # not shown
 lines(cos(2*pi*.19*t)+cos(2*pi*.21*t), col=2)   # the same
 Px = mvspec(x, main='')                         # the periodogram
 
+dev.new()
 par(mfrow=2:1)
 tsplot(star, ylab="star magnitude", xlab="day", col=4)
 Pstar = mvspec(star, col=5, xlim=c(0,.08), lwd=3, type="h", main=NA)
@@ -1119,12 +1122,10 @@ Pstar$details[19:26,]
 
 ```
 
-
 <br/> Example 4.9
 
 ```r
-round(z <- polyroot(c(1,-1,.9)), 3)
-Arg(z[1])/(2*pi)
+Arg( polyroot(c(1,-1,.9))[1] )/(2*pi)
 
 par(mfrow=c(3,1))
 arma.spec(main="White Noise", col=5, gg=TRUE)
@@ -1152,6 +1153,8 @@ omega2 = cbind(cos(2*pi*t*2/5), sin(2*pi*t*2/5))
 anova(lm(x~ omega1 + omega2))    # ANOVA Table
 Mod(fft(x))^2/5       # the periodogram (as a check)
 
+( Izero = 5*mean(x)^2 ) # amaze your friends
+
 ```
 
 
@@ -1159,7 +1162,7 @@ Mod(fft(x))^2/5       # the periodogram (as a check)
 <br/> Example 4.15
 
 ```r
-P = mvspec(ENSO, lowess=TRUE, col=5, main='ENSO: Raw Periodogram')
+P = mvspec(ENSO, lowess=TRUE, col=5)
  rect(1/7,-1, 1/2, 4, density=NA, col=gray(.6,.2))
  abline(v=1/4, lty=5, col=8)
  mtext('1/4',side=1, line=0, at=.25, cex=.75)
@@ -1168,7 +1171,7 @@ c(2*P$spec[18]/qchisq(.975, 2),  2*P$spec[18]/qchisq(.025, 2))
 
 ```
 
-<br/> smoothing the periodogram (&#128545; remember if `dplyr` is loaded it will mess up `filter` &#128545;)
+<br/>smoothing the periodogram 
 
 ```r
 P = mvspec(rnorm(2^10), col=8, main=NA, ylab='periodogram', gg=TRUE)
@@ -1177,14 +1180,14 @@ lines(P$freq, filter(P$spec, filter=rep(.01,100), circular=TRUE), col=4, lwd=3)
 
 ```
 
-
+&#128545; remember if `dplyr` is loaded it will mess up `filter` &#128545; - if it's loaded, use one of the remedies at the [top](#table-of-contents) ... 
 
 <br/> Example 4.16
 
 ```r
 kd = kernel("daniell", 4)  # nine 1/9s
 par(mfrow=2:1)
-ENSO.av  = mvspec(ENSO, lowess=TRUE, kernel=kd, col=5, main='ENSO: Averaged Periodogram')
+ENSO.av = mvspec(ENSO, lowess=TRUE, kernel=kd, col=5, main='ENSO: Averaged Periodogram')
 ##  Bandwidth: 0.125 | Degrees of Freedom: 17.96 | split taper: 0%
  rect(1/7,-1, 1/2,4, density=NA, col=gray(.6,.2))
  abline(v=1/4, lty=5, col=8)
@@ -1224,6 +1227,7 @@ tsplot(kernel("modified.daniell", c(3,3,3)), ylab=bquote(h[~k]), lwd=2, col=4, y
 ```r
 par(mfrow=2:1)
 ENSO.sm = mvspec(ENSO, lowess=TRUE, spans=c(7,7), col=5, main='ENSO: Smoothed Periodogram')
+## Bandwidth: 0.128 | Degrees of Freedom: 18.42 | split taper: 0% 
  rect(1/7, -1, 1/2, 4, density=NA, col=gray(.6,.2))
  abline(v=1/4, lty=5, col=8)
  mtext('1/4',side=1, line=0, at=.25, cex=.75)
@@ -1507,11 +1511,13 @@ whit.like = function(d){
 est = optim(d0, whit.like, gr=NULL, method="L-BFGS-B", hessian=TRUE, lower=0, upper=.5)
 c(dhat <- est$par, se.dhat <- 1/sqrt(est$hessian), sig2 <- sum(g^dhat*per[1:m])/m)
 
+
 u    = spec.ic(log(varve), plot=FALSE)  # produces AR(8)
 g    = 4*(sin(pi*((1:200)/2000))^2)
 fhat = sig2*g^{-dhat}                   # LM spectrum
 tsplot(1:200/2000, fhat, log='y', ylim=c(.3,50), ylab="spectrum", xlab="frequency", col=5)
 lines(u[[2]][1:100,1], u[[2]][1:100,2], lty=5, col=6)  # AR(8) spectrum
+
 
 dog = mvspec(log(varve), fast=FALSE, demean=TRUE, plot=FALSE) 
 n   = length(varve);  lper = log(dog$spec);  freq = dog$freq
@@ -1686,8 +1692,7 @@ fit$resid.cov    # estimate of noise cov matrix
 
 ## Chapter 6
 
-
-<br/> Example 6.1
+<br/> Example 6.1 128137;
 
 ```r
 tsplot(blood, type='o', col=c(4,6,3), pch=19, cex=1)
@@ -1697,7 +1702,7 @@ tsplot(blood, type='o', col=c(4,6,3), pch=19, cex=1)
 <br/> Example 6.2
 
 ```r
-tsplot(cbind(gtemp_land, gtemp_both), col=astsa.col(c(4,6),.7), lwd=2, ylab='Temperature Deviations', spaghetti=TRUE, addLegend=TRUE, location='topleft')
+tsplot(cbind(gtemp_land, gtemp_both), col=astsa.col(c(4,6),.7), lwd=2, ylab='Temperature Deviations', spaghetti=TRUE, addLegend=TRUE, location='topleft', legend=c('Land Surface', 'Sea Surface'))
 
 ```
 
