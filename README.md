@@ -1,4 +1,4 @@
-<img src="cover.jpg" alt="tsa5"  height="200" >  [__5th Edition coming Feb 2025__](https://link.springer.com/book/9783031705830)
+<img src="cover.jpg" alt="tsa5"  height="200" >  [__5th Edition - Jan 2025__](https://link.springer.com/book/9783031705830)
 
  #### &#10024; Here is [A Road Map](https://nickpoison.github.io/) if you want a broad view of what is available.
 
