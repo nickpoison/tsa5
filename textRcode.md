@@ -116,6 +116,13 @@ par(mfrow=2:1)
 plot(djia$Close, col=4, main="DJIA Close")
 plot(djia_return, col=4, main="DJIA Returns")
 
+
+# it's possible not to use `xts` (if it's not available for some reason)
+djiaClose = ts(djia[,'Close'], start=c(2006,4,1), freq=251)  # ~251 trading days/yr
+par(mfrow=2:1)
+tsplot(djiaClose, col=4, main="DJIA Close", ylab=NA)
+tsplot(diff(log(djiaClose)), col=4, main="DJIA Returns", ylab=NA)
+
 ```
 
 <br/> Example 1.5  
