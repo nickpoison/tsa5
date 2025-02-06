@@ -415,7 +415,7 @@ L[t+1] =  .9994*L[t] + .00025*L[t]*H[t]
 L = ts(10*L, start=1850, freq=900)
 H = ts(10*H, start=1850, freq=900)
 
-tsplot(cbind(predator=L, prey=H), spag=T, col=c(2,4), ylim=c(0,134), ylab="Population Size", gg=TRUE, addLegend=TRUE, location='topleft', horiz=TRUE)
+tsplot(cbind(predator=L, prey=H), spag=TRUE, col=c(2,4), ylim=c(0,125), ylab="Population Size", gg=TRUE, addLegend=TRUE, location='topleft', horiz=TRUE)
 
 ```
 
