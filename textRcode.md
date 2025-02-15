@@ -1061,7 +1061,7 @@ sarima.for(cardox, 60, 0,1,1, 0,1,1,12)  # not shown
 
 ## Chapter 4
 
->  &#10004; Note- the script `mvspec` has a slight change in `astsa` version 2.2. If `plot` is `TRUE` and smoothing is used, instead of including the tapering amount in the default graphic title, tapering information is printed along with bandwidth and degrees of freedom () 
+>  &#10004; Note- the script `mvspec` has a slight change in `astsa` version 2.2. If `plot` is `TRUE` and smoothing is used, instead of including the tapering amount in the default graphic title, tapering information is printed along with bandwidth and degrees of freedom. 
 <br/>
 
 Aliasing
@@ -1706,7 +1706,7 @@ fit$resid.cov    # estimate of noise cov matrix
 
 ## Chapter 6
 
-<br/> Example 6.1 128137;
+<br/> Example 6.1 
 
 ```r
 tsplot(blood, type='o', col=c(4,6,3), pch=19, cex=1)
