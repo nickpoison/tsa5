@@ -3261,7 +3261,11 @@ gr.s= scale(gr, center = FALSE, scale = apply(gr, 2, sd))
 gr.spec = mvspec(gr.s, spans=c(7,7), taper=.25, lwd=2, col=2:6, lty=(1:6)[-3], main=NA) 
 legend("topright", colnames(econ5), lty=(1:6)[-3], col=2:6, lwd=2, bg='white')
 dev.new()
-plot.spec.coherency(gr.spec, ci=NA, col=5, lwd=2, main=NA)
+plot.spec.coherency(gr.spec, ci=NA, col=5, lwd=2, main=NA)  # works but ugly
+# the following will not work unless astsa version 2.3 or higher is used
+# it is actually the graphic in the text
+mvspec(gr.s, spans=c(7,7), taper=.25, lwd=2, col=5, plot.type='coh', main=NA) 
+
 dev.new()
 # PCs
 n.freq = length(gr.spec$freq)
