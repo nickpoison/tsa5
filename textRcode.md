@@ -3263,8 +3263,8 @@ legend("topright", abbreviate(colnames(econ5), min=3), lty=(1:6)[-3], col=2:6, l
 dev.new()
 plot.spec.coherency(gr.spec, ci=NA, col=5, lwd=2, main=NA)  # works but ugly
 # the following will not work unless astsa version 2.2+ or higher is used
-# it is actually the graphic in the text
-mvspec(gr.s, spans=c(7,7), taper=.25, lwd=2, col=5, plot.type='coh', main=NA, ci=NA, scale=1.1) 
+# it is actually the graphic in the text (but with adding `addLegend=FALSE`)
+mvspec(gr.s, spans=c(7,7), taper=.25, lwd=2, col=5, plot.type='coh', main=NA, ci=NA, scale=1.3, minor=FALSE) 
 
 dev.new()
 # PCs
