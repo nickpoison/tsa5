@@ -375,6 +375,8 @@ tsplot(part, ylab="PPM", type="o", pch=19, col=2, nxm=2, main="Particulates")
 
 dev.new()
 pairs(cbind(Mortality=cmort, Temperature=tempr, Particulates=part), col=4, lower.panel = astsa:::.panelcor)
+##-- or in version 2.2+ (on github only for now) --##
+# tspairs(cbind(Mortality=cmort, Temperature=tempr, Particulates=part), hist=FALSE)
 temp = tempr - mean(tempr)  # center temperature
 temp2 = temp^2
 trend = time(cmort)
@@ -1088,6 +1090,18 @@ tsplot(x1, ylim=c(-10,10), main=bquote(omega==6/100~~A^2==13),  col=4, gg=TRUE)
 tsplot(x2, ylim=c(-10,10), main=bquote(omega==10/100~~A^2==41), col=4, gg=TRUE)
 tsplot(x3, ylim=c(-10,10), main=bquote(omega==40/100~~A^2==85), col=4, gg=TRUE)
 tsplot(x,  ylim=c(-16,16), main="sum", col=4, gg=TRUE)
+
+# Here's a way to do it using a loop:
+x = matrix(NA,100,3); w = c(6,10,40); A = c()
+for (i in 1:3){
+ a = 2*i; b = a+1; f = 2*pi*w[i]*(1:100)/100; A[i] = a^2 + b^2
+ x[,i] = a*cos(f) + b*sin(f) }
+X = rowSums(x)
+par(mfrow=c(2,2))
+for (i in 1:3){
+ tsplot(x[,i], col=4, ylim=c(-10,10), gg=TRUE, ylab=bquote(X[.(i)]), main=bquote(omega==.(w[i])/100~~~A^2==.(A[i])))  
+ }
+tsplot(X, col=4, ylim=c(-16,16), gg=TRUE, main='sum', font.main=1)
 
 ```
 
