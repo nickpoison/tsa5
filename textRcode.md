@@ -864,13 +864,12 @@ points(para[1:12], Sc[1:12], pch=16, col=4)
 <br/> Example 3.35
 
 ```r
-t = time(USpop) - 1955
-reg = lm( USpop~ t+I(t^2)+I(t^3)+I(t^4)+I(t^5)+I(t^6)+I(t^7)+I(t^8) )
-b = as.vector(reg$coef)
-g = function(t){ b[1] + b[2]*(t-1955) + b[3]*(t-1955)^2 + b[4]*(t-1955)^3 + b[5]*(t-1955)^4 + b[6]*(t-1955)^5 + b[7]*(t-1955)^6 + b[8]*(t-1955)^7 + b[9]*(t-1955)^8
-}
-x = 1900:2024
-tsplot(x, g(x), ylab="Population", xlab="Year", main="U.S. Population by Official Census", cex.main=1, col=4)
+t   = time(USpop) - 1955
+reg = lm(USpop~ poly(t, degree=8, raw=TRUE))
+b   = as.vector(reg$coef)
+g   = function(s){ b[1] + b[2]*s + b[3]*s^2 + b[4]*s^3 + b[5]*s^4 + b[6]*s^5 + b[7]*s^6 + b[8]*s^7 + b[9]*s^8 }
+t   = 1900:2024
+tsplot(t, g(t-1955), ylab="Population", xlab="Year", main="U.S. Population by Official Census", cex.main=1, col=4)
 points(time(USpop), USpop, pch=21, bg=rainbow(12), cex=1.25)
 mtext(bquote("\u00D7"~10^6), side=2, line=1.5, adj=1, cex=.8)
 
