@@ -57,9 +57,9 @@ detach(package:dplyr)
 # (2) or fix it yourself if you want dplyr 
 # this is a great idea from  https://stackoverflow.com/a/65186251
 library(dplyr, exclude = c("filter", "lag"))  # remove the culprits on load
-Lag <- dplyr::lag            # and do what the dplyr ... 
-Filter <- dplyr::filter      # ... maintainer refuses to do
-# then use `Lag` and `Filter` for dplyr's scripts
+dlag <- dplyr::lag            # and fix dplyr ... 
+dfilter <- dplyr::filter      # ... because no one else will
+# then use `dlag` and `dfilter` for dplyr's scripts
 # `lag` and `filter` will remain uncorrupted as originally intended
 
 # (3) or just take back the commands
@@ -67,8 +67,8 @@ filter = stats::filter
 lag = stats::lag
 
 # in this case, you can still use these for dplyr
-Lag <- dplyr::lag     
-Filter <- dplyr::filter 
+dlag <- dplyr::lag     
+dfilter <- dplyr::filter 
 
 ```
 
@@ -789,7 +789,7 @@ lines(rec.pr$pred - rec.pr$se, col=2, lty=5)
 ```r
 # generate 10000 MA(1)s and calculate the 1st sample ACF
 x = replicate(10000, acf1(sarima.sim(ma=.9, n=100), max.lag=1, plot=FALSE))  
-1 - ecdf(abs(x))(.5)   # .5 exceedance prob (is about 38%)
+mean(abs(x) >= .5)   # .5 exceedance prob (is about 38%)
 
 # for fun (not in text)
 h = hist(x, plot=FALSE)
@@ -869,9 +869,23 @@ reg = lm(USpop~ poly(t, degree=8, raw=TRUE))
 b   = as.vector(reg$coef)
 g   = function(s){ b[1] + b[2]*s + b[3]*s^2 + b[4]*s^3 + b[5]*s^4 + b[6]*s^5 + b[7]*s^6 + b[8]*s^7 + b[9]*s^8 }
 t   = 1900:2024
-tsplot(t, g(t-1955), ylab="Population", xlab="Year", main="U.S. Population by Official Census", cex.main=1, col=4)
+tsplot(t, g(t-1955), ylab="Population", xlab="Year", cex.main=1, col=4, main="U.S. Population by Official Census")
 points(time(USpop), USpop, pch=21, bg=rainbow(12), cex=1.25)
 mtext(bquote("\u00D7"~10^6), side=2, line=1.5, adj=1, cex=.8)
+
+#  yo yo yo - for the 2nd edition of the Time Series: A Data Analysis Approach... 
+#  we updated this example because time keeps on slippin' into the future ... 
+#  USpop20 will be in astsa version 2.3. Here we fit a 10th degree poly:
+
+t   = time(USpop20) - 1960
+reg = lm( USpop20~ poly(t, degree=10, raw=TRUE) )
+b   = as.vector(coef(reg))
+g   = function(s){b[1] + b[2]*s + b[3]*s^2 + b[4]*s^3 + b[5]*s^4 + b[6]*s^5 + b[7]*s^6 + 
+                   b[8]*s^7 + b[9]*s^8 +b[10]*s^9 + b[11]*s^10 }
+t   = 1900:2044
+tsplot(t, g(t-1960), ylab="Population", xlab='Year', cex.main=1, col=4, main="U.S. Population by Official Census")
+points(time(USpop20), USpop20, pch=21, bg=rainbow(13), cex=1.25)
+mtext(bquote('\u00D7'~10^6), side=2, line=1.5, adj=1, cex=.8)
 
 ```
 
