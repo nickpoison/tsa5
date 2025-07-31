@@ -10,7 +10,7 @@
 
  &#10024; Here is [A Road Map](https://nickpoison.github.io/) if you want a broad view of what is available.  
 
- &#10024; A brief [R tutorial](https://dsstoffer.github.io/Rtoot)  
+ &#10024; A brief [R tutorial](https://dsstoffer.github.io/Rtoot) (for users new to R)
 
  &#10024; Pages for the old [4th Edition](https://github.com/nickpoison/tsa4)  
 
