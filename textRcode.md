@@ -40,9 +40,8 @@
 
 >  __Note__ when you are in a code block below, you can copy the contents of the block by moving your mouse to the upper right corner and clicking on the copy icon ( __&#10697;__ ).
 
-> The code below is updated and based on `astsa` version 2.3 or higher, so a few things won't work with lower versions. The text was written under version 2.2 and anything in the text will work fine with version 2.2.  
+> The code below is updated and based on `astsa` version 2.3 or higher, so a few things won't work with lower versions. The text was written under version 2.2 and any code printed in the text will work fine with version 2.2.  
 
-> Version 2.3 is only on GitHub for now. See the [NEWS](https://github.com/nickpoison/astsa/blob/master/NEWS.md) for further details about the state of the package and how to install the latest version.  We're waiting for edition 2 of the data science time series text to be published before we push version 2.3 to cRan. 
 
 ---
 ---
