@@ -115,14 +115,34 @@ par(mfrow=2:1)
 plot(djia$Close, col=4, main="DJIA Close")
 plot(djia_return, col=4, main="DJIA Returns")
 
+########################################################################
+# it's possible not to use 'xts' if it's not available for some reason #
+########################################################################
+dev.new()  # in case you just copy the block
 
-# it's possible not to use 'xts' (if it's not available for some reason)
-djiaClose = ts(djia[,'Close'], start=c(2006,4,1), freq=251)  # ~251 trading days/yr
-par(mfrow=2:1)
-tsplot(djiaClose, col=4, main="DJIA Close", ylab=NA)
-tsplot(diff(log(djiaClose)), col=4, main="DJIA Returns", ylab=NA)
+x     = data.frame(djia[,'Close']) 
+dates = as.Date(rownames(x))  # made a data frame to get this
 
+# at a very basic level, you can now do this
+#    tsplot(ts(x))  # but you lose the dates
+# you can do this but the x-axis grid is messed up
+#    tsplot(dates, ts(x), nx=NA, ny=NULL)   # so no grid there  
+
+# to make it purdy, we're going to convert the dates as decimal dates
+
+year <- as.numeric(format(dates, "%Y"))  # get years
+ is_leap <- function(year) { # check if year is a leap
+ (year %% 4 == 0 & year %% 100 != 0) | (year %% 400 == 0)
+  }
+totdayr <- ifelse(is_leap(year), 366, 365)  
+day     <- as.numeric(format(dates, "%j"))  # get day of year 
+tyme    <- year + (day - 1) / totdayr       # time as decimal
+y = ts(x)  # strip out the dates
+# now you can do something like this
+tsplot(tyme, cbind(DJIA=y, returns=diff(log(y))), col=4)
 ```
+
+
 
 <br/> Example 1.5  
 
