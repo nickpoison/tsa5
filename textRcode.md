@@ -129,19 +129,18 @@ dates = as.POSIXct(attr(x, 'index'))
 # tsplot(dates, x, ncol=2, col=2:6, nx=NA, ny=NULL)    
 
 ### to make it purdy, convert dates to decimals
-year = as.numeric(format(dates, "%Y"))  # get years
- is.leap = function(year) { # check if year is a leap
-  (year %% 4 == 0 & year %% 100 != 0) | (year %% 400 == 0)
- }
-dainyr  = ifelse(is.leap(year), 366, 365)  # days/year
-day     = as.numeric(format(dates, "%j"))  # get day of year 
-tyme    = year + (day - 1) / dainyr        # time as decimal
+  year    = as.numeric(format(dates, "%Y"))
+  day     = as.numeric(format(dates, "%j"))
+  leap    = ifelse(year%%100==0, year%%400==0, year%%4==0)
+  tot     = ifelse(leap, 366, 365)
+  Time    = year + (day-1) / tot
 ### now you can do something like this
 y = x[,'Close']
 dev.new()  # in case you just copied the block
-tsplot(tyme, cbind(DJIA=y, returns=diff(log(y))), col=4)
+tsplot(Time, cbind(DJIA=y, returns=diff(log(y))), col=4)
 ```
 
+Note: We're going to include this as a script in the next version (v2.4) of `astsa` [called `xts2df`] and remove the "ask if you want to install `xts`" when `astsa` is loaded [we never wanted to have a startup message, but in a weak moment we included one ... the shame. &#128532;]
 
 
 <br/> Example 1.5  
