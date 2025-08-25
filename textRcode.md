@@ -118,12 +118,15 @@ plot(djia_return, col=4, main="DJIA Returns")
 ########################################################################
 # it's possible not to use 'xts' if it's not available for some reason #
 ########################################################################
-### first make it a 'ts' object
-x = ts(djia)
 ### at a very basic level, you can do this
-# tsplot(x, ncol=2, col=2:6)  # but you lose the dates
+# tsplot(djia[,'Close'])  # but you lose the dates
+
+
+### first step to make it better
+x = ts(djia)
 ### the index is now 'unix time stamp' so get the dates
 dates = as.POSIXct(attr(x, 'index')) 
+### try
 # tsplot(dates, x[,'Close'], col=4)
 ### but the x-axis grid is messed up, so maybe ...
 # tsplot(dates, x, ncol=2, col=2:6, nx=NA, ny=NULL)    
@@ -140,7 +143,6 @@ dev.new()  # in case you just copied the block
 tsplot(Time, cbind(DJIA=y, returns=diff(log(y))), col=4)
 ```
 
-Note: We're going to include this as a script in the next version (v2.4) of `astsa` [called `xts2df`] and remove the "ask if you want to install `xts`" when `astsa` is loaded [we never wanted to have a startup message, but in a weak moment we included one ... the shame. &#128532;]
 
 
 <br/> Example 1.5  
