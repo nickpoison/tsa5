@@ -114,33 +114,10 @@ djia_return = diff(log(djia$Close))
 par(mfrow=2:1)
 plot(djia$Close, col=4, main="DJIA Close")
 plot(djia_return, col=4, main="DJIA Returns")
-
-########################################################################
-# it's possible not to use 'xts' if it's not available for some reason #
-########################################################################
-### at a very basic level, you can do this
-# tsplot(djia[,'Close'])  # but you lose the dates
-
-### the index is 'unix time stamp' so get the dates
-x     = ts(djia)
-dates = as.POSIXct(attr(x, 'index')) 
-### try
-# tsplot(dates, x[,'Close'], col=4)
-### but the x-axis grid is messed up, so maybe ...
-# tsplot(dates, x, ncol=2, col=2:6, nx=NA, ny=NULL)    
-
-### to make it purdy, convert dates to decimals
-  year    = as.numeric(format(dates, "%Y"))
-  day     = as.numeric(format(dates, "%j"))
-  leap    = ifelse(year%%100==0, year%%400==0, year%%4==0)
-  tot     = ifelse(leap, 366, 365)
-  Time    = year + (day-1) / tot
-### now you can do something like this
-dev.new()
-DJIA   = x[,'Close'] 
-tsplot(Time, cbind(DJIA, diff(log(DJIA))), col=4, main="What, Me Worry?")
 ```
-In the next version of `astsa`, there will be a script called `timex()` that will convert dates to decimal time.
+
+As of version 2.4 (on GitHub only), it will be possible not to use `xts` if it's not available for some reason. If interested, see the `astsa` [NEWS](https://github.com/nickpoison/astsa/blob/master/NEWS.md)  page for details on installing version 2.4.  Then checkout `help(timex)` for examples.
+
 
 
 <br/> Example 1.5  
