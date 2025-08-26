@@ -10,7 +10,7 @@
 
 - All the  code used in the text  is in [textRcode.md](https://github.com/nickpoison/tsa5/blob/master/textRcode.md)
 
-- found one ... [Errata](Errata.md)
+- oops still happens ... [Errata](Errata.md)
 
 
 ## astsa
