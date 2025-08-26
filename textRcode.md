@@ -122,11 +122,12 @@ plot(djia_return, col=4, main="DJIA Returns")
 # tsplot(djia[,'Close'])  # but you lose the dates
 
 ### the index is 'unix time stamp' so get the dates
-dates = as.POSIXct(attr(djia, 'index')) 
+x     = ts(djia)
+dates = as.POSIXct(attr(x, 'index')) 
 ### try
-# tsplot(dates, djia[,'Close'], col=4)
+# tsplot(dates, x[,'Close'], col=4)
 ### but the x-axis grid is messed up, so maybe ...
-# tsplot(dates, djia, ncol=2, col=2:6, nx=NA, ny=NULL)    
+# tsplot(dates, x, ncol=2, col=2:6, nx=NA, ny=NULL)    
 
 ### to make it purdy, convert dates to decimals
   year    = as.numeric(format(dates, "%Y"))
@@ -135,9 +136,9 @@ dates = as.POSIXct(attr(djia, 'index'))
   tot     = ifelse(leap, 366, 365)
   Time    = year + (day-1) / tot
 ### now you can do something like this
-DJIA   = djia[,'Close'] 
-Return = c(NA, diff(log(DJIA)))  # NA so all have same length
-tsplot(Time, cbind(DJIA, Return), col=4, main="What, Me Worry?")
+dev.new()
+DJIA   = x[,'Close'] 
+tsplot(Time, cbind(DJIA, diff(log(DJIA))), col=4, main="What, Me Worry?")
 ```
 In the next version of `astsa`, there will be a script called `timex()` that will convert dates to decimal time.
 
