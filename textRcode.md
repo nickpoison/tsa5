@@ -869,31 +869,28 @@ points(para[1:12], Sc[1:12], pch=16, col=4)
 <br/> Example 3.35
 
 ```r
-t   = time(USpop) - 1955
-reg = lm(USpop~ poly(t, degree=8, raw=TRUE))
-b   = as.vector(reg$coef)
-g   = function(s) {  # fit as a curve
-       u = outer(s, 0:8, FUN = "^")
-       return(u %*% b)    }
-t   = 1900:2024
-tsplot(t, g(t-1955), ylab="Population", xlab="Year", cex.main=1, col=4, 
+t    = time(USpop) - 1955
+reg  = lm(USpop~ poly(t, degree=8, raw=TRUE))
+b    = as.vector(reg$coef)
+t    = 1900:2024
+X    = outer(t - 1955, 0:8, FUN = "^")
+pred = X %*% b
+tsplot(t, pred, ylab="Population", xlab="Year", cex.main=1, col=4, 
         main="U.S. Population by Official Census")
 points(time(USpop), USpop, pch=21, bg=rainbow(12), cex=1.25)
 mtext(bquote("\u00D7"~10^6), side=2, line=1.5, adj=1, cex=.8)
 
-#  yo yo yo - for the 2nd edition of the Time Series: A Data Analysis Approach... 
+#  yo yo yo - for the 2nd edition of Time Series: A Data Analysis Approach... 
 #  we updated this example because time keeps on slippin' into the future ... 
-#  USpop20 will be in astsa version 2.3. Here we fit a 10th degree poly:
-
+#  'USpop20' is in astsa version 2.3. Here we fit a 10th degree poly:
 dev.new()
-t   = time(USpop20) - 1960
-reg = lm( USpop20~ poly(t, 10, raw=TRUE) )
-b   = as.vector(coef(reg))
-g   = function(s) {  # fit as a curve
-       u = outer(s, 0:10, FUN = "^")
-       return(u %*% b)   }
-t   = 1900:2044
-tsplot(t, g(t-1960), ylab="Population", xlab='Year', cex.main=1, col=4,
+t    = time(USpop20) - 1960
+reg  = lm( USpop20~ poly(t, 10, raw=TRUE) )
+b    = as.vector(coef(reg))
+t    = 1900:2044
+X    = outer(t - 1960, 0:10, FUN = "^")
+pred = X %*% b
+tsplot(t, pred, ylab="Population", xlab='Year', cex.main=1, col=4,
          main="U.S. Population by Official Census")
 points(time(USpop20), USpop20, pch=21, bg=rainbow(13), cex=1.25)
 mtext(bquote('\u00D7'~10^6), side=2, line=1.5, adj=1, cex=.8)
