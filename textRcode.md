@@ -1553,7 +1553,7 @@ acf1(cumsum(rnorm(500)), 100)
 library(arfima)
 summary(varve.fd <- arfima(log(varve)))
 innov = resid(varve.fd)[[1]]  
-sarima(innov, 0,0,0, no.constant=TRUE, col=4)  # residual analysis  
+sarima(innov, col=4)  # residual analysis  
 
 # plot pi wgts
 dev.new()
@@ -2132,7 +2132,7 @@ lag2.plot(part, dmort, 8)
 # easy prelim method: detrend cmort then do the regression
 dcmort = detrend(cmort)
 ded = ts.intersect(dM=dcmort, dM1=lag(dcmort,-1), dM2=lag(dcmort,-2),  T1=lag(tempr,-1), P=part, P4 = lag(part,-4), dframe=TRUE)
-sarima(ded$dM, 0,0,0, xreg=ded[,2:6])  
+sarima(ded$dM, xreg=ded[,2:6])  # no need to specify orders if they are zero  
 
 ##-- full run using Kfilter --## 
 trend  =  time(cmort) - mean(time(cmort))   # center time
@@ -2182,11 +2182,13 @@ Gam    = matrix(c(0, 0, 0, b4, alf), 1, 5)
 sQ     = matrix(c(phi1, phi2), 2)*sR
 kf     = Kfilter(y, A, mu0, Sigma0, Phi, sQ, sR, Ups, Gam, input, S, version=2)
 res    = ts(drop(kf$innov), start=start(cmort), freq=frequency(cmort))
-sarima(res, 0,0,0, no.constant=TRUE)  # gives a full residual analysis
+sarima(res, fitdf=3)  # ** residual analysis AR(2) state => ARMA(2,1) 
+# ** fitdf was added to sarima in astsa version 2.4, so the df for the Ljung-Box 
+#    test are off in the text.
 
 # complete ARMAX approach
 ded = ts.intersect(M=cmort, M1=lag(cmort,-1), M2=lag(cmort,-2), T1=lag(tempr,-1), P=part, P4=lag(part,-4), trend=time(cmort), dframe=TRUE)
-sarima(ded$M, 0,0,0, xreg=ded[,2:7])   
+sarima(ded$M, xreg=ded[,2:7])   
 
 ```
 
