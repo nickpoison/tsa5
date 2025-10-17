@@ -72,7 +72,13 @@ dfilter <- dplyr::filter
 
 ```
 
+
 &#128534; If you are wondering how it is possible to corrupt a base package, &#128125; you are not alone. 
+
+&#128526; Also, consider that `dplyr` is a SLOWER and weaker version of `data.table`. So  try [data.table](https://cran.r-project.org/web/packages/data.table/vignettes/datatable-intro.html) if you have to do data manipulation. AND, when you load `data.table`, there are ZERO masked warnings!!!  And maybe we can stop having to put warnings about `dplyr` everywhere for time series analysts who want to use R. 
+
+---
+---
 
 <br/>
 
