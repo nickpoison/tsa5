@@ -122,7 +122,13 @@ plot(djia$Close, col=4, main="DJIA Close")
 plot(djia_return, col=4, main="DJIA Returns")
 ```
 
-As of version 2.4 (on GitHub only), it will be possible not to use `xts` if it's not available for some reason. If interested, see the `astsa` [NEWS](https://github.com/nickpoison/astsa/blob/master/NEWS.md)  page for details on installing version 2.4.  Then checkout `help(timex)` for examples.
+As of version 2.4, it is possible not to use `xts` if it's not available and use `timex` instead. 
+
+```r
+Close = ts(djia[,'Close'])  # djia isn't a time series if `xts` is not loaded
+x     = cbind(Close, Return = diff(log(Close)))
+tsplot(timex(djia), x, col=4, title='DJIA')
+```
 
 
 
