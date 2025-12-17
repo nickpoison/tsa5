@@ -40,7 +40,7 @@
 
 >  __Note__ when you are in a code block below, you can copy the contents of the block by moving your mouse to the upper right corner and clicking on the copy icon ( __&#10697;__ ).
 
-> The code below is updated and based on `astsa` version 2.3 or higher, so a few things won't work with lower versions. The text was written under version 2.2 and any code printed in the text will work fine with version 2.2.  
+> The text was written under version 2.2 and any code printed in the text will work fine with version 2.2.  The code below has been updated to the most recent version.  
 
 
 ---
