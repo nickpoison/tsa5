@@ -26,7 +26,7 @@ $$ H_{t+1} = (\alpha + 1) H_t + \beta L_t H_t $$
 
 $$  L_{t+1} = (\delta+1) L_t + \gamma L_t H_t$$
  
-with the same definitions for the constants.  So the way it's in the text [equation (2.22)], the constants text-$\alpha$ and text-$\delta$ should be adjusted appropriately - they were not and that's the blooper.  
+with the same definitions for the constants.  So the way it's in the text [equation (2.22)], the constants text-&alpha;   and text-&delta; should be adjusted appropriately - they were not and that's the blooper.  
 
 &#51;&#65039;&#8419; But wait, there's more.  The example fits the predator equation (for the lynx $L_{t}$) as given by the LV equations. Statisticians learn that you _should have all main effects if there are interactions_, so some people might have a hard time with this example.   However, this is a case where you have theoretical justification because if you include all main effects, you lose the cyclic nature of the LV equations. We recommend this video for students who haven't been exposed to diffeqs: <a href="https://www.youtube.com/watch?v=DDEvlLa9z_U" target="new"> Lotka-Volterra Equations</a> &#128076;
 
