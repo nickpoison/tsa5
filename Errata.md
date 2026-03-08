@@ -10,8 +10,27 @@
 
 ### Chapter 2 
 
-- perfect
+&#129300; A note on __Example 2.4__ and the __Lotka-Volterra (LV) equations__ because some people have asked. The example is included for two reasons, the main one being that we wanted an example of lagged regression that would also carry over into Section 3.8 (Regression with Autocorrelated Errors). Second was the ubiquitous  use of self-exciting threshold (SETAR) models for Lynx populations, which is ridiculous because without prey, a predator population would die out... there is nothing self-exciting in the process (unless they are all [cannibal lynx](https://www.reddit.com/r/HardcoreNature/comments/10l2x6a/a_canada_lynx_and_her_cub_scavenge_the_carcass_of/#:~:text=Indeed%2C%20I've%20never%20really%20seen%20any%20videos,It%20goes%20to%20show%20just%20how%20harsh) as shown in this video). We wanted to show that mathematical biologists have dealt with this problem in more reasonable ways.  
+
+&#49;&#65039;&#8419;   The actual discrete-time LV equations  are 
+
+$$ \nabla H_{t+1} = \alpha H_t + \beta L_t H_t $$
+
+$$ \nabla L_{t+1} = \delta L_t + \gamma L_t H_t$$
+
+_where $\alpha > 1$ is the growth rate of the prey in the absence of the predator, $0 < \delta < 1$ is the survival rate of the predator in the absence of its prey source_ ...
+
+&#50;&#65039;&#8419; Unfortunately, $\nabla X_{t}$ wasn't defined yet (it's in the next section), so we just added $H_t$ / $L_t$ to each side, so the LV equations are 
+
+$$ H_{t+1} = (\alpha + 1) H_t + \beta L_t H_t $$
+
+$$  L_{t+1} = (\delta+1) L_t + \gamma L_t H_t$$
  
+with the same definitions for the constants.  So the way it's in the text [equation (2.22)], the constants text $\alpha$ and text $\delta$ should be adjusted appropriately - they were not and that's the blooper.  
+
+&#51;&#65039;&#8419; But wait, there's more.  The example fits the predator equation (for the lynx $L_{t}$) as given by the LV equations. Statisticians learn that you _should have all main effects if there are interactions_, so some people might have a hard time with this example.   However, this is a case where you have theoretical justification because if you include all main effects, you lose the cyclic nature of the LV equations. We recommend this video for students who haven't been exposed to diffeqs: <a href="https://www.youtube.com/watch?v=DDEvlLa9z_U" target="new"> Lotka-Volterra Equations</a> &#128076;
+
+
 
 ###  Chapter 3 
 
