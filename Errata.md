@@ -18,7 +18,7 @@ $$ \nabla H_{t+1} = \alpha H_t + \beta L_t H_t $$
 
 $$ \nabla L_{t+1} = \delta L_t + \gamma L_t H_t$$
 
-_where $\alpha > 1$ is the growth rate of the prey in the absence of the predator, $0 < \delta < 1$ is the survival rate of the predator in the absence of its prey source_ ...
+_where_ $\alpha > 1$  _is the growth rate of the prey in the absence of the predator,_ $0 < \delta < 1$ _is the survival rate of the predator in the absence of its prey source_ ...
 
 &#50;&#65039;&#8419; Unfortunately, $\nabla X_{t}$ wasn't defined yet (it's in the next section), so we just added $H_t$ / $L_t$ to each side, so the LV equations are 
 
@@ -26,7 +26,7 @@ $$ H_{t+1} = (\alpha + 1) H_t + \beta L_t H_t $$
 
 $$  L_{t+1} = (\delta+1) L_t + \gamma L_t H_t$$
  
-with the same definitions for the constants.  So the way it's in the text [equation (2.22)], the constants text $\alpha$ and text $\delta$ should be adjusted appropriately - they were not and that's the blooper.  
+with the same definitions for the constants.  So the way it's in the text [equation (2.22)], the constants text-$\alpha$ and text-$\delta$ should be adjusted appropriately - they were not and that's the blooper.  
 
 &#51;&#65039;&#8419; But wait, there's more.  The example fits the predator equation (for the lynx $L_{t}$) as given by the LV equations. Statisticians learn that you _should have all main effects if there are interactions_, so some people might have a hard time with this example.   However, this is a case where you have theoretical justification because if you include all main effects, you lose the cyclic nature of the LV equations. We recommend this video for students who haven't been exposed to diffeqs: <a href="https://www.youtube.com/watch?v=DDEvlLa9z_U" target="new"> Lotka-Volterra Equations</a> &#128076;
 

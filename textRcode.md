@@ -12,6 +12,8 @@
 
  &#10024; A brief [R tutorial](https://dsstoffer.github.io/Rtoot) (for users new to R)
 
+ &#10024; oops still happens ... [Errata](Errata.md)
+
  &#10024; Pages for the old [4th Edition](https://github.com/nickpoison/tsa4)  
 
  <br/>
