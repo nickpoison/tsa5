@@ -1,7 +1,7 @@
 
 ## Code Used in [Time Series Analysis and Its Applications, 5th Edition](https://link.springer.com/book/9783031705830)
 
-<img align="left" src="cover.jpg" alt="&nbsp; tsa5 &nbsp;"  height="200" padding-right="10px" />
+<img align="left" src="cover.jpg" alt="&nbsp; tsa5 &nbsp;"  height="245" padding-right="10px" />
 
 
  &#x2728; See the [NEWS](https://github.com/nickpoison/astsa/blob/master/NEWS.md) for further details about the state of the `astsa` package and the changelog.  
