@@ -8,7 +8,7 @@
 
 ## tsa5 
 
-- All the  code used in the text  is in [textRcode.md](https://github.com/nickpoison/tsa5/blob/master/textRcode.md)
+- All the  code used in the text  is in [textRcode.md](https://github.com/nickpoison/tsa5/blob/main/textRcode.md)
 
 - oops still happens ... [Errata](Errata.md)
 
@@ -17,7 +17,7 @@
 
 - The home of [astsa - the package for the text](https://github.com/nickpoison/astsa) is here too.
 
-- See the [NEWS](https://github.com/nickpoison/astsa/blob/master/NEWS.md) for further details about the state of the package and the changelog.
+- See the [NEWS](https://github.com/nickpoison/astsa/blob/main/NEWS.md) for further details about the state of the package and the changelog.
 
 - A demonstration of the capabilities of `astsa` can be found here at [**FUN WITH ASTSA**](https://github.com/nickpoison/astsa/blob/master/fun_with_astsa/fun_with_astsa.md)
 
