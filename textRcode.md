@@ -638,6 +638,8 @@ text(out[,3], labels=1:4, col=c(3,4,2,6), cex=1.25)
 
 ## Chapter 3
 
+> &#128721; Before starting this chapter, upgrade to astsa version 2.5 or later because `sarima` in version 2.4 has an error.
+
 
 <br/> Example 3.2
 
