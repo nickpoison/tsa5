@@ -1,6 +1,9 @@
 ## Edition 5 Errata  &#127379;
 
-There are various media versions of the text so consider page numbers as approximate.
+#### &#128226; `sarima` in `astsa` version 2.4 has an error, so don't use it. Version 2.5 corrects it and is available from CRAN... also any other version (v2.3 or lower) works.
+
+
+> There are various media versions of the text so consider page numbers as approximate.
 
 <br/>
 
