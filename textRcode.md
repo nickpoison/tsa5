@@ -283,8 +283,8 @@ set.seed(101011)
 x    = sample(c(-2,2), 101, replace=TRUE)  # simulated coin tosses
 y100 = 5 + filter(x, sides=1, filter=c(1,-.5))[-1] 
 y10  = y100[1:10]
-tsplot(y10, type='s', col=4, yaxt='n', xaxt='n', gg=TRUE)  
- axis(1, 1:10); axis(2, seq(2,8,2), las=1)
+tsplot(y10, type='s', col=4, axes=FALSE, gg=TRUE)  
+ axis(1, 1:10); axis(2, seq(2,8,2), las=1); box(col='white')
  points(y10, pch=21, bg=6)    
 round( acf1(y10, 4, plot=FALSE), 2)   
 round( acf1(y100, 4, plot=FALSE), 2)  
