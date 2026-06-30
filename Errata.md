@@ -22,6 +22,11 @@
 
 ### Chapter 4 
 
+&#128064; On page 189, Example 4.8, (4.24) is not 
+$1.81 \sigma_2^2 [1 + \cos(2\pi\omega)]$ because $.2 \times .9 \ne 1.81$.  I think someone's calculator was broken.  I think this was here from the beginning, over 25 years.
+
+
+
 &#128064; a little blemish &hellip; on page 181, section 4.1, before (4.7) should be:
 
 &hellip; then an estimate of &hellip; $\sigma_k^2$  would be the sample variance $S_k^2 = \frac{1}{2} (a_k^2+b_k^2)$ &hellip;
