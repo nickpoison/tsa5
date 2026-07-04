@@ -23,8 +23,7 @@
 ### Chapter 4 
 
 &#128064; On page 189, Example 4.8, (4.24) is not 
-$1.81 \sigma_2^2 [1 + \cos(2\pi\omega)]$ because $.2 \times .9 \ne 1.81$.  I think someone's calculator was broken.  I think this was here from the beginning, over 25 years.
-
+$1.81 \sigma_2^2 [1 + \cos(2\pi\omega)]$ because $.2 \times .9 \ne 1.81$.  I think someone's calculator was broken.  
 
 
 &#128064; a little blemish &hellip; on page 181, section 4.1, before (4.7) should be:
