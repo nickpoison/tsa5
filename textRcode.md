@@ -96,7 +96,6 @@ dfilter <- dplyr::filter
 par(mfrow=2:1)
 tsplot(jj, col=4, ylab="USD", type="o", main="Johnson & Johnson Quarterly Earning per Share")
 tsplot(jj, col=4, ylab="USD", type="o", log="y")
-
 ```
 
 <br/> Example 1.2  
@@ -111,7 +110,6 @@ tsplot(cbind(gtemp_land, gtemp_ocean), spaghetti=TRUE, pch=c(20,18), type="o", y
 tsplot(speech, col=4)
 arrows(658, 3850, 766, 3850, code=3, angle=90, length=.05, col=6)
 text(712, 4100, "pitch period", cex=.75) 
-
 ```
 
 <br/> Example 1.4  
@@ -142,7 +140,6 @@ tsplot(soi, col=4, ylab=NA, main="Southern Oscillation Index")
 text(1970,  .91, "COOL", col=5, font=4)
 text(1970, -.91, "WARM", col=6, font=4)
 tsplot(rec, col=4, ylab="", main="Recruitment") 
-
 ```
 
 <br/> Example 1.6
@@ -166,14 +163,12 @@ for (i in 1:3){
  lines(u, type="s", col=gray(.3))
 }
 mtext("seconds", side=1, line=1.75, cex=.9)
-
 ```
 
 <br/> Example 1.8
 
 ```r
 tsplot(cbind(EQ5, EXP6), ylab=c("Earthquake", "Explosion"), col=4)
-
 ```
 
 
@@ -185,7 +180,6 @@ v = filter(w, sides=2, rep(1/3,3))  # moving average
 par(mfrow=2:1)
 tsplot(w, main="white noise", col=4, gg=TRUE)
 tsplot(v, ylim=c(-3,3), main="moving average", col=4, gg=TRUE)
-
 ```
 
 <br/> Example 1.11
@@ -194,7 +188,6 @@ tsplot(v, ylim=c(-3,3), main="moving average", col=4, gg=TRUE)
 w = rnorm(300)  # 250 +50 extra to avoid startup problems
 x = filter(w, filter=c(1.5,-.75), method="recursive")[-(1:50)]
 tsplot(x, col=4, main="autoregression", gg=TRUE)
-
 ```
 
 <br/> Example 1.12
@@ -206,7 +199,6 @@ wd = w +.2;      xd = cumsum(wd)
 tsplot(xd, ylim=c(-5,55), main="random walk", ylab="", col=4, gg=TRUE)
 lines(x, col=6);  clip(0, 200, 0, 50)
 abline(h=0, a=0, b=.2, col=c(4,6), lty=5)
-
 ```
 
 <br/> Example 1.13
@@ -219,7 +211,6 @@ par(mfrow=c(3,1))
 tsplot(cs, ylab="", main=bquote(2*cos(2*pi*t/50+.6*pi)), col=4, gg=TRUE)
 tsplot(cs+w, ylab="", main=bquote(2*cos(2*pi*t/50+.6*pi) + N(0,1)), col=4, gg=TRUE)
 tsplot(cs+5*w, ylab="", main=bquote(2*cos(2*pi*t/50+.6*pi) + N(0,5^2)), col=4, gg=TRUE)
-
 ```
 
 <br/> Example 1.25
@@ -231,7 +222,6 @@ y = lag(x, -5) + rnorm(100)
 ccf2(y, x, lwd=2, col=4, type='covariance', gg=TRUE)
 text( 10, 1.1, 'x leads')
 text(-10, 1.1, 'y leads')
-
 ```
 
 <br/> Marginal normals that are not bivariate normal
@@ -247,7 +237,6 @@ dev.new()
 par(mfrow=1:2)
 QQnorm(x)
 QQnorm(y)
-
 ```
 
 <br/> Example 1.26
@@ -259,7 +248,6 @@ tsplot(lag(soi,-1), soi, col=4, type="p", xlab="lag(soi,-1)")
  legend("topleft", legend=bquote(hat(rho)(1) == .(r[1])), bty="n", adj=.2)
 tsplot(lag(soi,-6), soi, col=4, type="p", xlab="lag(soi,-6)")
  legend("topleft", legend=bquote(hat(rho)(6) == .(r[6])), bty="n", adj=.2)
-
 ```
 
 <br/> Property 1.2 demonstration
@@ -273,7 +261,6 @@ QQnorm(x)    # to check normality (not shown)
 ACF = replicate(1000, acf1(rgamma(100, shape=4), plot=FALSE)) # H=20 here (by default)
 round(c(mean(ACF), sd(ACF)), 3)
 QQnorm(ACF)  
-
 ```
 
 <br/> Example 1.27
@@ -288,14 +275,12 @@ tsplot(y10, type='s', col=4, axes=FALSE, gg=TRUE)
  points(y10, pch=21, bg=6)    
 round( acf1(y10, 4, plot=FALSE), 2)   
 round( acf1(y100, 4, plot=FALSE), 2)  
-
 ```
 
 <br/> Example 1.28
 
 ```r
 acf1(speech, 250, col=4)
-
 ```
 
 <br/> Example 1.29
@@ -305,7 +290,6 @@ par(mfrow=c(3,1))
 acf1(soi, 48, main="Southern Oscillation Index")
 acf1(rec, 48, main="Recruitment")
 ccf2(soi, rec, 48, main="SOI vs Recruitment")
-
 ```
 
 <br/> Example 1.30
@@ -320,7 +304,6 @@ par(mfrow=c(3,1), cex=.9)
 tsplot(cbind(X,Y), col=c(4,6), ylab="data", spaghetti=TRUE, lwd=2, gg=TRUE)
 ccf2(X, Y, ylim=c(-.4,.5), col=4, lwd=2, gg=TRUE)
 ccf2(X, detrend(Y), ylim=c(-.4,.5), col=4, lwd=2, gg=TRUE)
-
 ```
 
 <br/> Example 1.31
@@ -330,7 +313,6 @@ persp(1:64, 1:36, soiltemp, phi=25, theta=25, scale=FALSE, expand=4, ticktype="d
 
 dev.new()
 tsplot(rowMeans(soiltemp), xlab="row", ylab="Average Temperature")
-
 ```
 
 <br/> Example 1.32
@@ -345,7 +327,6 @@ rs3 = rbind(rs2[41:2,], rs2)                #  the 0 lag
 
 par(mar = c(1,2.5,0,0) + .1)
 persp(-40:40, -20:20, rs3, phi=30, theta=30, expand=30, scale="FALSE", ticktype="detailed", xlab="row lags", ylab="column lags", zlab="ACF", col="lightblue")
-
 ```
 
 <br/> Bad LCGs
@@ -359,7 +340,6 @@ x         # print x
 x = c(1)  # the bad seed (they're all bad)
 for (n in 2:100){ x[n] = (12*x[n-1] + 4) %% 2^32 }
 x
-
 ```
 
 [<sub>top</sub>](#table-of-contents)
