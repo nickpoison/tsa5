@@ -2321,84 +2321,84 @@ legend("bottomright", c("Smoother", "GCV Spline"), lty=c(5,1), lwd=c(2,1), col=c
 
 ```
 
+---
+---
+&#128565; Well hello there... the text used `depmixS4` for the next two examples, but it is no longer available.  It's the most fun thing about R.  There is a package called `HiddenMarkov` that can be used, but as of version 2.5.1 [on GitHub ... will be v2.6 eventually on CRAN] `astsa` has a `HmmFit` script that can do the next two examples.  
 
+ I'm getting rid of the old code and placing the new stuff here for Examples 6.17 and 6.18.  
+
+---
+---
 
 <br/> Example 6.17
 
+This entire example is the first example on the man page `help(HmmFit)`
+
 ```r
-library(depmixS4)
-model <- depmix(EQcount ~1, nstates=2, data=data.frame(EQcount), family=poisson())
-set.seed(90210)
-fm <- fit(model)   # estimation 
-summary(fm) 
+fit <- HmmFit(EQcount, m = 2, family = "pois")
 
-#-- get parameters --#
-# make sure state 1 is min lambda 
-u = as.vector(getpars(fm)) 
- if (u[7] <= u[8]) { para.mle = c(u[3:6], exp(u[7]), exp(u[8])) 
-  } else {  para.mle = c(u[6:3], exp(u[8]), exp(u[7])) 
- }
+fit$lambda; fit$Pmatrix; fit$se
 
-( mtrans = matrix(para.mle[1:4], byrow=TRUE, nrow=2) )  
-( lams = para.mle[5:6] )
-( SE = standardError(fm)$se[7:8]*lams )  # see footnote
-c( pi1 <- mtrans[2,1]/(2 - mtrans[1,1] - mtrans[2,2]), pi2 <- 1 - pi1 )
+state <- apply(fit$posterior, 1, which.max)   # predicted state
+post  <- fit$posterior                        # n x 2 smoothed state probs  
+pi1   <- fit$pis[1];  pi2 <- fit$pis[2]       # stationary probs
 
-##-- Graphics --##
-layout(matrix(c(1,2,1,3), 2))
-tsplot(EQcount, type='c', ylim=c(4,42), col=8)
- states = ts(fm@posterior, start=1900)
- text(EQcount, col=6*states[,1]-2, labels=states[,1], cex=.9)
-
-# prob of state 2
-tsplot(states[,2], ylab=bquote(hat(pi)[~2]*' (t | n)'), col=4)
- abline(h=.5, col=6, lty=2)
-
-# histogram
-hist(EQcount, breaks=30, prob=TRUE, main=NA, col='lightblue')
- xvals = seq(1,45)
- u1 = pi1*dpois(xvals, lams[1])
- u2 = pi2*dpois(xvals, lams[2])
- lines(xvals, u1, col=4, lwd=2)
- lines(xvals, u2, col=2, lwd=2)
-
+# graphics 
+layout(matrix(c(1, 2, 1, 3), 2, 2), heights = c(1.2, 1))
+tsplot(EQcount)
+points(EQcount, bg = 6 * state - 2, pch = 21, cex = 1.5)
+tsplot(ts(post[, 2], start = 1900), ylab = expression(hat(pi)[~2] * '(t | n)'))
+abline(h = .5, col = 2, lty = 6)
+hist(EQcount, breaks = 30, prob = TRUE, main = NA, col = gray(.9))
+xvals <- seq(1, 45)
+u1 <- pi1 * dpois(xvals, fit$lambda[1])
+u2 <- pi2 * dpois(xvals, fit$lambda[2])
+lines(xvals, u1, col = 4, lwd = 2)
+lines(xvals, u2, col = 2, lwd = 2)
 ```
 
 <br/> Example 6.18
 
+This is the revised code (with 2 states) .... there's a little discussion after this about the 3 state case.
+
 ```r
-library(depmixS4)
-y = ts(sp500w, start=2003, freq=52)  # makes data useable for depmix
-mod3 <- depmix(y~1, nstates=3, data=data.frame(y))
-set.seed(2)
+fit <- HmmFit(sp500w, m = 2, family = "norm", order_by = "sd")
+fit$mu; fit$sigma; fit$se
 
-# output (not displayed)
-summary(fm3 <- fit(mod3))   # transition matrix and normal estimates
-( SE = standardError(fm3) ) # corresponding SEs 
+state <- apply(fit$posterior, 1, which.max)   
+post  <- fit$posterior                        
+pi1   <- fit$pis[1];  pi2 <- fit$pis[2]       
 
-# graphics  
-para.mle = as.vector(getpars(fm3)[-(1:3)])
+layout(matrix(c(1, 2, 1, 3), 2, 2), heights = c(1.2, 1))
+y = ts(sp500w, start=2003, freq=52);
+t = time(y)
+tsplot(y, col=8)
+text(y, col=state+2, labels=state, cex=1.2)
 
-# for display (states 1 and 3 names switched)
-permu = matrix(c(0,0,1,0,1,0,1,0,0), 3,3) 
-(mtrans.mle = permu%*%round(t(matrix(para.mle[1:9],3,3)),3)%*%permu)
-(norms.mle =  round(matrix(para.mle[10:15],2,3),3)%*%permu)
-layout(matrix(c(1,2, 1,3), 2), heights=c(1,.75))
-tsplot(y, main=NA, ylab='S&P500 Weekly Returns', col=8, ylim=c(-.15,.11))
- culer = fm3@posterior[,1] 
- culer[culer==1]=4
- text(y, col=culer, labels=4-fm3@posterior[,1], cex=1.1)
-acf1(ts(y^2), 20, col=4, xlab='LAG', main=NA, ylim=c(-.1,.3)) 
-hist(y, 25, prob=TRUE, main="", xlab='S&P500 Weekly Returns', ylim=c(0,22), col=gray(.7,.2))
- Grid(minor=FALSE)
- culer=c(3,2,4); pi.hat = table(fm3@posterior[,1])/length(y) 
- for (i in 1:3) { mu=norms.mle[1,i]; sig = norms.mle[2,i]
-  x = seq(-.15,.12, by=.001)
-  lines(x, pi.hat[4-i]*dnorm(x, mean=mu, sd=sig), lwd=2, col=culer[i]) }
+tsplot(t, post[, 2], ylab = expression(hat(pi)[~2] * '(t | n)'))
+abline(h = .5, col = 2, lty = 6)
 
+hist(y, breaks = 30, prob = TRUE, main = NA, col = gray(.9))
+x = seq(-.15,.15, by=.001)
+lines(x, pi1*dnorm(x, fit$mu[1], fit$sigma[1]), col=3, lwd=2)
+lines(x, pi2*dnorm(x, fit$mu[2], fit$sigma[2]), col=4, lwd=2)
 ```
 
+---
 
+__Discussion about 3 states:__
+
+In the text, Example 6.18 fits a 3-state Gaussian HMM to `sp500w` via `depmixS4`, finding an interpretable structure: a calm regime, a persistent high-volatility regime, and a third, transient regime that can act as a lone bridge between the two. Refitting the same series with `astsa`'s `HmmFit`, which randomizes restarts that perturb all the model parameters and the starting transition matrix (_ladder structure_), consistently converges instead to a different, higher-likelihood structure where there is no bridge state (called state 2 in the text).
+
+Starting `HmmFit`  at `depmixS4`'s reported  parameters and letting it refine with no randomization reproduces that solution almost exactly, as did the package `HiddenMarkov`, started from an uninformative transition matrix. The example as displayed in the text is a real fixed point of the likelihood.
+
+`HmmFit`, using a _ladder structure_ to start the EM algorithm, finds a solution with a larger likelihood value (1244.669 vs 1236.996 for `depmixS4`, `HiddenMarkov`, and `HmmFit` with `depmixS4` starting values).  
+
+At `m=2` states (as in the current example), `HmmFit` and  `HiddenMarkov` converge to identical parameter estimates and log-likelihoods. AIC prefers `m=3`; BIC prefers `m=2`, consistent with the third state's thin empirical support.
+
+None of this diminishes the  value of Example 6.18  in the text, the bridge state structure is a real, reproducible, and a genuinely interesting way to describe the dynamics in this series; it demonstrates something a 2-state model cannot. But it also emphasizes the fact that multi-state Gaussian HMM likelihoods are multimodal, with qualitatively different, comparably interpretable regime structures sitting at meaningfully different likelihood values, and which one an optimizer finds can depend on where it starts.
+
+---
 
 <br/> Example 6.19
 
