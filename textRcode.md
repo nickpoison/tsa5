@@ -2323,7 +2323,7 @@ legend("bottomright", c("Smoother", "GCV Spline"), lty=c(5,1), lwd=c(2,1), col=c
 
 ---
 ---
-&#128565; Well hello there... the text used `depmixS4` for the next two examples, but it is no longer available.  It's the most fun thing about R.  There is a package called `HiddenMarkov` that can be used, but as of version 2.5.1 [on GitHub ... will be v2.6 eventually on CRAN] `astsa` has a `HmmFit` script that can do the next two examples.  
+&#128565; Well hello there... the text used `depmixS4` for the next two examples, but it is no longer available.  It's the most fun thing about R.  There is a package called `HiddenMarkov` that can be used, but as of version 2.5.1 [on GitHub ... will be v2.6 eventually on CRAN] `astsa` has a script called `HmmFit` that can do the next two examples.  
 
  I'm getting rid of the old code and placing the new stuff here for Examples 6.17 and 6.18.  
 
@@ -2382,21 +2382,60 @@ hist(y, breaks = 30, prob = TRUE, main = NA, col = gray(.9))
 x = seq(-.15,.15, by=.001)
 lines(x, pi1*dnorm(x, fit$mu[1], fit$sigma[1]), col=3, lwd=2)
 lines(x, pi2*dnorm(x, fit$mu[2], fit$sigma[2]), col=4, lwd=2)
+
+fit$AIC; fit$BIC  # to compare with the 3 state version (see below)
+# [1] -2443.205
+# [1] -2413.578
 ```
 
 ---
 
 __Discussion about 3 states:__
 
-In the text, Example 6.18 fits a 3-state Gaussian HMM to `sp500w` via `depmixS4`, finding an interpretable structure: a calm regime, a persistent high-volatility regime, and a third, transient regime that can act as a lone bridge between the two. Refitting the same series with `astsa`'s `HmmFit`, which randomizes restarts that perturb all the model parameters and the starting transition matrix (_ladder structure_), consistently converges instead to a different, higher-likelihood structure where there is no bridge state (called state 2 in the text).
+In the text, Example 6.18 fits a 3-state Gaussian HMM to `sp500w` via `depmixS4`, finding an interpretable structure: a calm regime, a persistent high-volatility regime, and a third, transient regime that can act as a lone bridge between the two. Refitting the same series with `astsa`'s `HmmFit`,  which uses a randomized restart EM with perturbation of both the parameters and the initial transition matrix, consistently converges instead to a different, higher-likelihood structure where there is no bridge state (called state 2 in the text).
 
-Starting `HmmFit`  at `depmixS4`'s reported  parameters and letting it refine with no randomization reproduces that solution almost exactly, as did the package `HiddenMarkov`, started from an uninformative transition matrix. The example as displayed in the text is a real fixed point of the likelihood.
+Starting `HmmFit`  at `depmixS4`'s reported  parameters and letting it refine with no inital randomization reproduces the `depmixS4` solution almost exactly, as did the package `HiddenMarkov` started from an uninformative transition matrix. The example as displayed in the text is a real fixed point of the likelihood.
 
-`HmmFit` (without fixing the start values) finds a solution with a larger likelihood value (1244.669 vs 1236.996 for `depmixS4`, `HiddenMarkov`, and `HmmFit` with `depmixS4` starting values).  
+`HmmFit` (without fixing the start values) finds a solution with a larger likelihood value (1244.669 vs 1236.996 for `depmixS4`, `HiddenMarkov`, and `HmmFit` fixed with `depmixS4` starting values).  
 
-At `m=2` states (as in the current example), `HmmFit` and  `HiddenMarkov` converge to identical parameter estimates and log-likelihoods. AIC prefers `m=3`; BIC prefers `m=2`, consistent with the third state's thin empirical support.
+At `m=2` states (as above), `HmmFit` and  `HiddenMarkov` converge to identical parameter estimates and log-likelihoods. With `HmmFit`, AIC prefers `m=3`; BIC prefers `m=2`, but the `m=3` case is not the one in the text. 
 
-None of this diminishes the  value of Example 6.18  in the text, the bridge state structure is a real, reproducible, and a genuinely interesting way to describe the dynamics in this series; it demonstrates something a 2-state model cannot. But it also emphasizes the fact that multi-state Gaussian HMM likelihoods are multimodal, with qualitatively different, comparably interpretable regime structures sitting at meaningfully different likelihood values, and which one an optimizer finds can depend on where it starts.
+None of this diminishes the  value of Example 6.18  in the text, the bridge state structure is a real, reproducible, and a genuinely interesting way to describe the dynamics in this series; it demonstrates something a 2-state model cannot. But the real takeaway is the fact  that multi-state Gaussian HMM likelihoods are multimodal, and which one an optimizer finds typically depends on initial values.
+
+Just for fun, here is the sub-optimal run that reproduces the example in the text.  If starting values are given, then the randomization of initial values is turned off.
+
+```r
+fit <- HmmFit(sp500w, m = 3, family = "norm", order_by = "sd", n_perturb = 0,
+              start = list(mu0 = c(.004, -.034, -.003),
+                        sigma0 = c(.014, .009, .044),
+                        Gamma0 = matrix(c(.945,.055,.000,
+                                          .739,.000,.261,
+                                          .032,.027,.942), 3, 3, byrow = TRUE)))
+
+state <- apply(fit$posterior, 1, which.max)   
+ state <- c(2, 1, 3)[match(state, 1:3)]  # to match the text                     
+pi1   <- fit$pis[1];  pi2 <- fit$pis[2];  pi3 <- fit$pis[3]        
+layout(matrix(c(1, 2, 1, 3), 2, 2), heights = c(1.2, 1))
+y = sp500w
+t = timex(y)
+tsplot(t, y, col=8)
+ culers <- c(3, 2, 4)[match(state, 1:3)]  # to match the text
+text(t, y, col=culers, labels=state, cex=1.2)
+
+acf1(y^2, col=4, main=NA)
+
+hist(y, breaks = 30, prob = TRUE, main = NA, col = gray(.9))
+x = seq(-.15,.15, by=.001)
+lines(x, pi1*dnorm(x, fit$mu[1], fit$sigma[1]), col=2, lwd=2)   
+lines(x, pi2*dnorm(x, fit$mu[2], fit$sigma[2]), col=3, lwd=2)   
+lines(x, pi3*dnorm(x, fit$mu[3], fit$sigma[3]), col=4, lwd=2)   
+
+fit$AIC; fit$BIC  # to compare with the 2 state version
+#  [1] -2445.992
+#  [1] -2386.738
+```
+
+
 
 ---
 
