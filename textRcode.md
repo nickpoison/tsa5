@@ -2392,7 +2392,7 @@ In the text, Example 6.18 fits a 3-state Gaussian HMM to `sp500w` via `depmixS4`
 
 Starting `HmmFit`  at `depmixS4`'s reported  parameters and letting it refine with no randomization reproduces that solution almost exactly, as did the package `HiddenMarkov`, started from an uninformative transition matrix. The example as displayed in the text is a real fixed point of the likelihood.
 
-`HmmFit`, using a _ladder structure_ to start the EM algorithm, finds a solution with a larger likelihood value (1244.669 vs 1236.996 for `depmixS4`, `HiddenMarkov`, and `HmmFit` with `depmixS4` starting values).  
+`HmmFit` (without fixing the start values) finds a solution with a larger likelihood value (1244.669 vs 1236.996 for `depmixS4`, `HiddenMarkov`, and `HmmFit` with `depmixS4` starting values).  
 
 At `m=2` states (as in the current example), `HmmFit` and  `HiddenMarkov` converge to identical parameter estimates and log-likelihoods. AIC prefers `m=3`; BIC prefers `m=2`, consistent with the third state's thin empirical support.
 
