@@ -2370,10 +2370,10 @@ post  <- fit$posterior
 pi1   <- fit$pis[1];  pi2 <- fit$pis[2]       
 
 layout(matrix(c(1, 2, 1, 3), 2, 2), heights = c(1.2, 1))
-y = ts(sp500w, start=2003, freq=52);
-t = time(y)
-tsplot(y, col=8)
-text(y, col=state+2, labels=state, cex=1.2)
+y = sp500w
+t = timex(y)
+tsplot(t, y, col=8)
+text(t, y, col=state+2, labels=state, cex=1.2)
 
 tsplot(t, post[, 2], ylab = expression(hat(pi)[~2] * '(t | n)'))
 abline(h = .5, col = 2, lty = 6)
