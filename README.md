@@ -24,8 +24,9 @@
 - Other packages used in the text:
 
    - Ch 1 - 4: `xts` `zoo`, `dynlm` (used for a demonstration - not necessary to install)
-   - Ch 5 - 7: `xts` `zoo`, `NTS`, `arfima`, `tseries`, `fGarch`, `TSA`, `vars`, `marima`,`nlme`  (comes with R), `depmixS4`, `MSwM`, `cluster`
+   - Ch 5 - 7: `xts` `zoo`, `NTS`, `arfima`, `tseries`, `fGarch`, `TSA`, `vars`, `marima`,`nlme`  (comes with R), <s>`depmixS4`</s>**, `MSwM`, `cluster`
 
+   ** `depmixS4` no longer exists so we added `HmmFit` to `astsa` to fit Poisson or Normal HMMs.  It's available in v2.5.1 and will be in v2.6  when we push it to CRAN.  Also, in [textRcode.md](https://github.com/nickpoison/tsa5/blob/main/textRcode.md) Chapter 6, we've updated the code for the HMM examples. 
 
 ## python 
 
